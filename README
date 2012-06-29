@@ -1,1 +1,1 @@
-Welcome to the MAEC tools repository. Under /Bindings the latest set of MAEC and CybOX bindings can be found. Currently this corresponds to MAEC v2.1 and CybOX v1.0 (draft).
+Welcome to the MAEC (http://maec.mitre.org) tools repository. Under /Bindings the latest set of MAEC and CybOX bindings can be found. /Scripts contains the current set of MAEC scripts and translator utilities. Currently these align with MAEC v2.1 and CybOX v1.0 (draft).
