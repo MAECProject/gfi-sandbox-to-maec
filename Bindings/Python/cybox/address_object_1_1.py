@@ -476,21 +476,21 @@ class AddressObjectType(common.DefinedObjectType):
         super(AddressObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Address_Value':
-            Address_Value_ = child_.text
-            Address_Value_ = self.gds_validate_string(Address_Value_, node, 'Address_Value')
-            self.Address_Value = Address_Value_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Address_Value(obj_)
         elif nodeName_ == 'Ext_Category':
-            Ext_Category_ = child_.text
-            Ext_Category_ = self.gds_validate_string(Ext_Category_, node, 'Ext_Category')
-            self.Ext_Category = Ext_Category_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Ext_Category(obj_)
         elif nodeName_ == 'VLAN_Name':
-            VLAN_Name_ = child_.text
-            VLAN_Name_ = self.gds_validate_string(VLAN_Name_, node, 'VLAN_Name')
-            self.VLAN_Name = VLAN_Name_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_VLAN_Name(obj_)
         elif nodeName_ == 'VLAN_Num':
-            VLAN_Num_ = child_.text
-            VLAN_Num_ = self.gds_validate_string(VLAN_Num_, node, 'VLAN_Num')
-            self.VLAN_Num = VLAN_Num_
+            obj_ = common.IntegerObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_VLAN_Num(obj_)
         super(AddressObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class AddressObjectType
 

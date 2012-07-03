@@ -445,7 +445,7 @@ class MeasureSourceType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='MeasureSourceType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -690,7 +690,7 @@ class ContributorType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ContributorType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -826,7 +826,7 @@ class DateRangeType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateRangeType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -908,7 +908,7 @@ class PersonnelType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PersonnelType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -991,7 +991,7 @@ class TimeType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1090,7 +1090,7 @@ class ToolSpecificDataType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolSpecificDataType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -1153,7 +1153,7 @@ class ToolsInformationType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolsInformationType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1267,7 +1267,7 @@ class ToolInformationType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolInformationType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1494,7 +1494,7 @@ class ToolConfigurationType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolConfigurationType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1620,7 +1620,7 @@ class ConfigurationSettingsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ConfigurationSettingsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1705,7 +1705,7 @@ class ConfigurationSettingType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ConfigurationSettingType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1809,7 +1809,7 @@ class DependenciesType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DependenciesType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1886,7 +1886,7 @@ class DependencyType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DependencyType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1970,7 +1970,7 @@ class UsageContextAssumptionsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='UsageContextAssumptionsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2049,7 +2049,7 @@ class InternationalizationSettingsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='InternationalizationSettingsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2126,7 +2126,7 @@ class InternalStringsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='InternalStringsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2233,7 +2233,7 @@ class BuildInformationType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='BuildInformationType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2420,7 +2420,7 @@ class BuildUtilityType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='BuildUtilityType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2504,7 +2504,7 @@ class CompilersType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompilersType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2581,7 +2581,7 @@ class CompilerType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompilerType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2665,7 +2665,7 @@ class CompilerInformalDescriptionType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompilerInformalDescriptionType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2745,7 +2745,7 @@ class BuildConfigurationType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='BuildConfigurationType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2824,7 +2824,7 @@ class LibrariesType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='LibrariesType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2897,7 +2897,7 @@ class LibraryType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='LibraryType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -2983,7 +2983,7 @@ class ExecutionEnvironmentType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExecutionEnvironmentType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3085,7 +3085,7 @@ class ErrorsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ErrorsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3165,7 +3165,7 @@ class ErrorType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ErrorType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3264,7 +3264,7 @@ class ErrorInstancesType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ErrorInstancesType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3341,7 +3341,7 @@ class IndicatorsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='IndicatorsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3414,16 +3414,14 @@ class IndicatorType(GeneratedsSuper):
     custom type defined as an extension of this base Abstract type."""
     subclass = None
     superclass = None
-    def __init__(self, type_=None):
-        self.type_ = type_
+    def __init__(self):
+        pass
     def factory(*args_, **kwargs_):
         if IndicatorType.subclass:
             return IndicatorType.subclass(*args_, **kwargs_)
         else:
             return IndicatorType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_type_(self): return self.type_
-    def set_type_(self, type_): self.type_ = type_
     def export(self, outfile, level, namespace_='Common:', name_='IndicatorType', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -3431,14 +3429,12 @@ class IndicatorType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='IndicatorType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
     def exportAttributes(self, outfile, level, already_processed, namespace_='Common:', name_='IndicatorType'):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            outfile.write(' xsi:type="%s"' % (self.gds_format_string(self.type_.encode(ExternalEncoding), input_name='type_')))
+        pass
     def exportChildren(self, outfile, level, namespace_='Common:', name_='IndicatorType', fromsubclass_=False):
         pass
     def hasContent_(self):
@@ -3510,7 +3506,7 @@ class DefinedObjectType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DefinedObjectType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -3651,7 +3647,7 @@ class BaseObjectAttributeType(GeneratedsSuper):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -3875,7 +3871,7 @@ class IntegerObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -3964,7 +3960,7 @@ class StringObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4058,7 +4054,7 @@ class NameObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4144,7 +4140,7 @@ class DateObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4230,7 +4226,7 @@ class DateTimeObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4316,7 +4312,7 @@ class FloatObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4402,7 +4398,7 @@ class DoubleObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4488,7 +4484,7 @@ class UnsignedLongObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4553,7 +4549,7 @@ class UnsignedIntegerObjectAttributeType(BaseObjectAttributeType):
     subclass = None
     superclass = BaseObjectAttributeType
     def __init__(self, end_range=None, pattern_type=None, has_changed=None, value_set=None, datatype='UnsignedInt', trend=None, appears_random=None, regex_syntax=None, start_range=None, idref=None, id=None, condition=None, valueOf_=None):
-        super(UnsignedIntegerObjectAttributeType, self).__init__(end_range, pattern_type, has_changed, value_set, datatype, trend, appears_random, regex_syntax, start_range, idref, id, condition, valueOf_ )
+        super(UnsignedIntegerObjectAttributeType, self).__init__(end_range, pattern_type, has_changed, value_set, datatype, trend, appears_random, regex_syntax, start_range, idref, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -4574,7 +4570,7 @@ class UnsignedIntegerObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4589,7 +4585,6 @@ class UnsignedIntegerObjectAttributeType(BaseObjectAttributeType):
     def hasContent_(self):
         if (
             self.valueOf_ or
-            self.valueOf_ == 0 or 
             super(UnsignedIntegerObjectAttributeType, self).hasContent_()
             ):
             return True
@@ -4661,7 +4656,7 @@ class PositiveIntegerObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4750,7 +4745,7 @@ class HexBinaryObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4844,7 +4839,7 @@ class LongObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -4930,7 +4925,7 @@ class NonNegativeIntegerObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -5016,7 +5011,7 @@ class AnyURIObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -5102,7 +5097,7 @@ class DurationObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -5188,7 +5183,7 @@ class TimeObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -5274,7 +5269,7 @@ class Base64BinaryObjectAttributeType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -5358,7 +5353,7 @@ class ExtractedFeaturesType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExtractedFeaturesType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -5470,7 +5465,7 @@ class ExtractedStringsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExtractedStringsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -5573,7 +5568,7 @@ class ExtractedStringType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExtractedStringType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -5716,7 +5711,7 @@ class ImportsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImportsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -5796,7 +5791,7 @@ class FunctionsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='FunctionsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -5873,7 +5868,7 @@ class CodeSnippetsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodeSnippetsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -5949,7 +5944,7 @@ class ByteRunsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ByteRunsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6041,7 +6036,7 @@ class ByteRunType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ByteRunType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6254,7 +6249,7 @@ class HashValueType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashValueType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6319,8 +6314,9 @@ class SimpleHashValueType(HexBinaryObjectAttributeType):
     hash value."""
     subclass = None
     superclass = HexBinaryObjectAttributeType
-    def __init__(self, end_range=None, pattern_type=None, has_changed=None, value_set=None, datatype='String', trend=None, appears_random=None, regex_syntax=None, start_range=None, idref=None, id=None, condition=None):
-        super(SimpleHashValueType, self).__init__(end_range, pattern_type, has_changed, value_set, datatype, trend, appears_random, regex_syntax, start_range, idref, id, condition, )
+    def __init__(self, end_range=None, pattern_type=None, has_changed=None, value_set=None, datatype='String', trend=None, appears_random=None, regex_syntax=None, start_range=None, idref=None, id=None, condition=None, valueOf_=None):
+        self.valueOf_ = valueOf_
+        super(SimpleHashValueType, self).__init__(end_range, pattern_type, has_changed, value_set, datatype, trend, appears_random, regex_syntax, start_range, idref, id, condition, valueOf_)
         pass
     def factory(*args_, **kwargs_):
         if SimpleHashValueType.subclass:
@@ -6328,6 +6324,8 @@ class SimpleHashValueType(HexBinaryObjectAttributeType):
         else:
             return SimpleHashValueType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_valueOf_(self):
+        return super(SimpleHashValueType, self).get_valueOf_()
     def export(self, outfile, level, namespace_='Common:', name_='SimpleHashValueType', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -6335,7 +6333,7 @@ class SimpleHashValueType(HexBinaryObjectAttributeType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='SimpleHashValueType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -6363,6 +6361,7 @@ class SimpleHashValueType(HexBinaryObjectAttributeType):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
+        self.valueOf_ = get_all_text_(node)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
@@ -6396,7 +6395,7 @@ class FuzzyHashValueType(StringObjectAttributeType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashValueType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -6463,7 +6462,7 @@ class FuzzyHashStructureType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashStructureType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6554,7 +6553,7 @@ class FuzzyHashBlockType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashBlockType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6654,7 +6653,7 @@ class HashSegmentsType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashSegmentsType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6738,7 +6737,7 @@ class HashSegmentType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashSegmentType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6852,7 +6851,7 @@ class HashType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -6985,7 +6984,7 @@ class HashNameType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -7112,7 +7111,7 @@ class StructuredTextType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='StructuredTextType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -7289,7 +7288,7 @@ class ImagesType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImagesType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -7365,7 +7364,7 @@ class ImageType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImageType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -7456,7 +7455,7 @@ class Block(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Block')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -7555,7 +7554,7 @@ class ReferenceListType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ReferenceListType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -7670,7 +7669,7 @@ class ReferenceType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ReferenceType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -7881,7 +7880,7 @@ class DataSegmentType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DataSegmentType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -8025,7 +8024,7 @@ class DataSizeType(StringObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -8108,7 +8107,7 @@ class CPESpecificationType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CPESpecificationType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -8205,7 +8204,7 @@ class CPENameType(StringObjectAttributeType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CPENameType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -8295,7 +8294,7 @@ class MetaItemMetadataType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='MetaItemMetadataType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -8406,7 +8405,7 @@ class CPETitleType(StringObjectAttributeType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CPETitleType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
@@ -8490,7 +8489,7 @@ class MetadataType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='MetadataType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -8588,7 +8587,7 @@ class EnvironmentVariableListType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='EnvironmentVariableListType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -8668,7 +8667,7 @@ class EnvironmentVariableType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='EnvironmentVariableType')
         if self.hasContent_():
             outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             showIndent(outfile, level)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -8845,10 +8844,9 @@ class DigitalSignatureInfoType(GeneratedsSuper):
             self.Certificate_Issuer = Certificate_Issuer_
             self.validate_StringObjectAttributeType(self.Certificate_Issuer)    # validate type StringObjectAttributeType
         elif nodeName_ == 'Certificate_Subject':
-            Certificate_Subject_ = child_.text
-            Certificate_Subject_ = self.gds_validate_string(Certificate_Subject_, node, 'Certificate_Subject')
-            self.Certificate_Subject = Certificate_Subject_
-            self.validate_StringObjectAttributeType(self.Certificate_Subject)    # validate type StringObjectAttributeType
+            Certificate_Subject_ = StringObjectAttributeType.factory()
+            Certificate_Subject_.build(child_)
+            self.set_Certificate_Subject(Certificate_Subject_)
         elif nodeName_ == 'Signature_Description':
             Signature_Description_ = child_.text
             Signature_Description_ = self.gds_validate_string(Signature_Description_, node, 'Signature_Description')
@@ -8888,7 +8886,7 @@ class SIDType(BaseObjectAttributeType):
         if self.hasContent_():
             outfile.write('>')
             outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, 'Common:', name_)
+            self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')

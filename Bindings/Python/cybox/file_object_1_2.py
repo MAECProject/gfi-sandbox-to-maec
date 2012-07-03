@@ -623,51 +623,50 @@ class FileObjectType(common.DefinedObjectType):
                 self.is_packed = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-        super(FileObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'File_Name':
-            File_Name_ = child_.text
-            File_Name_ = self.gds_validate_string(File_Name_, node, 'File_Name')
-            self.File_Name = File_Name_
+            File_Name_ = common.StringObjectAttributeType.factory()
+            File_Name_.build(child_)
+            self.set_File_Name(File_Name_)
         elif nodeName_ == 'File_Path':
-            obj_ = FilePathType.factory()
+            obj_ = common.StringObjectAttributeType.factory()
             obj_.build(child_)
             self.set_File_Path(obj_)
         elif nodeName_ == 'Device_Path':
-            Device_Path_ = child_.text
-            Device_Path_ = self.gds_validate_string(Device_Path_, node, 'Device_Path')
+            Device_Path_ = common.StringObjectAttributeType.factory()
+            Device_Path_.build(child_)
             self.Device_Path = Device_Path_
         elif nodeName_ == 'Full_Path':
-            Full_Path_ = child_.text
-            Full_Path_ = self.gds_validate_string(Full_Path_, node, 'Full_Path')
+            Full_Path_ = common.StringObjectAttributeType.factory()
+            Full_Path_.build(child_)
             self.Full_Path = Full_Path_
         elif nodeName_ == 'File_Extension':
-            File_Extension_ = child_.text
-            File_Extension_ = self.gds_validate_string(File_Extension_, node, 'File_Extension')
+            File_Extension_ = common.StringObjectAttributeType.factory()
+            File_Extension_.build(child_)
             self.File_Extension = File_Extension_
         elif nodeName_ == 'Size_In_Bytes':
-            Size_In_Bytes_ = child_.text
-            Size_In_Bytes_ = self.gds_validate_string(Size_In_Bytes_, node, 'Size_In_Bytes')
+            Size_In_Bytes_ = common.UnsignedLongObjectAttributeType.factory()
+            Size_In_Bytes_.build(child_)
             self.Size_In_Bytes = Size_In_Bytes_
         elif nodeName_ == 'Hashes':
-            Hashes_ = child_.text
-            Hashes_ = self.gds_validate_string(Hashes_, node, 'Hashes')
+            Hashes_ = common.HashListType.factory()
+            Hashes_.build(child_)
             self.Hashes = Hashes_
         elif nodeName_ == 'Digital_Signatures':
             obj_ = DigitalSignaturesType.factory()
             obj_.build(child_)
             self.set_Digital_Signatures(obj_)
         elif nodeName_ == 'Modified_Time':
-            Modified_Time_ = child_.text
-            Modified_Time_ = self.gds_validate_string(Modified_Time_, node, 'Modified_Time')
+            Modified_Time_ = common.DateTimeObjectAttributeType.factory()
+            Modified_Time_.build(child_)
             self.Modified_Time = Modified_Time_
         elif nodeName_ == 'Accessed_Time':
-            Accessed_Time_ = child_.text
-            Accessed_Time_ = self.gds_validate_string(Accessed_Time_, node, 'Accessed_Time')
+            Accessed_Time_ = common.DateTimeObjectAttributeType.factory()
+            Accessed_Time_.build(child_)
             self.Accessed_Time = Accessed_Time_
         elif nodeName_ == 'Created_Time':
-            Created_Time_ = child_.text
-            Created_Time_ = self.gds_validate_string(Created_Time_, node, 'Created_Time')
+            Created_Time_ = common.DateTimeObjectAttributeType.factory()
+            Created_Time_.build(child_)
             self.Created_Time = Created_Time_
         elif nodeName_ == 'File_Attributes_List':
             obj_ = FileAttributesListType.factory()
@@ -691,28 +690,28 @@ class FileObjectType(common.DefinedObjectType):
                     'Class not implemented for <Permissions> element')
             self.set_Permissions(obj_)
         elif nodeName_ == 'User_Owner':
-            User_Owner_ = child_.text
-            User_Owner_ = self.gds_validate_string(User_Owner_, node, 'User_Owner')
+            User_Owner_ = common.StringObjectAttributeType.factory()
+            User_Owner_.build(child_)
             self.User_Owner = User_Owner_
         elif nodeName_ == 'Packer_List':
             obj_ = PackerListType.factory()
             obj_.build(child_)
             self.set_Packer_List(obj_)
         elif nodeName_ == 'Peak_Entropy':
-            Peak_Entropy_ = child_.text
-            Peak_Entropy_ = self.gds_validate_string(Peak_Entropy_, node, 'Peak_Entropy')
+            Peak_Entropy_ = common.StringObjectAttributeType.factory()
+            Peak_Entropy_.build(child_)
             self.Peak_Entropy = Peak_Entropy_
         elif nodeName_ == 'Sym_Links':
             obj_ = SymLinksListType.factory()
             obj_.build(child_)
             self.set_Sym_Links(obj_)
         elif nodeName_ == 'Extracted_Features':
-            Extracted_Features_ = child_.text
-            Extracted_Features_ = self.gds_validate_string(Extracted_Features_, node, 'Extracted_Features')
+            Extracted_Features_ = common.ExtractedFeaturesType.factory()
+            Extracted_Features_.build(child_)
             self.Extracted_Features = Extracted_Features_
         elif nodeName_ == 'Byte_Runs':
-            Byte_Runs_ = child_.text
-            Byte_Runs_ = self.gds_validate_string(Byte_Runs_, node, 'Byte_Runs')
+            Byte_Runs_ = common.StringObjectAttributeType.factory()
+            Byte_Runs_.build(child_)
             self.Byte_Runs = Byte_Runs_
         super(FileObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class FileObjectType
