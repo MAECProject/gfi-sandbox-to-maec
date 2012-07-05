@@ -2684,7 +2684,6 @@ class ObjectType(GeneratedsSuper):
             self.Description = Description_
         elif nodeName_ == 'Defined_Object':
             type_name_ = child_.attrib.get('{http://www.w3.org/2001/XMLSchema-instance}type')
-            print type_name_
             if type_name_ is None:
                 type_name_ = child_.attrib.get('type')
             if type_name_ is not None:
