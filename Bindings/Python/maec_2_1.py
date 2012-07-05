@@ -456,11 +456,13 @@ class ActionType(cybox.ActionType):
         if value is not None and 'xsi:type' not in already_processed:
             already_processed.append('xsi:type')
             self.extensiontype_ = value
+        super(ActionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Implementation':
             obj_ = ActionImplementationType.factory()
             obj_.build(child_)
             self.set_Implementation(obj_)
+        super(ActionType, self).buildChildren(child_, node, nodeName_, True)
 # end class ActionType
 
 
