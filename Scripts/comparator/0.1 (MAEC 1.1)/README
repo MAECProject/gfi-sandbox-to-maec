@@ -1,0 +1,39 @@
+From Blake Hartstein (thanks!):
+
+I wrote a little script that helps to verify data (files, registry keys, URLs) from multiple sources. Lets just say you used Ivan's scripts for generating MAEC output from ThreatExpert and Anubis for a file. 
+
+Please email blake [-] at [-] jeek.org if you would like to suggest features or bugs.
+
+Here is what you might expect as output:
+
+$ ./compare_maec.py
+threatexpert_maec.xml anubis_maec.xml idefense_maec.xml
+
+----- Print All Objects
+Confirmed in Multiple Reports -----
+
+Key/Key Group confirmed (***key 1***)
+
+   [by threatexpert_maec.xml and
+idefense_maec.xml and anubis_maec.xml]
+
+   values: Software\Microsoft\Internet
+Explorer\Main
+
+   optional_match_values:
+HKEY_CURRENT_USER,HKEY_USERS
+
+Key/Key Group confirmed (***key 2***)
+
+   [by threatexpert_maec.xml and idefense_maec.xml
+and anubis_maec.xml]
+
+   values: SOFTWARE\Microsoft\Active
+Setup\Installed
+
+          
+Components\{24EA4F28-B636-43C1-BCE6-F287B56E42D2}
+
+   optional_match_values: HKEY_LOCAL_MACHINE
+
+[…OMITTED…]
