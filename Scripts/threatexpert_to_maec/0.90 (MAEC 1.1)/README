@@ -23,10 +23,6 @@ For more information, please refer to the terms.txt file.
 # ThreatExpert - http://www.threatexpert.com                    #
 #################################################################
 --------------------------------------------------------------------------------
---Installation Notes------------------------------------------------------------
-
-Simply extract all files from the archive into your directory of choice. No external modules should be required. This script was created using Python 2.6.x, and so may not be compatible with 3.0.x.
---------------------------------------------------------------------------------
 --Included Files----------------------------------------------------------------
 
 README: this file.
@@ -56,7 +52,5 @@ python threatexpert_to_maec.py -i <threatexpert_file> -o <maec_file>
 
 To grab an XML copy of a ThreatExpert page, simply append '&xml=1' to the URL of any ThreatExpert analysis.
 E.g. http://www.threatexpert.com/report.aspx?md5=650d1234eef93f546b88442ad3eaba99&xml=1
-
-For the latest version of the script, please check the MAEC Handshake group.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
