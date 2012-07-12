@@ -7,8 +7,8 @@
 ****************************************************
 
 BY USING THE MAEC TO OVAL SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
-CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE OVAL 
-INTERPRETER.
+CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE MAEC TO OVAL
+CONVERTER SCRIPT.
 
 For more information, please refer to the terms.txt file.
 
@@ -16,7 +16,7 @@ For more information, please refer to the terms.txt file.
 #MAEC XML --> OVAL XML Generation Script v0.91                  #
 #Generates OVAL definitions/tests/objects from a MAEC XML file  #
 #Compatible with content produced using MAEC Schema v1.1        #
-#v1.1 - extracts files, directories, and registry keys          #
+#v0.91 - extracts files, directories, and registry keys          #
 #01/20/2011                                                     #
 #Ivan Kirillov//ikirillov@mitre.org                             #
 #                                                               #
@@ -53,7 +53,6 @@ For verbose error output (printing of tracebacks), you can specify a -v as the f
 
 python maec_to_oval.py -v -i <maec_xml_file> -o <oval_xml_file>
 
-For the latest version of the script, please check the MAEC Handshake group.
 --------------------------------------------------------------------------------
 --What to do with the generated OVAL XML?---------------------------------------
 
