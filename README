@@ -1,3 +1,7 @@
-Welcome to the MAEC (http://maec.mitre.org) tools repository. Under /Bindings the latest set of MAEC and CybOX bindings can be found. /Scripts contains the current set of MAEC scripts and translator utilities. Currently these align with MAEC v2.1 and CybOX v1.0 (draft).
+Welcome to the MAEC (http://maec.mitre.org) tools repository. 
+
+Under /Bindings the latest set of MAEC and CybOX bindings can be found. 
+
+/Scripts contains the current set of MAEC scripts and translator utilities. Currently the Anubis -> MAEC script aligns with MAEC v2.1 and CybOX v1.0 (draft), while the rest align with MAEC v1.1. However, we're in the process of updating everything to be compatible with MAEC v2.1/CybOX v1.0 draft.
 
 Some examples of using the MAEC/CybOX bindings can be found in the Wiki.
