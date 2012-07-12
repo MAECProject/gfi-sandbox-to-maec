@@ -1,0 +1,1272 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<report xsi:noNamespaceSchemaLocation="report.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<title>ThreatExpert Report</title>
+	<subreports>
+		<subreport>
+			<submission_summary>
+				<submission_details>
+					<submission_received>
+						<day>22</day>
+						<month>10</month>
+						<year>2010</year>
+						<hour>5</hour>
+						<minute>28</minute>
+						<second>10</second>
+					</submission_received>
+					<processing_time>
+						<hours>0</hours>
+						<minutes>14</minutes>
+						<seconds>37</seconds>
+					</processing_time>
+					<sample_info_collection>
+						<sample_info>
+							<md5>050188CCB3786DC8B059D45CB263DCD2</md5>
+							<sha1>DC30055C0AEC7CB08841462A5BBEDFA8F5C4CCE0</sha1>
+							<filesize>135606</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer>UPX</packer>
+						</sample_info>
+					</sample_info_collection>
+				</submission_details>
+				<flag_collection>
+					<flag>
+						<description>Capability to send out email message(s) with the built-in SMTP client engine.</description>
+						<severity>1</severity>
+					</flag>
+					<flag>
+						<description>Capability to block security-related software by modifying firewall settings and by disabling security services, such as Windows Update, Norton Autoprotect, Kaspersky Anti-Virus, etc.</description>
+						<severity>10</severity>
+					</flag>
+					<flag>
+						<description>Hosts file modification that may block access to the security web sites.</description>
+						<severity>5</severity>
+					</flag>
+					<flag>
+						<description>Produces outbound traffic.</description>
+						<severity>1</severity>
+					</flag>
+					<flag>
+						<description>Downloads/requests other files from Internet.</description>
+						<severity>1</severity>
+					</flag>
+					<flag>
+						<description>Creates a startup registry entry.</description>
+						<severity>2</severity>
+					</flag>
+					<flag>
+						<description>There were some system executable files modified, which might indicate the presence of a PE-file infector.</description>
+						<severity>5</severity>
+					</flag>
+					<flag>
+						<description>Contains characteristics of an identified security risk.</description>
+						<severity>10</severity>
+					</flag>
+				</flag_collection>
+			</submission_summary>
+			<technical_details>
+				<known_threat_category_collection>
+					<known_threat_category>
+						<name>Virus</name>
+						<description>A virus capable to modify other files by infecting, prepending, or overwriting them them with its own body</description>
+					</known_threat_category>
+					<known_threat_category>
+						<name>Trojan</name>
+						<description>A malicious trojan horse or bot that may represent security risk for the compromised system and/or its network environment</description>
+					</known_threat_category>
+				</known_threat_category_collection>
+				<added_files>
+					<added_files_collection>
+						<added_file>
+							<filenames_collection>
+								<filename>%UserProfile%\aaaaaaaaJ.exe</filename>
+							</filenames_collection>
+							<md5>DA5C0E3C3B6951125902BD65F4E534B1</md5>
+							<sha1>872A59F7A1652FE1467A93CDED40DE50259E9840</sha1>
+							<filesize>66560</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.F</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftcore.dat</filename>
+							</filenames_collection>
+							<md5>78B4D07EC42B68790A86259FE0B56FD5</md5>
+							<sha1>C18ABEAE620412D08D1A37EC0CBA997CFF663214</sha1>
+							<filesize>769</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftcore.dll</filename>
+							</filenames_collection>
+							<md5>BA4EDFADAE959439407D5B7B3DF731FE</md5>
+							<sha1>0722ADC210FF654CC82DABB213ED518C5AA3ECFD</sha1>
+							<filesize>108032</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftdm.exe</filename>
+								<filename>%Windir%\Temp\msftdm.exe</filename>
+							</filenames_collection>
+							<md5>EAF4E8A7CD9864A6DFFA32FC34A97699</md5>
+							<sha1>170B1D3B2B21E85D3F3FCEEFBF37162C7B6FD40C</sha1>
+							<filesize>30208</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Virus.Win32.Virut</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftdm32.exe</filename>
+								<filename>%Windir%\Temp\msftdm32.exe</filename>
+							</filenames_collection>
+							<md5>1344EFBCB4C0FA87A3FC039079B0AC09</md5>
+							<sha1>CD47BA7DE3FA67FDCC71680B4F6DDFB2A6D80017</sha1>
+							<filesize>30208</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Virus.Win32.Heur</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msfteml.dll</filename>
+							</filenames_collection>
+							<md5>7C241DAF329510BAAE970172BF044883</md5>
+							<sha1>009B049FCDD3BC09067F43480D874D648C54A07C</sha1>
+							<filesize>90112</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftldr.dll</filename>
+							</filenames_collection>
+							<md5>E429C94FDA1C113FBC70875D1BA7B39D</md5>
+							<sha1>9E58B867447838F573B1A7A31AADD9297A56B226</sha1>
+							<filesize>59392</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftmod.dat</filename>
+								<filename>%Temp%\msftmod.dat</filename>
+								<filename>%Windir%\Temp\msftmod.dat</filename>
+							</filenames_collection>
+							<md5>E21F42C8E892BCB102B45FD92AE946F2</md5>
+							<sha1>018C9F80A4F603C12E0F7014FA8C77116434BA09</sha1>
+							<filesize>24</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msftstp.exe</filename>
+							</filenames_collection>
+							<md5>53F2B0FE1066302B1E9C81543098EC0D</md5>
+							<sha1>6327C60E1381A8FF6EBC714BE07C6355F43798B6</sha1>
+							<filesize>58880</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus>Virus.Win32.Heur</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%AppData%\Microsoft\crtdrvwin56\msfttcp.dll</filename>
+							</filenames_collection>
+							<md5>3BEFEA4643EFC590F816FA37443C4872</md5>
+							<sha1>5EBBD78DBD717B9C2B0E30B87CB1099596FFE6C8</sha1>
+							<filesize>37888</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\0did.exe</filename>
+								<filename>%Windir%\Temp\0did.exe</filename>
+							</filenames_collection>
+							<md5>D266DEC30AA2106FA7631D1D239283A4</md5>
+							<sha1>D9887FC4BF5887EBD43DEC9638C0D0A4F25F5290</sha1>
+							<filesize>66048</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.F</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\9w0ejcyvv.exe</filename>
+							</filenames_collection>
+							<md5>78621A57DFAFA74C62E6024A4FFCE15B</md5>
+							<sha1>BD9C24315F66F09D8A8EAE2CF073F39C32ED5CD2</sha1>
+							<filesize>69632</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\dvam.exe</filename>
+								<filename>%Windir%\Temp\dvam.exe</filename>
+							</filenames_collection>
+							<md5>A9E45178BA4B4B09D0C87EFD8EDF0FC6</md5>
+							<sha1>8D4166BEE5AB32CA4110F9EB5EE01960949F398D</sha1>
+							<filesize>65536</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>W32.Virut</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.F</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\f7lf8ipd.bat</filename>
+							</filenames_collection>
+							<md5>86F9A8862386D22FFD2FEB00664BCBD2</md5>
+							<sha1>EE8F5B47F4F0FAF684567ACD8019FD3ECE1E33F7</sha1>
+							<filesize>98</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\jkfwg1qn.exe</filename>
+							</filenames_collection>
+							<md5>B4AFA1DF1DEBB6C5A8ECE7D0A4793BED</md5>
+							<sha1>E9B3B966F90BFC1C64B5BF6286986945CD3A66E4</sha1>
+							<filesize>212347</filesize>
+							<alias_nav>Trojan.Gen</alias_nav>
+							<alias_kav>Trojan.Win32.Scar.cqtu</alias_kav>
+							<alias_nai>Generic.dx!tvm</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Trojan-Downloader.Scar</alias_pctools>
+							<alias_sophos>Mal/EncPk-BW, Mal/EncPk-BW</alias_sophos>
+							<alias_microsoft>Trojan:Win32/Sisron</alias_microsoft>
+							<alias_ikarus>Backdoor.Win32.SubSeven.21.Muie.A</alias_ikarus>
+							<alias_ahnlab>Packed/Upack</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\kts3682ju.exe</filename>
+							</filenames_collection>
+							<md5>E81B3D5A448D754015E5FFBFB0C480BF</md5>
+							<sha1>E7FBA1BBB85A4C9C1640F611F6FE25AB9A758678</sha1>
+							<filesize>241152</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.F</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\ljg6e.log</filename>
+							</filenames_collection>
+							<md5>8AA311C84831B40C2C11D9F6F667CED1</md5>
+							<sha1>B7565631AEA907AB8488AAE6CA65B49B9B649A66</sha1>
+							<filesize>3758</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msftcore.dat</filename>
+								<filename>%Windir%\Temp\msftcore.dat</filename>
+							</filenames_collection>
+							<md5>5C71ADAD2F870C6F84F24182104F755D</md5>
+							<sha1>FE8E165AB86C1D2238812C22203A553B83F1456F</sha1>
+							<filesize>670</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msftcore.dll</filename>
+								<filename>%Windir%\Temp\msftcore.dll</filename>
+							</filenames_collection>
+							<md5>EF678E96D74B5F8D259927806002A8CE</md5>
+							<sha1>CAA553F2E565CE116B5A1046268E57687AA23BF9</sha1>
+							<filesize>54534</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msftdm.exe</filename>
+							</filenames_collection>
+							<md5>1280D29078A97DE789A30BBE53F4AB82</md5>
+							<sha1>EB37789081D915605D84D2C5C2E85547F50C4EC6</sha1>
+							<filesize>30208</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msftdm32.exe</filename>
+							</filenames_collection>
+							<md5>6D82CF786B2EA7E57589F28DE8E080A5</md5>
+							<sha1>2311A74507D79E9F8A970A8B09B24F2F846E3398</sha1>
+							<filesize>30208</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msfteml.dll</filename>
+								<filename>%Windir%\Temp\msfteml.dll</filename>
+							</filenames_collection>
+							<md5>A88CD800C0AF6EFC19BA01263A8620B3</md5>
+							<sha1>7F5AE110E01502DE358B8AB4BB548AC9D2FFF86A</sha1>
+							<filesize>46839</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msftldr.dll</filename>
+								<filename>%Windir%\Temp\msftldr.dll</filename>
+							</filenames_collection>
+							<md5>8FB82FD6B3E477FEFFC178FAE7BCD9B6</md5>
+							<sha1>37525D5C2D4B50F6867C5A491343632C6B40987C</sha1>
+							<filesize>29883</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msftstp.exe</filename>
+								<filename>%Windir%\Temp\msftstp.exe</filename>
+							</filenames_collection>
+							<md5>6B135A45687C542CA12408A93C33A194</md5>
+							<sha1>231C2682159D8B81D79FC62B5B4EF5221025019C</sha1>
+							<filesize>15496</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\msfttcp.dll</filename>
+								<filename>%Windir%\Temp\msfttcp.dll</filename>
+							</filenames_collection>
+							<md5>691B31F3F19BE80E224A23589AA74C6B</md5>
+							<sha1>1E8757D4572113D9DAD543B2B381DEAE97D7095A</sha1>
+							<filesize>19021</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Temp%\rjxrku1pp.bat</filename>
+							</filenames_collection>
+							<md5>878B463F8BA5F3D6E9533B56C8454FBB</md5>
+							<sha1>02D882AB2C9F33C9835EFBC12AFC30C56D3C1ACB</sha1>
+							<filesize>98</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Programs%\Startup\WinUpdate.lnk</filename>
+							</filenames_collection>
+							<md5>AE808D6B82D55A14B90F12F2CE1EDFC7</md5>
+							<sha1>20BC35BD6476C1086C8D6E639362B64E0B557539</sha1>
+							<filesize>971</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Windir%\svc2.exe</filename>
+								<filename>%Windir%\Temp\pt7c5roon.exe</filename>
+							</filenames_collection>
+							<md5>C9BFEDA0873C1A606157BA9EC67FB4D7</md5>
+							<sha1>FFA28E170B6660D09584446485F3A126188DA306</sha1>
+							<filesize>271360</filesize>
+							<alias_nav>Trojan.ADH</alias_nav>
+							<alias_kav>Trojan.Win32.Delf.aemv</alias_kav>
+							<alias_nai>New Malware.n</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Trojan.ADH</alias_pctools>
+							<alias_sophos>Mal/EncPk-BW, Mal/EncPk-BW</alias_sophos>
+							<alias_microsoft>Trojan:Win32/Sisproc</alias_microsoft>
+							<alias_ikarus>Backdoor.Win32.SubSeven.21.Muie.A</alias_ikarus>
+							<alias_ahnlab>Packed/Upack</alias_ahnlab>
+							<packer>UPack</packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%System%\aaaaaaaaJ.exe</filename>
+							</filenames_collection>
+							<md5>562DC94FAC688621CCBC96F46D80B11F</md5>
+							<sha1>285AF226B6CEEF89B9DE509BCD0B1357900886C8</sha1>
+							<filesize>66560</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>W32.Virut</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.F</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%System%\dllcache\ndis.sys</filename>
+							</filenames_collection>
+							<md5>83DF3B80C7A87CE5AA4A019035BD9025</md5>
+							<sha1>A6D4BE9CEB420E15F137C7C93BA9908EC3050A14</sha1>
+							<filesize>211072</filesize>
+							<alias_nav>Trojan.Pandex</alias_nav>
+							<alias_kav>Virus.Win32.Protector.f</alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Trojan.Pandex!rem</alias_pctools>
+							<alias_sophos>Troj/PushInf-A</alias_sophos>
+							<alias_microsoft>VirTool:WinNT/Cutwail.L</alias_microsoft>
+							<alias_ikarus>Virus.Win32.Protector</alias_ikarus>
+							<alias_ahnlab>Win32/Dnis.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%System%\hj5ae.log</filename>
+							</filenames_collection>
+							<md5>1DB0B016D73E3787DB87A9B6B749C31F</md5>
+							<sha1>1FDCE075BB7106B91E0F85BA994C1B55973B305B</sha1>
+							<filesize>7470</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>[file and pathname of the sample #1]</filename>
+							</filenames_collection>
+							<md5>050188CCB3786DC8B059D45CB263DCD2</md5>
+							<sha1>DC30055C0AEC7CB08841462A5BBEDFA8F5C4CCE0</sha1>
+							<filesize>135606</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer>UPX</packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Windir%\Temp\i59msl73.exe</filename>
+							</filenames_collection>
+							<md5>EF876DD22EBE9BAD23F0B6800C98A7A4</md5>
+							<sha1>2320BE851301CDC6BF2A07A0955D489F03BB3931</sha1>
+							<filesize>69632</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.E</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Windir%\Temp\ljg6e.log</filename>
+							</filenames_collection>
+							<md5>AA89879F18B8878EBE943A0705B2C5E1</md5>
+							<sha1>FE24504DAFC46BFB2CA02519DD201321B595ACF1</sha1>
+							<filesize>3758</filesize>
+							<alias_nav></alias_nav>
+							<alias_kav></alias_kav>
+							<alias_nai></alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools></alias_pctools>
+							<alias_sophos></alias_sophos>
+							<alias_microsoft></alias_microsoft>
+							<alias_ikarus></alias_ikarus>
+							<alias_ahnlab></alias_ahnlab>
+							<packer></packer>
+						</added_file>
+						<added_file>
+							<filenames_collection>
+								<filename>%Windir%\Temp\voaghfj84.exe</filename>
+							</filenames_collection>
+							<md5>D3E41A154A80833419207803B70304DE</md5>
+							<sha1>50D1DD20D4695F611F6626AABDC36C28A59F5348</sha1>
+							<filesize>241152</filesize>
+							<alias_nav>W32.Virut.CF</alias_nav>
+							<alias_kav>Virus.Win32.Virut.ce</alias_kav>
+							<alias_nai>W32/Virut.n.gen</alias_nai>
+							<alias_trend></alias_trend>
+							<alias_pctools>Malware.Virut</alias_pctools>
+							<alias_sophos>W32/Scribble-B</alias_sophos>
+							<alias_microsoft>Virus:Win32/Virut.BN</alias_microsoft>
+							<alias_ikarus>Win32.Virtob</alias_ikarus>
+							<alias_ahnlab>Win32/Virut.F</alias_ahnlab>
+							<packer></packer>
+						</added_file>
+					</added_files_collection>
+					<notes_collection>
+						<note>%UserProfile% is a variable that specifies the current user's profile folder. By default, this is C:\Documents and Settings\[UserName] (Windows NT/2000/XP).</note>
+						<note>%AppData% is a variable that refers to the file system directory that serves as a common repository for application-specific data. A typical path is C:\Documents and Settings\[UserName]\Application Data.</note>
+						<note>%Windir% is a variable that refers to the Windows installation folder. By default, this is C:\Windows or C:\Winnt.</note>
+						<note>%Temp% is a variable that refers to the temporary folder in the short path form. By default, this is C:\Documents and Settings\[UserName]\Local Settings\Temp\ (Windows NT/2000/XP).</note>
+						<note>%Programs% is a variable that refers to the file system directory that contains the user's program groups. A typical path is C:\Documents and Settings\[UserName]\Start Menu\Programs.</note>
+						<note>%System% is a variable that refers to the System folder. By default, this is C:\Windows\System (Windows 95/98/Me), C:\Winnt\System32 (Windows NT/2000), or C:\Windows\System32 (Windows XP).</note>
+					</notes_collection>
+				</added_files>
+				<modified_files>
+					<filenames_collection>
+						<filename>[pathname with a string SHARE]\msinfo32.exe</filename>
+						<filename>[pathname with a string SHARE]\sapisvr.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\Connection Wizard\icwconn1.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\Connection Wizard\icwconn2.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\Connection Wizard\icwrmind.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\Connection Wizard\icwtutor.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\Connection Wizard\inetwiz.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\Connection Wizard\isignup.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\iedw.exe</filename>
+						<filename>%ProgramFiles%\Internet Explorer\IEXPLORE.EXE</filename>
+						<filename>%ProgramFiles%\MSN\MSNIA\msniasvc.exe</filename>
+						<filename>%ProgramFiles%\MSN\MSNIA\prestp.exe</filename>
+						<filename>%ProgramFiles%\MSN\MsnInstaller\msninst.exe</filename>
+						<filename>%ProgramFiles%\NetMeeting\cb32.exe</filename>
+						<filename>%ProgramFiles%\NetMeeting\conf.exe</filename>
+						<filename>%ProgramFiles%\NetMeeting\wb32.exe</filename>
+						<filename>%ProgramFiles%\Outlook Express\msimn.exe</filename>
+						<filename>%ProgramFiles%\Outlook Express\oemig50.exe</filename>
+						<filename>%ProgramFiles%\Outlook Express\setup50.exe</filename>
+						<filename>%ProgramFiles%\Outlook Express\wab.exe</filename>
+						<filename>%ProgramFiles%\Outlook Express\wabmig.exe</filename>
+						<filename>%ProgramFiles%\Web Publish\WPWIZ.EXE</filename>
+						<filename>%ProgramFiles%\Windows Media Player\migrate.exe</filename>
+						<filename>%ProgramFiles%\Windows Media Player\mplayer2.exe</filename>
+						<filename>%ProgramFiles%\Windows Media Player\setup_wm.exe</filename>
+						<filename>%ProgramFiles%\Windows Media Player\wmplayer.exe</filename>
+						<filename>%ProgramFiles%\Windows NT\Accessories\wordpad.exe</filename>
+						<filename>%ProgramFiles%\Windows NT\dialer.exe</filename>
+						<filename>%ProgramFiles%\Windows NT\hypertrm.exe</filename>
+						<filename>%ProgramFiles%\Windows NT\Pinball\PINBALL.EXE</filename>
+						<filename>%Windir%\Cache\Adobe Reader 6.0.1\ENUBIG\setup.exe</filename>
+						<filename>%Windir%\hh.exe</filename>
+						<filename>%Windir%\inf\unregmp2.exe</filename>
+						<filename>%Windir%\Installer\{350C97B0-3D7C-4EE8-BAA9-00BCB3D54227}\places.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\NETFXSBS10.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_compiler.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_regbrowsers.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_regsql.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\CasPol.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\dfsvc.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\IEExec.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\jsc.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\RegAsm.exe</filename>
+						<filename>%Windir%\Microsoft.NET\Framework\v2.0.50727\RegSvcs.exe</filename>
+						<filename>%Windir%\msagent\agentsvr.exe</filename>
+						<filename>%Windir%\mui\muisetup.exe</filename>
+						<filename>%Windir%\NOTEPAD.EXE</filename>
+						<filename>%Windir%\pchealth\helpctr\binaries\HelpCtr.exe</filename>
+						<filename>%Windir%\pchealth\helpctr\binaries\HelpHost.exe</filename>
+						<filename>%Windir%\pchealth\helpctr\binaries\HelpSvc.exe</filename>
+						<filename>%Windir%\pchealth\helpctr\binaries\HscUpd.exe</filename>
+						<filename>%Windir%\pchealth\helpctr\binaries\msconfig.exe</filename>
+						<filename>%Windir%\pchealth\helpctr\binaries\notiflag.exe</filename>
+						<filename>%Windir%\pchealth\UploadLB\Binaries\UploadM.exe</filename>
+						<filename>%Windir%\regedit.exe</filename>
+						<filename>%System%\accwiz.exe</filename>
+						<filename>%System%\actmovie.exe</filename>
+						<filename>%System%\ahui.exe</filename>
+						<filename>%System%\alg.exe</filename>
+						<filename>%System%\arp.exe</filename>
+						<filename>%System%\asr_fmt.exe</filename>
+						<filename>%System%\asr_ldm.exe</filename>
+						<filename>%System%\asr_pfu.exe</filename>
+						<filename>%System%\at.exe</filename>
+						<filename>%System%\atmadm.exe</filename>
+						<filename>%System%\attrib.exe</filename>
+						<filename>%System%\auditusr.exe</filename>
+						<filename>%System%\blastcln.exe</filename>
+						<filename>%System%\bootcfg.exe</filename>
+						<filename>%System%\bootok.exe</filename>
+						<filename>%System%\bootvrfy.exe</filename>
+						<filename>%System%\cacls.exe</filename>
+						<filename>%System%\calc.exe</filename>
+						<filename>%System%\charmap.exe</filename>
+						<filename>%System%\chkdsk.exe</filename>
+						<filename>%System%\chkntfs.exe</filename>
+						<filename>%System%\cidaemon.exe</filename>
+						<filename>%System%\cipher.exe</filename>
+						<filename>%System%\cisvc.exe</filename>
+						<filename>%System%\ckcnv.exe</filename>
+						<filename>%System%\cleanmgr.exe</filename>
+						<filename>%System%\clean_all.exe</filename>
+						<filename>%System%\clipsrv.exe</filename>
+						<filename>%System%\cmd.exe</filename>
+						<filename>%System%\cmdl32.exe</filename>
+						<filename>%System%\cmmon32.exe</filename>
+						<filename>%System%\cmstp.exe</filename>
+						<filename>%System%\Com\comrepl.exe</filename>
+						<filename>%System%\Com\comrereg.exe</filename>
+						<filename>%System%\comp.exe</filename>
+						<filename>%System%\compact.exe</filename>
+						<filename>%System%\conime.exe</filename>
+						<filename>%System%\control.exe</filename>
+						<filename>%System%\convert.exe</filename>
+						<filename>%System%\cscript.exe</filename>
+						<filename>%System%\ctfmon.exe</filename>
+						<filename>%System%\dcomcnfg.exe</filename>
+						<filename>%System%\ddeshare.exe</filename>
+					</filenames_collection>
+					<notes_collection>
+						<note>%ProgramFiles% is a variable that refers to the Program Files folder. A typical path is C:\Program Files.</note>
+					</notes_collection>
+				</modified_files>
+				<added_directories>
+					<dirnames_collection>
+						<dirname>c:\System Volume Information\.</dirname>
+						<dirname>c:\System Volume Information\..</dirname>
+						<dirname>%AppData%\Microsoft\crtdrvwin56</dirname>
+					</dirnames_collection>
+				</added_directories>
+				<added_processes>
+					<added_processes_collection>
+						<added_process>
+							<process_name>dvam.exe</process_name>
+							<process_filename>%Windir%\temp\dvam.exe</process_filename>
+							<main_module_size>176128</main_module_size>
+							<attached_zip_dump>process_dump_a.zip</attached_zip_dump>
+						</added_process>
+						<added_process>
+							<process_name>0did.exe</process_name>
+							<process_filename>%Windir%\temp\0did.exe</process_filename>
+							<main_module_size>180224</main_module_size>
+							<attached_zip_dump>process_dump_b.zip</attached_zip_dump>
+						</added_process>
+						<added_process>
+							<process_name>dvam.exe</process_name>
+							<process_filename>%Temp%\dvam.exe</process_filename>
+							<main_module_size>176128</main_module_size>
+							<attached_zip_dump>process_dump_c.zip</attached_zip_dump>
+						</added_process>
+						<added_process>
+							<process_name>0did.exe</process_name>
+							<process_filename>%Temp%\0did.exe</process_filename>
+							<main_module_size>180224</main_module_size>
+							<attached_zip_dump>process_dump_d.zip</attached_zip_dump>
+						</added_process>
+						<added_process>
+							<process_name>svc2.exe</process_name>
+							<process_filename>%Windir%\svc2.exe</process_filename>
+							<main_module_size>880640</main_module_size>
+							<attached_zip_dump>process_dump_e.zip</attached_zip_dump>
+						</added_process>
+						<added_process>
+							<process_name>[filename of the sample #1]</process_name>
+							<process_filename>[file and pathname of the sample #1]</process_filename>
+							<main_module_size>90112</main_module_size>
+							<attached_zip_dump>process_dump_f.zip</attached_zip_dump>
+						</added_process>
+					</added_processes_collection>
+				</added_processes>
+				<injected_mempages>
+					<injected_mempages_collection>
+						<injected_mempage>
+							<process_name>svchost.exe</process_name>
+							<process_filename>%System%\svchost.exe</process_filename>
+							<allocated_size>5124096</allocated_size>
+							<attached_zip_dump>heap_dump_g.zip</attached_zip_dump>
+						</injected_mempage>
+						<injected_mempage>
+							<process_name>svchost.exe</process_name>
+							<process_filename>%System%\svchost.exe</process_filename>
+							<allocated_size>327680</allocated_size>
+							<attached_zip_dump>heap_dump_h.zip</attached_zip_dump>
+						</injected_mempage>
+					</injected_mempages_collection>
+				</injected_mempages>
+				<modified_services>
+					<modified_services_collection>
+						<modified_service>
+							<service_name>ALG</service_name>
+							<display_name>Application Layer Gateway Service</display_name>
+							<newstatus>"Stopped"</newstatus>
+							<service_filename>%System%\alg.exe</service_filename>
+						</modified_service>
+						<modified_service>
+							<service_name>SharedAccess</service_name>
+							<display_name>Windows Firewall/Internet Connection Sharing (ICS)</display_name>
+							<newstatus>"Stopped"</newstatus>
+							<service_filename>%System%\svchost.exe -k netsvcs</service_filename>
+						</modified_service>
+						<modified_service>
+							<service_name>wscsvc</service_name>
+							<display_name>Security Center</display_name>
+							<newstatus>"Stopped"</newstatus>
+							<service_filename>%System%\svchost.exe -k netsvcs</service_filename>
+						</modified_service>
+					</modified_services_collection>
+				</modified_services>
+				<added_regkeys>
+					<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer</regkey>
+					<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer\Run</regkey>
+					<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\AGProtect</regkey>
+					<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Alexa Internet</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Internet Explorer\New Windows</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Internet Explorer\Toolbar</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Internet Settings\P3P</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Internet Settings\P3P\History</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Ext</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Ext\Stats</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\IEAK</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Internet Connection Wizard</regkey>
+					<regkey>HKEY_USERS\.DEFAULT\Software\MSoftware</regkey>
+				</added_regkeys>
+				<added_regvalues>
+					<regvalues_structure>
+						<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer\Run</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>1y8bc</value>
+								<contents>&quot;%Temp%\dvam.exe&quot;</contents>
+							</regvalue>
+							<regvalue>
+								<value>4bsr</value>
+								<contents>&quot;%Temp%\0did.exe&quot;</contents>
+							</regvalue>
+						</regvalues_collection>
+						<notes_collection>
+							<note>so that dvam.exe runs every time Windows starts</note>
+							<note>so that 0did.exe runs every time Windows starts</note>
+						</notes_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>aaaaaaaaJ</value>
+								<contents>&quot;%System%\aaaaaaaaJ.exe&quot;</contents>
+							</regvalue>
+						</regvalues_collection>
+						<notes_collection>
+							<note>so that aaaaaaaaJ.exe runs every time Windows starts</note>
+						</notes_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_LOCAL_MACHINE\SOFTWARE\AGProtect</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>Cfg</value>
+								<contents>09 00 00 00 2B 8B 00 00 A5 2E 5E 2E 70 77 77 77 78 77 4C 77 77 77 77 77 28 76 A6 AC AF A5 A6 AD A1 A5 A6 AC A3 A5 A0 AD 77 4D 77 77 77 77 77 28 76 AD AF A5 A6 AD AF A5 A1 A6 A1 A5 A1 AD 77 4D 77 77 77 77 77 28 76 AD AD A5 A1 A3 A7 A5 A6 AC A6 A5 A1 A</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Internet Explorer\New Windows</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>PopupMgr</value>
+								<contents>&quot;no&quot;</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Internet Explorer\Toolbar</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>Locked</value>
+								<contents>0x00000001</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>UpdateHost</value>
+								<contents>00 50 53 85 77 CE</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>Settings</value>
+								<contents>0C 00 02 00 0A 01 F8 75 60 00 00 00</contents>
+							</regvalue>
+							<regvalue>
+								<value>FullPath</value>
+								<contents>0x00000000</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Internet Settings</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>ProxyEnable</value>
+								<contents>0x00000000</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Run</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>aaaaaaaaJ</value>
+								<contents>&quot;%UserProfile%\aaaaaaaaJ.exe&quot;</contents>
+							</regvalue>
+							<regvalue>
+								<value>NetLog2</value>
+								<contents>&quot;%Windir%\svc2.exe&quot;</contents>
+							</regvalue>
+						</regvalues_collection>
+						<notes_collection>
+							<note>so that aaaaaaaaJ.exe runs every time Windows starts</note>
+							<note>so that svc2.exe runs every time Windows starts</note>
+						</notes_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Internet Connection Wizard</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>ShellNext</value>
+								<contents>&quot;http://loancinema.com/default.pk?tsearch=space&amp;search_button.x=27&amp;search_button.y=12&quot;</contents>
+							</regvalue>
+							<regvalue>
+								<value>Completed</value>
+								<contents>01 00 00 00</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\MSoftware</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>Hidden</value>
+								<contents>01 00 00 00</contents>
+							</regvalue>
+							<regvalue>
+								<value>InstallPath</value>
+								<contents>&quot;%UserProfile%\APPLIC~1\MICROS~1\CRTDRV~1&quot;</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_CURRENT_USER\Identities</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>Identity Login</value>
+								<contents>0x00098053</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+					<regvalues_structure>
+						<regkey>HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\New Windows</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>PopupMgr</value>
+								<contents>&quot;no&quot;</contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+				</added_regvalues>
+				<modified_regvalues>
+					<regvalues_structure>
+						<regkey>HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</regkey>
+						<regvalues_collection>
+							<regvalue>
+								<value>AppData</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Cookies</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Desktop</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Favorites</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Personal</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Start Menu</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Startup</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>Cache</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>History</value>
+								<contents></contents>
+							</regvalue>
+							<regvalue>
+								<value>My Pictures</value>
+								<contents></contents>
+							</regvalue>
+						</regvalues_collection>
+					</regvalues_structure>
+				</modified_regvalues>
+				<countries>
+					<country>Russian Federation</country>
+					<country>China</country>
+				</countries>
+				<etc_host_lines>
+					<line>127.0.0.1 www.Brenz.pl</line>
+					<line>#</line>
+					<line>173.45.76.66 drghwaweg45j4i6u3q32fg2h.com</line>
+				</etc_host_lines>
+				<connect_ip_api>
+					<connect_ip>
+						<ip>122.224.6.48</ip>
+						<port_number>255</port_number>
+					</connect_ip>
+					<connect_ip>
+						<ip>173.192.153.178</ip>
+						<port_number>80</port_number>
+					</connect_ip>
+					<connect_ip>
+						<ip>91.188.60.177</ip>
+						<port_number>80</port_number>
+					</connect_ip>
+					<connect_ip>
+						<ip>74.125.65.109</ip>
+						<port_number>465</port_number>
+					</connect_ip>
+				</connect_ip_api>
+				<internetopenurl_api>
+					<url>http://exe3.perfectexe.com:255/list.php?c=B4AC885F94224AE64DAAC6EE0346C213D049B58E0B3969C0DCE4CA8D5FF5F6CFDFE10E13F3845D3386FFC45E0D4897B5778D4CBB9FE6A5FF432C&amp;v=2&amp;t=0.4791529</url>
+					<url>http://bb.iwillhavebigdick.com/kp.exe</url>
+					<url>http://sb.perfectexe.com/cs.gif?t=0.7124292</url>
+					<url>http://kukerq.com/kb5.txt</url>
+					<url>http://kukerq.com/ert/mno3.txt</url>
+					<url>http://kukerq.com/ert/klm1.txt</url>
+					<url>http://kukerq.com/ert/nop4.txt</url>
+					<url>http://kukerq.com/ert/lmn2.txt</url>
+				</internetopenurl_api>
+				<outbound_traffic>
+					<outbound_traffic_element>
+						<port_number>465</port_number>
+						<textlines_collection>
+							<textline>00000000 | 804C 0103 0100 3300 0000 1000 0004 0000 | .L....3.........</textline>
+							<textline>00000010 | 0500 000A 0100 8007 00C0 0300 8000 0009 | ................</textline>
+							<textline>00000020 | 0600 4000 0064 0000 6200 0003 0000 0602 | ..@..d..b.......</textline>
+							<textline>00000030 | 0080 0400 8000 0013 0000 1200 0063 466E | .............cFn</textline>
+							<textline>00000040 | E546 DEE1 7821 03B3 1D3B 3DCC 585F 1703 | .F..x!...;=.X_..</textline>
+							<textline>00000050 | 0102 689F 3365 5B1F 5AD3 0B3B 3ED7 B352 | ..h.3e[.Z..;&gt;..R</textline>
+							<textline>00000060 | 18C8 B8D8 6F30 5977 07AB 66B1 557B 4821 | ....o0Yw..f.U{H!</textline>
+							<textline>00000070 | 1CF0 3BEC 78D9 4ADC 24BA 871D 751B 3A8B | ..;.x.J.$...u.:.</textline>
+							<textline>00000080 | 810F CC5D C814 3130 9D9C 9E63 B0B4 6923 | ...]..10...c..i#</textline>
+							<textline>00000090 | 910B 7B79 21B7 3688 C314 A997 4F47 277B | ..{y!.6.....OG'{</textline>
+							<textline>000000A0 | BDD0 EAED 8E30 87FA 9F70 C26C 1C83 464A | .....0...p.l..FJ</textline>
+							<textline>000000B0 | 3710 77FD 8346 EFCB 7D15 D188 8CCC 6D0F | 7.w..F..}.....m.</textline>
+							<textline>000000C0 | 67D1 67B0 0406 2200 288A 7570 4182 6819 | g.g...&quot;.(.upA.h.</textline>
+							<textline>000000D0 | 2EE5 70CE BC0C FA61 6D57 5B2F B89E 3CB6 | ..p....amW[/..&lt;.</textline>
+							<textline>000000E0 | F5C8 77AB A2D8 B307 1651 0223 EF53 77F6 | ..w......Q.#.Sw.</textline>
+							<textline>000000F0 | 5F65 2FA4 6F87 6E08 CD8B E6D9 B0E6 FD28 | _e/.o.n........(</textline>
+							<textline>00000100 | 9739 69C9 7884 7516 598C 8721 01AA 5287 | .9i.x.u.Y..!..R.</textline>
+							<textline>00000110 | F692 46D1 E4DA F32E 62FB EE50 886D 854D | ..F.....b..P.m.M</textline>
+							<textline>00000120 | EFCE C164 D3FD 0A7A 9809 9286 495C BE8B | ...d...z....I\..</textline>
+							<textline>00000130 | 4A5B F7FF 7E4F 4E27 9866 56FA 9BD8 2DC0 | J[..~ON'.fV...-.</textline>
+							<textline>00000140 | F306 4A9B 4C6A E314 F1ED 1BCF 7621 15C1 | ..J.Lj......v!..</textline>
+							<textline>00000150 | 070D FA83 6F71 532A B912 7F25 32DA 21C7 | ....oqS*...%2.!.</textline>
+							<textline>00000160 | 549A BB2A A2F1 2305 2AA3 9BB1 1CBA 023F | T..*..#.*......?</textline>
+							<textline>00000170 | 4E1F 9212 8107 C0E9 4A53 C6C6 3701 AEE3 | N.......JS..7...</textline>
+							<textline>00000180 | 2E66 8793 A934 ADF4 EE0B 7A68 18A6 7056 | .f...4....zh..pV</textline>
+							<textline>00000190 | 96EA 359D A5C6 F95F 95B5 DE83 47E4 0307 | ..5...._....G...</textline>
+							<textline>000001A0 | 9929 41F5 2F58 FDE2 6C48 9050 55D2 1053 | .)A./X..lH.PU..S</textline>
+							<textline>000001B0 | C878 9E92 C00E E2F4 2E44 93A8 6915 330C | .x.......D..i.3.</textline>
+							<textline>000001C0 | FED7 C5AE DFD4 B64A 6592 F60D B6C1 C9A5 | .......Je.......</textline>
+							<textline>000001D0 | 6A93 C2F4 F5E2 5A7F 4085 AE1B 875E 2938 | j.....Z.@....^)8</textline>
+							<textline>000001E0 | 233E AE66 E379 4EB3 75DD DE41 A6C4 16FE | #&gt;.f.yN.u..A....</textline>
+							<textline>000001F0 | A143 00B5 2E0D B4CD 2B93 5624 D497 D839 | .C......+.V$...9</textline>
+							<textline>00000200 | 648E 9E3D 1BD6 A8D4 2D7F 1D64 0D94 D19D | d..=....-..d....</textline>
+							<textline>00000210 | 293A 5E8D 0F29 7F32 7342 2392 8A5E 6875 | ):^..).2sB#..^hu</textline>
+							<textline>00000220 | B656 10EA 2B54 4FF7 A5B4 0A46 6E87 F790 | .V..+TO....Fn...</textline>
+							<textline>00000230 | 38E4 4910 2457 91D1 24C9 5145 061F 12C4 | 8.I.$W..$.QE....</textline>
+							<textline>00000240 | 3FEA E486 5DE7 8381 4C10 D534 9A48 C5DD | ?...]...L..4.H..</textline>
+							<textline>00000250 | 58B1 D170 2184 A204 4186 665C 1B20 F258 | X..p!...A.f\. .X</textline>
+							<textline>00000260 | 7840 1349 A03A 4BCE 5800 0E70 457A 7930 | x@.I.:K.X..pEzy0</textline>
+							<textline>00000270 | F677 C4D9 B2B6 1280 0CFD 5410 1DC8 8EE1 | .w........T.....</textline>
+							<textline>00000280 | C4E1 C9D8 A68C 769A 7432 D6D9 3FBE 446A | ......v.t2..?.Dj</textline>
+							<textline>00000290 | B982 491A FD07 B531 A69F 7B26 14AC 3E5E | ..I....1..{&amp;..&gt;^</textline>
+							<textline>000002A0 | BF71 D3B1 0E0E EA1B 2C97 299D D378 B05B | .q......,.)..x.[</textline>
+							<textline>000002B0 | 26F6 F81C 0D52 D5D8 1C4A FD17 0301 0015 | &amp;....R...J......</textline>
+							<textline>000002C0 | 3223 EE79 B88F DD0C FE70 E241 AFAE F7CE | 2#.y.....p.A....</textline>
+							<textline>000002D0 | 9310 42EB 0917 0301 0016 9A08 72DC B7C2 | ..B.........r...</textline>
+							<textline>000002E0 | 9859 BA85 2B1F C2A3 F516 C838 8C08 69F1 | .Y..+......8..i.</textline>
+							<textline>000002F0 | 1603 0100 8610 0000 8200 80C4 8D68 361D | .............h6.</textline>
+							<textline>00000300 | 9B85 762E 180C 3B2E 6BCD 037F 9538 C2A2 | ..v...;.k....8..</textline>
+							<textline>00000310 | 6A87 671F 94D7 1E90 0AC2 53A3 6F6F 611C | j.g.......S.ooa.</textline>
+							<textline>00000320 | 9CF1 9580 3416 5FA3 A9EC B88C 52C5 609A | ....4._.....R.`.</textline>
+							<textline>00000330 | 9E9E 12B6 FCA0 3A98 89B6 B475 6D46 6EE1 | ......:....umFn.</textline>
+							<textline>00000340 | A984 CF95 AC4B 02F2 CE09 B0A6 C47A 5D33 | .....K.......z]3</textline>
+							<textline>00000350 | 98CF 5832 5E86 1FF9 2E7C D38B D05B 19E4 | ..X2^....|...[..</textline>
+							<textline>00000360 | F54F 3AE9 E7CB 22F8 4051 4FAA E609 0431 | .O:...&quot;.@QO....1</textline>
+							<textline>00000370 | BFF2 DD2F 96D5 5CE9 6401 C014 0301 0001 | .../..\.d.......</textline>
+							<textline>00000380 | 0116 0301 0020 8EF2 1E6D DF32 AA84 29FA | ..... ...m.2..).</textline>
+							<textline>00000390 | 053A 031C 48E5 61D6 E18A A264 F2B6 C11D | .:..H.a....d....</textline>
+							<textline>000003A0 | C2A3 E8BC BA01 1703 0100 23C8 738D A015 | ..........#.s...</textline>
+							<textline>000003B0 | C7A5 F85A 37D1 7E47 4649 6637 9877 5F42 | ...Z7.~GFIf7.w_B</textline>
+							<textline>000003C0 | 300B 9C98 44AF 1C54 37C5 C767 4662 1703 | 0...D..T7..gFb..</textline>
+							<textline>000003D0 | 0100 1C12 1794 62E3 527A BCAF 850D 96FB | ......b.Rz......</textline>
+							<textline>000003E0 | 5BA2 E4D2 32AE 94CC 46A1 B3B7 53FD 8217 | [...2...F...S...</textline>
+							<textline>000003F0 | 0301 0032 E983 57D0 52F8 6306 BED9 F68F | ...2..W.R.c.....</textline>
+							<textline>00000400 | 3E5D 5F9E 50D5 10D6 F881 C18E 2199 0DB4 | &gt;]_.P.......!...</textline>
+							<textline>00000410 | 09F7 322C B47B EBBF DB55 D975 DDFD 3000 | ..2,.{...U.u..0.</textline>
+							<textline>00000420 | 0E8E 1FA5 2A1A 1703 0100 2AE6 ED95 EA7E | ....*.....*....~</textline>
+							<textline>00000430 | 8BDA EC74 EFFB 7BFB D54C 5CC9 8A70 9124 | ...t..{..L\..p.$</textline>
+							<textline>00000440 | 7342 B58E FF95 DD42 C10D 92C5 F4CB 2533 | sB.....B......%3</textline>
+							<textline>00000450 | F34C 24DE F417 0301 0035 7F0C CA6F 20AA | .L$......5...o .</textline>
+							<textline>00000460 | FEED D918 0742 6623 DAEE 91BF 2441 9803 | .....Bf#....$A..</textline>
+							<textline>00000470 | 266B 253C E542 320A 9CA2 EBE5 F46C 8AE2 | &amp;k%&lt;.B2......l..</textline>
+							<textline>00000480 | D8F4 459F 2F14 EE6A 89FB 631C 2255 6517 | ..E./..j..c.&quot;Ue.</textline>
+							<textline>00000490 | 0301 0033 3780 ADF6 BA01 9C87 0BB6 3FE2 | ...37.........?.</textline>
+							<textline>000004A0 | 05F9 5D64 CA48 4EF1 8106 3819 1EFD A68B | ..]d.HN...8.....</textline>
+							<textline>000004B0 | 55CB CBFB FEF3 06DE 22F4 02F9 1A1A 9C01 | U.......&quot;.......</textline>
+							<textline>000004C0 | 0060 FADD 763A 3B17 0301 0016 C5FD 1AC0 | .`..v:;.........</textline>
+							<textline>000004D0 | B773 2916 B57E 5787 86DC 532E E5B4 48D3 | .s)..~W...S...H.</textline>
+							<textline>000004E0 | 1802                                    | ..</textline>
+						</textlines_collection>
+					</outbound_traffic_element>
+				</outbound_traffic>
+			</technical_details>
+		</subreport>
+	</subreports>
+</report>
