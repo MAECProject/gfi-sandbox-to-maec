@@ -17,6 +17,32 @@ from common_types_1_0 import MeasureSourceType as Discovery_Method
 from common_types_1_0 import DefinedObjectType as Defined_Object
 from common_types_1_0 import DataSegmentType as Data
 from file_object_1_2 import FileObjectType
+from win_file_object_1_2 import WindowsFileObjectType
+#from unix_file_object_1_2 import UnixFileObjectType
+from win_executable_file_object_1_2 import WindowsExecutableFileObjectType
+from win_driver_object_1_1 import WindowsDriverObjectType
+#from win_kernel_hook_object_1_2 import WindowsKernelHookObjectType
+from port_object_1_2 import PortObjectType
+from address_object_1_1 import AddressObjectType
+from win_registry_key_object_1_2 import WindowsRegistryKeyObjectType
+from process_object_1_2 import ProcessObjectType
+from win_process_object_1_2 import WindowsProcessObjectType
+#from win_event_log_object_1_1 import WindowsEventLogObjectType
+#from account_object_1_1 import AccountObjectType
+#from user_account_object_1_1 import UserAccountObjectType
+#from win_user_account_object_1_2 import WindowsUserAccountObjectType
+from win_service_object_1_2 import WindowsServiceObjectType
+#from volume_object_1_2 import VolumeObjectType
+#from win_volume_object_1_2 import WindowsVolumeObjectType
+#from disk_object_1_2 import DiskObjectType
+#from dns_record_object_1_0 import DNSRecordObjectType
+#from network_route_entry_object_1_0 import NetworkRouteEntryObjectType
+from win_system_object_1_1 import WindowsSystemObjectType
+from system_object_1_2 import SystemObjectType
+from win_handle_object_1_2 import WindowsHandleObjectType
+from memory_object_1_1 import MemoryObjectType
+#from disk_partition_object_1_2 import DiskPartitionObjectType
+#from email_message_object_1_1 import EmailMessageObjectType
 
 etree_ = None
 Verbose_import_ = False
