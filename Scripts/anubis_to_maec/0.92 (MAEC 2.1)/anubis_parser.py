@@ -107,6 +107,7 @@ class parser:
         actions['module'] = []
         actions['system'] = []
         actions['internet'] = []
+        actions['driver'] = []
         self.actions = actions
         
         #setup the objects
@@ -126,7 +127,7 @@ class parser:
             analysis_reason = general_info.get_analysis_reason()
             
             #create and setup the analysis object if this is the primary subject
-            if analysis_reason.lower().count("primary analysis subject") > 0:
+            if analysis_reason.lower().count("primary analysis subject") > 0 or analysis_reason.lower().count("primary analysis target") > 0:
                 analysis_subject_object = self.__create_analysis_subject_object(analysis_subject, general_info, analysis_subjects, id_map)
                 #create the maec analysis object
                 analysis = maec_helper.maec_analysis(self.generator, analysis_subject_object, 'TTAnalyze', 'ISECLab', self.version)
@@ -1142,7 +1143,7 @@ class parser:
             action_attributes = {}
             action_attributes['defined_action_name'] = 'Load Driver'
             action_attributes['action_type'] = 'Load'
-            action_attributes['object'] = mutex_object
+            action_attributes['object'] = driver_object
             action_attributes['initiator_id'] = current_maec_id
             action_attributes['tool_id'] = self.tool_id
             action_attributes['context'] = 'Host'
@@ -1162,7 +1163,7 @@ class parser:
             action_attributes = {}
             action_attributes['defined_action_name'] = 'Unload Driver'
             action_attributes['action_type'] = 'Unload'
-            action_attributes['object'] = mutex_object
+            action_attributes['object'] = driver_object
             action_attributes['initiator_id'] = current_maec_id
             action_attributes['tool_id'] = self.tool_id
             action_attributes['context'] = 'Host'
