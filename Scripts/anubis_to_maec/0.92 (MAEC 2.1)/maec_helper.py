@@ -738,7 +738,7 @@ class maec_object:
     
 
     def create_driver_object(self, driver_attributes):
-        cybox_object = maec.cybox.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Driver')
+        cybox_object = maec.cybox.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Other')
         driver_obj = win_driver_object.WindowsDriverObjectType()
         driver_obj.set_anyAttributes_({'xsi:type' : 'WinDriverObj:WindowsDriverObjectType'})
         
