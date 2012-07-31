@@ -140,6 +140,7 @@ class maec_bundle:
         self.module_action_collection = maec.ActionCollectionType(id=self.generator.generate_actc_id(), name="Module Actions")
         self.system_action_collection = maec.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Actions")
         self.internet_action_collection = maec.ActionCollectionType(id=self.generator.generate_actc_id(), name="Internet Actions")
+        self.driver_action_collection = maec.ActionCollectionType(id=self.generator.generate_actc_id(), name="Driver Actions")
         #Create the behaviors
         #self.behaviors = maec.Behaviors()
     #"Public" methods
@@ -223,7 +224,14 @@ class maec_bundle:
             else:
                 action_list = maec.ActionListType()
                 action_list.add_Action(action)
-                self.internet_action_collection.set_Action_List(action_list)   
+                self.internet_action_collection.set_Action_List(action_list)
+        elif action_group == 'driver':
+            if self.driver_action_collection.get_Action_List() is not None:
+                self.driver_action_collection.get_Action_List().add_Action(action)
+            else:
+                action_list = maec.ActionListType()
+                action_list.add_Action(action)
+                self.driver_action_collection.set_Action_List(action_list)      
     
     def add_actions(self, actions, action_group):
         if action_group == 'file_system':
@@ -288,6 +296,7 @@ class maec_bundle:
         if self.module_action_collection.hasContent_(): self.action_colletions.add_Action_Collection(self.module_action_collection)
         if self.system_action_collection.hasContent_(): self.action_colletions.add_Action_Collection(self.system_action_collection)
         if self.internet_action_collection.hasContent_(): self.action_colletions.add_Action_Collection(self.internet_action_collection)
+        if self.driver_action_collection.hasContent_(): self.action_colletions.add_Action_Collection(self.driver_action_collection)
         ##Add the object collections
         if self.process_object_collection.hasContent_(): self.object_collections.add_Object_Collection(self.process_object_collection)
         ##Add the behaviors
