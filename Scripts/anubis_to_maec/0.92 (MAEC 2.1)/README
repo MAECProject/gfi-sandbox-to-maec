@@ -16,7 +16,7 @@ For more information, please refer to the terms.txt file.
 #Compatible with MAEC Schema v2.1                               #
 # & CybOX 1.0 Draft                                             #
 #v0.92 - BETA                                                   #
-#05/03/2012                                                     #
+#Update 8/1/2012                                                #
 #Ivan Kirillov//ikirillov@mitre.org                             #
 #                                                               #
 #################################################################
@@ -38,11 +38,18 @@ terms.txt: the terms of use for this script.
 --------------------------------------------------------------------------------
 --Usage Notes-------------------------------------------------------------------
 
-There are two main command line parameters for this script:
+There are three main command line parameters for this script:
 
 -i: the path to the input Anubis XML file
 
 -o: the path to the output MAEC XML file
+
+OR
+
+-d: the path to a directory of Anubis XML files. The script will attempt to convert
+all files in the directory to their MAEC representations, and each output file will be 
+written to the current directory using the same name as the input file with '_maec' appended
+to it.
 
 There are two additional, optional parameters that may be specified before the main paramters:
 
