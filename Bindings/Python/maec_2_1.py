@@ -1,8 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+#MAEC v2.1 schema bindings
+#Last updated 8/02/2012
 
 #
-# Generated Fri Apr 27 16:02:07 2012 by generateDS.py version 2.7b.
+# Originally Generated Fri Apr 27 16:02:07 2012 by generateDS.py version 2.7b.
 #
 
 import sys
@@ -1118,6 +1118,82 @@ class Actions(GeneratedsSuper):
             self.Action.append(obj_)
 # end class Actions
 
+class Action_References(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Action_Reference=None):
+        if Action_Reference is None:
+            self.Action_Reference = []
+        else:
+            self.Action_Reference = Action_Reference
+    def factory(*args_, **kwargs_):
+        if Actions.subclass:
+            return Actions.subclass(*args_, **kwargs_)
+        else:
+            return Actions(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Action_Reference(self): return self.Action_Reference
+    def set_Action_Reference(self, Action): self.Action_Reference = Action
+    def add_Action_Reference(self, value): self.Action_Reference.append(value)
+    def insert_Action_Reference(self, index, value): self.Action[index] = value
+    def export(self, outfile, level, namespace_='maec:', name_='Actions', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = []
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Actions')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maec:', name_='Actions'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maec:', name_='Actions', fromsubclass_=False):
+        for Action_Reference_ in self.Action_Reference:
+            Action_Reference_.export(outfile, level, 'maec:', name_='Action_Reference')
+    def hasContent_(self):
+        if (
+            self.Action_Reference
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='Actions'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, [], name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Action=[\n')
+        level += 1
+        for Action_ in self.Action:
+            showIndent(outfile, level)
+            outfile.write('model_.ActionReferenceType(\n')
+            Action_.exportLiteral(outfile, level, name_='ActionReferenceType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        self.buildAttributes(node, node.attrib, [])
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Action_Reference':
+            class_obj_ = self.get_class_obj_(child_, ActionRefereceType)
+            obj_ = class_obj_.factory()
+            obj_.build(child_)
+            self.Action_Reference.append(obj_)
+# end class Actions
 
 class Objects(GeneratedsSuper):
     """The Objects element contains 1-n ObjectType objects, representing
@@ -1191,9 +1267,9 @@ class Objects(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Object':
-            Object_ = child_.text
-            Object_ = self.gds_validate_string(Object_, node, 'Object')
-            self.Object.append(Object_)
+            obj_ = cybox.ObjectType.factory()
+            obj_.build(child_)
+            self.Object.append(obj_)
 # end class Objects
 
 
@@ -1898,8 +1974,7 @@ class ActionImplementationType(GeneratedsSuper):
         if self.API_Call is not None:
             self.API_Call.export(outfile, level, 'maec:', name_='API_Call')
         for Code_ in self.Code:
-            showIndent(outfile, level)
-            outfile.write('<%sCode>%s</%sCode>\n' % (namespace_, self.gds_format_string(quote_xml(Code_).encode(ExternalEncoding), input_name='Code'), namespace_))
+            Code_.export(outfile, level, 'maec:', name_='Code')
     def hasContent_(self):
         if (
             self.Compatible_Platforms is not None or
@@ -1969,9 +2044,9 @@ class ActionImplementationType(GeneratedsSuper):
             obj_.build(child_)
             self.set_API_Call(obj_)
         elif nodeName_ == 'Code':
-            Code_ = child_.text
-            Code_ = self.gds_validate_string(Code_, node, 'Code')
-            self.Code.append(Code_)
+            obj_ = code_object.CodeObjectType.factory()
+            obj_.build(child_)
+            self.Code.append(obj_)
 # end class ActionImplementationType
 
 
@@ -2658,9 +2733,9 @@ class IndicatorType(common.IndicatorType):
             obj_.build(child_)
             self.set_Target(obj_)
         elif nodeName_ == 'Observables':
-            Observables_ = child_.text
-            Observables_ = self.gds_validate_string(Observables_, node, 'Observables')
-            self.Observables = Observables_
+            obj_ = cybox.ObservableCompositionType.factory()
+            obj_.build(child_)
+            self.set_Observables(obj_)
 # end class IndicatorType
 
 
@@ -2922,9 +2997,9 @@ class SourceType(GeneratedsSuper):
             Organization_ = self.gds_validate_string(Organization_, node, 'Organization')
             self.Organization = Organization_
         elif nodeName_ == 'URL':
-            URL_ = child_.text
-            URL_ = self.gds_validate_string(URL_, node, 'URL')
-            self.URL = URL_
+            obj_ = uri_object.URIObjectType.factory()
+            obj_.build(child_)
+            self.set_URL(obj_)
 # end class SourceType
 
 
@@ -3426,21 +3501,21 @@ class AnalysisSubjectType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Object':
-            Object_ = child_.text
-            Object_ = self.gds_validate_string(Object_, node, 'Object')
-            self.Object = Object_
+            obj_ = cybox.ObjectType.factory()
+            obj_.build(child_)
+            self.set_Object(obj_)
         elif nodeName_ == 'Object_Reference':
             obj_ = ObjectReferenceType.factory()
             obj_.build(child_)
             self.set_Object_Reference(obj_)
         elif nodeName_ == 'URL':
-            URL_ = child_.text
-            URL_ = self.gds_validate_string(URL_, node, 'URL')
-            self.URL = URL_
+            obj_ = uri_object.URIObjectType.factory()
+            obj_.build(child_)
+            self.set_URL(obj_)
         elif nodeName_ == 'Field_Data':
-            Field_Data_ = child_.text
-            Field_Data_ = self.gds_validate_string(Field_Data_, node, 'Field_Data')
-            self.Field_Data = Field_Data_
+            obj_ = mmdef.fieldDataEntry.factory()
+            obj_.build(child_)
+            self.set_Field_Data(obj_)
         elif nodeName_ == 'Command_Line':
             Command_Line_ = child_.text
             Command_Line_ = self.gds_validate_string(Command_Line_, node, 'Command_Line')
@@ -3536,9 +3611,9 @@ class AVClassificationsType(cybox.DomainSpecificObjectAttributesType):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'AV_Classification':
-            AV_Classification_ = child_.text
-            AV_Classification_ = self.gds_validate_string(AV_Classification_, node, 'AV_Classification')
-            self.AV_Classification.append(AV_Classification_)
+            obj_ = mmdef.classificationObject.factory()
+            obj_.build(child_)
+            self.AV_Classification.append(obj_)
         super(AVClassificationsType, self).buildChildren(child_, node, nodeName_, True)
 # end class AVClassificationsType
 
@@ -3697,11 +3772,11 @@ class AnalysisFindingsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Behaviors':
-            obj_ = Behaviors.factory()
+            obj_ = BehaviorReferenceListType.factory()
             obj_.build(child_)
             self.set_Behaviors(obj_)
         elif nodeName_ == 'Actions':
-            obj_ = Actions.factory()
+            obj_ = ActionReferenceListType.factory()
             obj_.build(child_)
             self.set_Actions(obj_)
 # end class AnalysisFindingsType
@@ -3882,9 +3957,9 @@ class ToolsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Tool':
-            Tool_ = child_.text
-            Tool_ = self.gds_validate_string(Tool_, node, 'Tool')
-            self.Tool.append(Tool_)
+            obj_ = common.ToolInformationType.factory()
+            obj_.build(child_)
+            self.Tool.append(obj_)
 # end class ToolsType
 
 
@@ -4838,7 +4913,10 @@ class BehaviorListType(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, Behavior=None, Behavior_Collection=None):
-        self.Behavior = Behavior
+        if Behavior is None:
+            self.Behavior = []
+        else:
+            self.Behavior = Behavior
         if Behavior_Collection is None:
             self.Behavior_Collection = []
         else:
@@ -4851,6 +4929,8 @@ class BehaviorListType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_Behavior(self): return self.Behavior
     def set_Behavior(self, Behavior): self.Behavior = Behavior
+    def add_Behavior(self, value): self.Behavior.append(value)
+    def insert_Behavior(self, index, value): self.Behavior[index] = value
     def get_Behavior_Collection(self): return self.Behavior_Collection
     def set_Behavior_Collection(self, Behavior_Collection): self.Behavior_Collection = Behavior_Collection
     def add_Behavior_Collection(self, value): self.Behavior_Collection.append(value)
@@ -4870,8 +4950,8 @@ class BehaviorListType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='maec:', name_='BehaviorListType'):
         pass
     def exportChildren(self, outfile, level, namespace_='maec:', name_='BehaviorListType', fromsubclass_=False):
-        if self.Behavior is not None:
-            self.Behavior.export(outfile, level, 'maec:', name_='Behavior', )
+        for Behavior_ in self.Behavior:
+            Behavior_.export(outfile, level, 'maec:', name_='Behavior')
         for Behavior_Collection_ in self.Behavior_Collection:
             Behavior_Collection_.export(outfile, level, 'maec:', name_='Behavior_Collection')
     def hasContent_(self):
@@ -4919,7 +4999,7 @@ class BehaviorListType(GeneratedsSuper):
         if nodeName_ == 'Behavior':
             obj_ = BehaviorType.factory()
             obj_.build(child_)
-            self.set_Behavior(obj_)
+            self.Behavior.append(obj_)
         elif nodeName_ == 'Behavior_Collection':
             obj_ = BehaviorCollectionType.factory()
             obj_.build(child_)
@@ -4933,7 +5013,10 @@ class ActionListType(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, Action=None, Action_Collection=None):
-        self.Action = Action
+        if Action is None:
+            self.Action = []
+        else:
+            self.Action = Action
         if Action_Collection is None:
             self.Action_Collection = []
         else:
@@ -4946,6 +5029,8 @@ class ActionListType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_Action(self): return self.Action
     def set_Action(self, Action): self.Action = Action
+    def add_Action(self, value): self.Action.append(value)
+    def insert_Action(self, index, value): self.Action[index] = value
     def get_Action_Collection(self): return self.Action_Collection
     def set_Action_Collection(self, Action_Collection): self.Action_Collection = Action_Collection
     def add_Action_Collection(self, value): self.Action_Collection.append(value)
@@ -4965,8 +5050,8 @@ class ActionListType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='maec:', name_='ActionListType'):
         pass
     def exportChildren(self, outfile, level, namespace_='maec:', name_='ActionListType', fromsubclass_=False):
-        if self.Action is not None:
-            self.Action.export(outfile, level, 'maec:', name_='Action', )
+        for Action_ in self.Action:
+            Action_.export(outfile, level, 'maec:', name_='Action')
         for Action_Collection_ in self.Action_Collection:
             Action_Collection_.export(outfile, level, 'maec:', name_='Action_Collection')
     def hasContent_(self):
@@ -5012,10 +5097,9 @@ class ActionListType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Action':
-            class_obj_ = self.get_class_obj_(child_, ActionType)
-            obj_ = class_obj_.factory()
+            obj_ = ActionType.factory()
             obj_.build(child_)
-            self.set_Action(obj_)
+            self.Action.append(obj_)
         elif nodeName_ == 'Action_Collection':
             obj_ = ActionCollectionType.factory()
             obj_.build(child_)
@@ -5029,7 +5113,10 @@ class ObjectListType(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, Object=None, Object_Collection=None):
-        self.Object = Object
+        if Object is None:
+            self.Object = []
+        else:
+            self.Object = Object
         if Object_Collection is None:
             self.Object_Collection = []
         else:
@@ -5042,6 +5129,8 @@ class ObjectListType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_Object(self): return self.Object
     def set_Object(self, Object): self.Object = Object
+    def add_Object(self, value): self.Object.append(value)
+    def insert_Object(self, index, value): self.Object[index] = value
     def get_Object_Collection(self): return self.Object_Collection
     def set_Object_Collection(self, Object_Collection): self.Object_Collection = Object_Collection
     def add_Object_Collection(self, value): self.Object_Collection.append(value)
@@ -5061,9 +5150,8 @@ class ObjectListType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='maec:', name_='ObjectListType'):
         pass
     def exportChildren(self, outfile, level, namespace_='maec:', name_='ObjectListType', fromsubclass_=False):
-        if self.Object is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sObject>%s</%sObject>\n' % (namespace_, self.gds_format_string(quote_xml(self.Object).encode(ExternalEncoding), input_name='Object'), namespace_))
+        for Object_ in self.Object:
+            Object_.export(outfile, level, 'maec:', name_='Object')
         for Object_Collection_ in self.Object_Collection:
             Object_Collection_.export(outfile, level, 'maec:', name_='Object_Collection')
     def hasContent_(self):
@@ -5106,9 +5194,9 @@ class ObjectListType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Object':
-            Object_ = child_.text
-            Object_ = self.gds_validate_string(Object_, node, 'Object')
-            self.Object = Object_
+            obj_ = cybox.ObjectType.factory()
+            obj_.build(child_)
+            self.Object.append(obj_)
         elif nodeName_ == 'Object_Collection':
             obj_ = ObjectCollectionType.factory()
             obj_.build(child_)
@@ -5442,7 +5530,7 @@ class BehavioralActionType(ActionType):
 # end class BehavioralActionType
 
 
-class BehavioralActionReferenceType(GeneratedsSuper):
+class BehavioralActionReferenceType(cybox.ActionReferenceType):
     """The BehavioralActionReferenceType defines an action reference that
     can be used as part of a behavior.The behavioral_ordering
     attribute defines the ordering of the action with respect to the
@@ -5450,8 +5538,9 @@ class BehavioralActionReferenceType(GeneratedsSuper):
     behavioral_ordering of "1" would come before an action with a
     behavioral_ordering of "2", etc."""
     subclass = None
-    superclass = None
-    def __init__(self, behavioral_ordering=None):
+    superclass = cybox.ActionReferenceType
+    def __init__(self, action_id = None, behavioral_ordering=None):
+        super(BehavioralActionReferenceType, self).__init__(action_id)
         self.behavioral_ordering = _cast(int, behavioral_ordering)
         pass
     def factory(*args_, **kwargs_):
@@ -5474,6 +5563,7 @@ class BehavioralActionReferenceType(GeneratedsSuper):
         else:
             outfile.write('/>\n')
     def exportAttributes(self, outfile, level, already_processed, namespace_='maec:', name_='BehavioralActionReferenceType'):
+        super(BehavioralActionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionReferenceType')
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.append('behavioral_ordering')
             outfile.write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
@@ -5481,7 +5571,8 @@ class BehavioralActionReferenceType(GeneratedsSuper):
         pass
     def hasContent_(self):
         if (
-
+            self.behavioral_ordering or
+            super(BehavioralActionReferenceType, self).hasContent_()
             ):
             return True
         else:
@@ -5496,6 +5587,7 @@ class BehavioralActionReferenceType(GeneratedsSuper):
             already_processed.append('behavioral_ordering')
             showIndent(outfile, level)
             outfile.write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
+        super(BehavioralActionReferenceType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
     def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
@@ -5503,6 +5595,7 @@ class BehavioralActionReferenceType(GeneratedsSuper):
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
+        super(BehavioralActionReferenceType, self).buildAttributes(node, attrs, already_processed)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('behavioral_ordering', node)
         if value is not None and 'behavioral_ordering' not in already_processed:
@@ -5669,9 +5762,9 @@ class ActionReferenceListType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Action_Reference':
-            Action_Reference_ = child_.text
-            Action_Reference_ = self.gds_validate_string(Action_Reference_, node, 'Action_Reference')
-            self.Action_Reference.append(Action_Reference_)
+            obj_ = cybox.ActionReferenceType.factory()
+            obj_.build(child_)
+            self.Action_Reference.append(obj_)
 # end class ActionReferenceListType
 
 
@@ -5800,8 +5893,8 @@ class ObjectCollectionType(BaseCollectionType):
             self.Object_List.export(outfile, level, 'maec:', name_='Object_List', )
     def hasContent_(self):
         if (
-            self.Object_List is not None or
-            super(ObjectCollectionType, self).hasContent_()
+            self.Object_List is not None
+            #super(ObjectCollectionType, self).hasContent_()
             ):
             return True
         else:
