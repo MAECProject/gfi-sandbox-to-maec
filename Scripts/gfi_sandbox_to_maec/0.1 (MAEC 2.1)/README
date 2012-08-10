@@ -1,0 +1,59 @@
+****************************************************
+
+      GFI Sandbox XML -> MAEC XML Converter Script
+
+ Copyright (c) 2012 - The MITRE Corporation
+
+****************************************************
+
+BY USING THE GFI SANDBOX TO MAEC SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
+CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SCRIPT.
+
+For more information, please refer to the terms.txt file.
+
+#################################################################
+#Generates MAEC Output from a GFI Sandbox v4 XML file           #
+#Compatible with MAEC Schema v2.1 & CybOX 1.0 Draft             #
+#                                                               #
+#v0.1 - BETA                                                    #
+#Update 8/10/2012                                               #
+#Ivan Kirillov//ikirillov@mitre.org                             #
+#                                                               #
+#################################################################
+# MAEC - http://maec.mitre.org                                  #
+# GFI Sandbox - http://www.gfi.com/malware-analysis-tool        #
+#################################################################
+--------------------------------------------------------------------------------
+--Included Files----------------------------------------------------------------
+
+README: this file.
+gfisandbox_to_maec.py: the GFI Sandbox XML to MAEC XML Python converter script.
+maec_2_1.py: the MAEC Python bindings which the script imports.
+gfi_sandbox.py: the GFI Sandbox Python bindings which the script imports.
+maec_helper.py: the MAEC helper classes.
+mmdef_1_2.py: the IEEE ICSG MMDEF v1.2 Python bindings which the script imports.
+gfi_parser.py: the GFI parser class.
+\gfi: the GFI parser classes which the script imports.
+\cybox: the CybOX Python bindings which the script imports.
+terms.txt: the terms of use for this script.
+--------------------------------------------------------------------------------
+--Usage Notes-------------------------------------------------------------------
+
+There are three main command line parameters for this script:
+
+-i: the path to the input GFI Sandbox XML file
+
+-o: the path to the output MAEC XML file
+
+There are two additional, optional parameters that may be specified before the main paramters:
+
+-s: print statistics regarding the number of actions extracted
+
+-v: print verbose error output (tracebacks)
+
+To use the script, run the following command:
+
+python gfisandbox_to_maec.py -i <gfisandbox_file> -o <maec_file>
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
