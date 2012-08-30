@@ -84,7 +84,7 @@ python maec_to_oval.py -i <maec_xml_file> -o <oval_xml_file>
 
 The following optional parameters are supported:
 
--s: Print skipped MAEC Actions
+-s: Print converted and skipped MAEC Actions
 
 -v: Verbose error printing (traceback)
 

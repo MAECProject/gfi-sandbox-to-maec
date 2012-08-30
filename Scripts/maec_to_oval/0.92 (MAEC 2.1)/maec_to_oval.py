@@ -17,7 +17,7 @@ v0.92 BETA // Compatible with MAEC v2.1/CybOX 1.0 draft and OVAL 5.7
 Usage: python maec_to_oval.py <flags> -i <cybox xml file> -o <oval xml file>
 
 Available Flags:
-    -s: Statistics output mode. Print any Actions that were skipped during the conversion
+    -s: Statistics output mode. List out the Actions that were converted and skipped during the conversion
     -v: Verbose output mode. Lists any skipped observable items and also prints traceback for errors.
 """
 
