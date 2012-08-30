@@ -1,0 +1,70 @@
+<oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:win-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#windows" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#windows http://oval.mitre.org/language/version5.7/ovaldefinition/complete/windows-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 http://oval.mitre.org/language/version5.7/ovaldefinition/complete/oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 http://oval.mitre.org/language/version5.7/ovaldefinition/complete/oval-common-schema.xsd">
+    <generator>
+        <oval:product_name>MAEC XML to OVAL Script</oval:product_name>
+        <oval:product_version>0.92</oval:product_version>
+        <oval:schema_version>5.7</oval:schema_version>
+        <oval:timestamp>2012-08-30T13:42:17.668000</oval:timestamp>
+    </generator>
+    <definitions>
+        <definition deprecated="false" version="1" id="oval:maec_to_oval:def:1" class="miscellaneous">
+            <metadata>
+                <title>Object check</title>
+                <description>Existence check for object(s) extracted from MAEC Action</description>
+            </metadata>
+            <criteria operator="AND" negate="false">
+                <criterion negate="false" test_ref="oval:maec_to_oval:tst:1"/>
+            </criteria>
+        </definition>
+        <definition deprecated="false" version="1" id="oval:maec_to_oval:def:2" class="miscellaneous">
+            <metadata>
+                <title>Object check</title>
+                <description>Existence check for object(s) extracted from MAEC Action</description>
+            </metadata>
+            <criteria operator="AND" negate="false">
+                <criterion negate="false" test_ref="oval:maec_to_oval:tst:2"/>
+            </criteria>
+        </definition>
+        <definition deprecated="false" version="1" id="oval:maec_to_oval:def:3" class="miscellaneous">
+            <metadata>
+                <title>Object check</title>
+                <description>Existence check for object(s) extracted from MAEC Action</description>
+            </metadata>
+            <criteria operator="AND" negate="false">
+                <criterion negate="false" test_ref="oval:maec_to_oval:tst:3"/>
+            </criteria>
+        </definition>
+    </definitions>
+    <tests>
+        <win-def:file_test comment="OVAL Test created from MAEC Action maec-anubis_to_maec-act-1" state_operator="AND" check="at least one" version="1" id="oval:maec_to_oval:tst:1" check_existence="at_least_one_exists">
+            <win-def:object object_ref="oval:maec_to_oval:obj:1"/>
+        </win-def:file_test>
+        <win-def:file_test comment="OVAL Test created from MAEC Action maec-anubis_to_maec-act-3" state_operator="AND" check="at least one" version="1" id="oval:maec_to_oval:tst:2" check_existence="at_least_one_exists">
+            <win-def:object object_ref="oval:maec_to_oval:obj:2"/>
+        </win-def:file_test>
+        <win-def:registry_test comment="OVAL Test created from MAEC Action maec-anubis_to_maec-act-7" state_operator="AND" check="at least one" version="1" id="oval:maec_to_oval:tst:3" check_existence="at_least_one_exists">
+            <win-def:object object_ref="oval:maec_to_oval:obj:3"/>
+            <win-def:state state_ref="oval:maec_to_oval:ste:3"/>
+        </win-def:registry_test>
+    </tests>
+    <objects>
+        <win-def:file_object version="1" id="oval:maec_to_oval:obj:1">
+            <win-def:path datatype="string" mask="false">C:\WINDOWS\system32\</win-def:path>
+            <win-def:filename datatype="string" mask="false">ntos.exe</win-def:filename>
+        </win-def:file_object>
+        <win-def:file_object version="1" id="oval:maec_to_oval:obj:2">
+            <win-def:path datatype="string" mask="false">C:\WINDOWS\system32\</win-def:path>
+            <win-def:filename datatype="string" mask="false">ntos.exe</win-def:filename>
+        </win-def:file_object>
+        <win-def:registry_object version="1" id="oval:maec_to_oval:obj:3">
+            <win-def:hive datatype="string" mask="false">HKEY_LOCAL_MACHINE</win-def:hive>
+            <win-def:key datatype="string" mask="false">software\microsoft\windows nt\currentversion\winlogon</win-def:key>
+            <win-def:name datatype="string" mask="false">userinit</win-def:name>
+        </win-def:registry_object>
+    </objects>
+    <states>
+        <win-def:registry_state operator="AND" version="1" id="oval:maec_to_oval:ste:3">
+            <win-def:name datatype="string" mask="false">userinit</win-def:name>
+            <win-def:value datatype="string" mask="false">C:\WINDOWS\system32\userinit.exe,C:\WINDOWS\system32\ntos.exe,</win-def:value>
+        </win-def:registry_state>
+    </states>
+</oval_definitions>

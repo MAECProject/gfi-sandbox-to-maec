@@ -1,0 +1,97 @@
+****************************************************
+
+      MAEC XML -> OVAL XML Converter Script
+
+ Copyright (c) 2012 - The MITRE Corporation
+
+****************************************************
+
+BY USING THE MAEC TO OVAL SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
+CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE MAEC TO OVAL 
+SCRIPT.
+
+For more information, please refer to the terms.txt file.
+
+#################################################################
+#MAEC XML --> OVAL XML Generation Script                        #
+#Generates OVAL 5.7 definitions/tests/objects from MAEC XML     #
+#                                                               #
+#Compatible with content produced using MAEC v2.1/CybOX v1.0    #
+#v0.92 BETA - extracts files and registry keys                  #
+#08/30/2012                                                     #
+#                                                               #
+#################################################################
+# MAEC - http://maec.mitre.org #                                #
+# CybOX - http://cybox.mitre.org  #                             #
+# OVAL - http://oval.mitre.org  #                               #
+#################################################################
+--------------------------------------------------------------------------------
+--Installation Notes------------------------------------------------------------
+
+Simply extract all files from the archive into your directory of choice. No external modules should be required. This script was created using Python 2.7.x, and so may not be compatible with 3.0.x.
+--------------------------------------------------------------------------------
+--Methodology-------------------------------------------------------------------
+This script is still a POC, and supports the extraction of registry keys and files
+from the Actions in a MAEC Bundle that are defined as creating or modifying said
+object. E.g. the following action would be converted:
+
+<maec:Action action_status="Success" context="Host" type="Create" id="maec-anubis_to_maec-act-1">
+    <cybox:Action_Name>
+        <cybox:Defined_Name>Create File</cybox:Defined_Name>
+    </cybox:Action_Name>
+    <cybox:Discovery_Method>
+        <Common:Tools>
+            <Common:Tool idref="maec-anubis_to_maec-tol-1"/>
+        </Common:Tools>
+    </cybox:Discovery_Method>
+    <cybox:Associated_Objects>
+        <cybox:Associated_Object type="File" id="maec-anubis_to_maec-obj-2" association_type="Affected">
+            <cybox:Defined_Object xsi:type="FileObj:FileObjectType">
+                <FileObj:File_Name datatype="String">ntos.exe</FileObj:File_Name>
+                <FileObj:File_Path datatype="String">C:\WINDOWS\system32\</FileObj:File_Path>
+            </cybox:Defined_Object>
+        </cybox:Associated_Object>
+        <cybox:Associated_Object idref="maec-anubis_to_maec-obj-1" association_type="Initiating">
+        </cybox:Associated_Object>
+    </cybox:Associated_Objects>
+</maec:Action>
+
+This is all done in the Windows context and thus uses the corresponding OVAL 
+constructs.
+--------------------------------------------------------------------------------
+--Included Files----------------------------------------------------------------
+README: this file.
+maec_to_oval.py: the MAEC XML to OVAL XML Python driver.
+cybox_to_oval_processor.py: the main MAEC XML to OVAL XML converter class.
+maec_oval_mappings.py: the CybOX to OVAL mappings class.
+maec_2_1.py: the MAEC v2.1 Python bindings.
+mmdef_1_2.py: the MMDEF v1.2 Python bindings.
+/cybox: the CybOX Python bindings used by the script.
+oval57.py: the OVAL 5.7 Python bindings used by the script.
+terms.txt: the terms of usage for this script.
+--------------------------------------------------------------------------------
+--Usage Notes-------------------------------------------------------------------
+
+There are two main command line parameters for this script:
+
+-i: the path to the input MAEC XML file
+
+-o: the path to the output OVAL XML file
+
+To use the script, run the following command:
+
+python maec_to_oval.py -i <maec_xml_file> -o <oval_xml_file>
+
+The following optional parameters are supported:
+
+-s: Print skipped MAEC Actions
+
+-v: Verbose error printing (traceback)
+
+For example:
+
+python maec_to_oval.py -v -i <maec_xml_file> -o <oval_xml_file>
+
+For the latest version of the script, please check the MAEC GitHub Repository
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
