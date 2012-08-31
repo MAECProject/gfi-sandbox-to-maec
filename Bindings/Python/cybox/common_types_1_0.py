@@ -4802,7 +4802,7 @@ class HexBinaryObjectAttributeType(BaseObjectAttributeType):
             self.extensiontype_ = value
         super(HexBinaryObjectAttributeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
+        super(HexBinaryObjectAttributeType, self).buildChildren(child_, node, nodeName_, fromsubclass_=False)
 # end class HexBinaryObjectAttributeType
 
 
@@ -6298,7 +6298,7 @@ class HashValueType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Simple_Hash_Value':
-            obj_ = SimpleHashValueType.factory()
+            obj_ = HexBinaryObjectAttributeType.factory()
             obj_.build(child_)
             self.set_Simple_Hash_Value(obj_)
         elif nodeName_ == 'Fuzzy_Hash_Value':
@@ -6344,6 +6344,7 @@ class SimpleHashValueType(HexBinaryObjectAttributeType):
         pass
     def hasContent_(self):
         if (
+            self.valueOf_ or
             super(SimpleHashValueType, self).hasContent_()
             ):
             return True
@@ -6930,16 +6931,15 @@ class HashType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
-            obj_ = None
+            obj_ = StringObjectAttributeType.factory()
+            obj_.build(child_)
             self.set_Type(obj_)
-            self.validate_HashNameType(self.Type)    # validate type HashNameType
         elif nodeName_ == 'Other_Type':
-            Other_Type_ = child_.text
-            Other_Type_ = self.gds_validate_string(Other_Type_, node, 'Other_Type')
-            self.Other_Type = Other_Type_
-            self.validate_StringObjectAttributeType(self.Other_Type)    # validate type StringObjectAttributeType
+            obj_ = StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Other_Type(obj_)
         elif nodeName_ == 'Simple_Hash_Value':
-            obj_ = SimpleHashValueType.factory()
+            obj_ = HexBinaryObjectAttributeType.factory()
             obj_.build(child_)
             self.set_Simple_Hash_Value(obj_)
         elif nodeName_ == 'Fuzzy_Hash_Value':

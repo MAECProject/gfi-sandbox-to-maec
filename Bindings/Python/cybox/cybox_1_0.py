@@ -16,33 +16,71 @@ from common_types_1_0 import MeasureSourceType as Producer_Observer
 from common_types_1_0 import MeasureSourceType as Discovery_Method
 from common_types_1_0 import DefinedObjectType as Defined_Object
 from common_types_1_0 import DataSegmentType as Data
-from file_object_1_2 import FileObjectType
-from win_file_object_1_2 import WindowsFileObjectType
-from unix_file_object_1_2 import UnixFileObjectType
-from win_executable_file_object_1_2 import WindowsExecutableFileObjectType
-from win_driver_object_1_1 import WindowsDriverObjectType
-from win_kernel_hook_object_1_2 import WindowsKernelHookObjectType
-from port_object_1_2 import PortObjectType
-from address_object_1_1 import AddressObjectType
-from win_registry_key_object_1_2 import WindowsRegistryKeyObjectType
-from process_object_1_2 import ProcessObjectType
-from win_process_object_1_2 import WindowsProcessObjectType
-from win_event_log_object_1_1 import WindowsEventLogObjectType
+
 from account_object_1_1 import AccountObjectType
-from user_account_object_1_1 import UserAccountObjectType
-from win_user_account_object_1_2 import WindowsUserAccountObjectType
-from win_service_object_1_2 import WindowsServiceObjectType
-from volume_object_1_2 import VolumeObjectType
-from win_volume_object_1_2 import WindowsVolumeObjectType
+from address_object_1_1 import AddressObjectType
+from api_object_1_0 import APIObjectType
+from code_object_1_0 import CodeObjectType
+from device_object_1_0 import DeviceObjectType
 from disk_object_1_2 import DiskObjectType
-from dns_record_object_1_0 import DNSRecordObjectType
-from network_route_entry_object_1_0 import NetworkRouteEntryObjectType
-from win_system_object_1_1 import WindowsSystemObjectType
-from system_object_1_2 import SystemObjectType
-from win_handle_object_1_2 import WindowsHandleObjectType
-from memory_object_1_1 import MemoryObjectType
 from disk_partition_object_1_2 import DiskPartitionObjectType
+from dns_cache_object_1_2 import DNSCacheObjectType
+from dns_record_object_1_0 import DNSRecordObjectType
 from email_message_object_1_1 import EmailMessageObjectType
+from file_object_1_2 import FileObjectType
+from gui_dialogbox_object_1_1 import GUIDialogboxObjectType
+from gui_object_1_1 import GUIObjectType
+from gui_window_object_1_1 import GUIWindowObjectType
+from library_object_1_2 import LibraryObjectType
+from linux_package_object_1_2 import LinuxPackageObjectType
+from memory_object_1_1 import MemoryObjectType
+from mutex_object_1_2 import MutexObjectType
+from network_flow_object_1_0 import NetworkFlowObjectType
+from network_route_entry_object_1_0 import NetworkRouteEntryObjectType
+from network_route_object_1_1 import NetRouteObjectType
+from network_subnet_object_1_0 import NetworkSubnetObjectType
+from pipe_object_1_2 import PipeObjectType
+from port_object_1_2 import PortObjectType
+from process_object_1_2 import ProcessObjectType
+from socket_object_1_3 import SocketObjectType
+from system_object_1_2 import SystemObjectType
+from unix_file_object_1_2 import UnixFileObjectType
+from unix_network_route_entry_object_1_0 import UnixNetworkRouteEntryObjectType
+from unix_pipe_object_1_1 import UnixPipeObjectType
+from unix_process_object_1_2 import UnixProcessObjectType
+from unix_user_account_object_1_1 import UnixUserAccountObjectType
+from unix_volume_object_1_1 import UnixVolumeObjectType
+from uri_object_1_1 import URIObjectType
+from user_account_object_1_1 import UserAccountObjectType
+from volume_object_1_2 import VolumeObjectType
+from win_computer_account_object_1_2 import WinComputerAccountObjectType
+from win_critical_section_object_1_1 import WinCriticalSectionObjectType
+from win_driver_object_1_1 import WindowsDriverObjectType
+from win_event_object_1_2 import WindowsEventObjectType
+from win_event_log_object_1_1 import WindowsEventLogObjectType
+from win_executable_file_object_1_2 import WindowsExecutableFileObjectType
+from win_file_object_1_2 import WindowsFileObjectType
+from win_handle_object_1_2 import WindowsHandleObjectType
+from win_kernel_object_1_1 import WindowsKernelObjectType
+from win_kernel_hook_object_1_2 import WindowsKernelHookObjectType
+from win_mailslot_object_1_1 import WindowsMailslotObjectType
+from win_mutex_object_1_1 import WindowsMutexObjectType
+from win_network_route_entry_object_1_2 import WindowsNetworkRouteEntryObjectType
+from win_network_share_object_1_2 import WindowsNetworkShareObjectType
+from win_pipe_object_1_1 import WindowsPipeObjectType
+from win_prefetch_object_1_1 import WindowsPrefetchObjectType
+from win_process_object_1_2 import WindowsProcessObjectType
+from win_registry_key_object_1_2 import WindowsRegistryKeyObjectType
+from win_semaphore_object_1_1 import WindowsSemaphoreObjectType
+from win_service_object_1_2 import WindowsServiceObjectType
+from win_system_object_1_1 import WindowsSystemObjectType
+from win_system_restore_object_1_1 import WindowsSystemRestoreObjectType
+from win_task_object_1_2 import WindowsTaskObjectType
+from win_thread_object_1_2 import WindowsThreadObjectType
+from win_user_account_object_1_2 import WindowsUserAccountObjectType
+from win_volume_object_1_2 import WindowsVolumeObjectType
+from win_waitable_timer_object_1_2 import WindowsWaitableTimerObjectType
+from x509_certificate_object_1_1 import X509CertificateObjectType
 
 etree_ = None
 Verbose_import_ = False
@@ -2709,13 +2747,13 @@ class ObjectType(GeneratedsSuper):
                     type_name_ = type_names_[0]
                 else:
                     type_name_ = type_names_[1]
-                class_ = globals()[type_name_]
-                obj_ = class_.factory()
-                obj_.build(child_)
+                #class_ = globals()[type_name_] #Revisit
+                #obj_ = class_.factory()
+                #obj_.build(child_)
             else:
                 raise NotImplementedError(
                     'Class not implemented for <Domain_specific_Object_Attributes> element')
-            self.set_Domain_specific_Object_Attributes(obj_)
+            #self.set_Domain_specific_Object_Attributes(obj_)
         elif nodeName_ == 'Custom_Attributes':
             obj_ = CustomAttributesType.factory()
             obj_.build(child_)

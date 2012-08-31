@@ -677,16 +677,16 @@ class PEAttributesType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Base_Address':
-            Base_Address_ = child_.text
-            Base_Address_ = self.gds_validate_string(Base_Address_, node, 'Base_Address')
+            Base_Address_ = common.HexBinaryObjectAttributeType.factory()
+            Base_Address_.build(child_)
             self.Base_Address = Base_Address_
         elif nodeName_ == 'Detected_EntryPoint_Signatures':
             obj_ = EntryPointSignatureListType.factory()
             obj_.build(child_)
             self.set_Detected_EntryPoint_Signatures(obj_)
         elif nodeName_ == 'Digital_Signature':
-            Digital_Signature_ = child_.text
-            Digital_Signature_ = self.gds_validate_string(Digital_Signature_, node, 'Digital_Signature')
+            Digital_Signature_ = common.DigitalSignatureInfoType.factory()
+            Digital_Signature_.build(child_)
             self.Digital_Signature = Digital_Signature_
         elif nodeName_ == 'EP_Jump_Codes':
             obj_ = EPJumpCodeType.factory()
@@ -697,8 +697,8 @@ class PEAttributesType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Exports(obj_)
         elif nodeName_ == 'Extraneous_Bytes':
-            Extraneous_Bytes_ = child_.text
-            Extraneous_Bytes_ = self.gds_validate_string(Extraneous_Bytes_, node, 'Extraneous_Bytes')
+            Extraneous_Bytes_ = common.IntegerObjectAttributeType.factory()
+            Extraneous_Bytes_.build(child_)
             self.Extraneous_Bytes = Extraneous_Bytes_
         elif nodeName_ == 'Headers':
             obj_ = PEHeadersType.factory()
@@ -713,8 +713,8 @@ class PEAttributesType(GeneratedsSuper):
             obj_.build(child_)
             self.set_PE_Checksum(obj_)
         elif nodeName_ == 'PE_Timestamp':
-            PE_Timestamp_ = child_.text
-            PE_Timestamp_ = self.gds_validate_string(PE_Timestamp_, node, 'PE_Timestamp')
+            PE_Timestamp_ = common.DateTimeObjectAttributeType.factory()
+            PE_Timestamp_.build(child_)
             self.PE_Timestamp = PE_Timestamp_
         elif nodeName_ == 'Resources':
             obj_ = PEResourceListType.factory()
@@ -3966,132 +3966,132 @@ class PEOptionalHeaderType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Magic':
-            Magic_ = child_.text
-            Magic_ = self.gds_validate_string(Magic_, node, 'Magic')
+            Magic_ = common.HexBinaryObjectAttributeType.factory()
+            Magic_.build(child_)
             self.Magic = Magic_
         elif nodeName_ == 'Major_Linker_Version':
-            Major_Linker_Version_ = child_.text
-            Major_Linker_Version_ = self.gds_validate_string(Major_Linker_Version_, node, 'Major_Linker_Version')
+            Major_Linker_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Major_Linker_Version_.build(child_)
             self.Major_Linker_Version = Major_Linker_Version_
         elif nodeName_ == 'Minor_Linker_Version':
-            Minor_Linker_Version_ = child_.text
-            Minor_Linker_Version_ = self.gds_validate_string(Minor_Linker_Version_, node, 'Minor_Linker_Version')
+            Minor_Linker_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Minor_Linker_Version_.build(child_)
             self.Minor_Linker_Version = Minor_Linker_Version_
         elif nodeName_ == 'Size_Of_Code':
-            Size_Of_Code_ = child_.text
-            Size_Of_Code_ = self.gds_validate_string(Size_Of_Code_, node, 'Size_Of_Code')
+            Size_Of_Code_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Code_.build(child_)
             self.Size_Of_Code = Size_Of_Code_
         elif nodeName_ == 'Size_Of_Initialized_Data':
-            Size_Of_Initialized_Data_ = child_.text
-            Size_Of_Initialized_Data_ = self.gds_validate_string(Size_Of_Initialized_Data_, node, 'Size_Of_Initialized_Data')
+            Size_Of_Initialized_Data_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Initialized_Data_.build(child_)
             self.Size_Of_Initialized_Data = Size_Of_Initialized_Data_
         elif nodeName_ == 'Size_Of_Uninitialized_Data':
-            Size_Of_Uninitialized_Data_ = child_.text
-            Size_Of_Uninitialized_Data_ = self.gds_validate_string(Size_Of_Uninitialized_Data_, node, 'Size_Of_Uninitialized_Data')
+            Size_Of_Uninitialized_Data_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Uninitialized_Data_.build(child_)
             self.Size_Of_Uninitialized_Data = Size_Of_Uninitialized_Data_
         elif nodeName_ == 'Address_Of_Entry_Point':
-            Address_Of_Entry_Point_ = child_.text
-            Address_Of_Entry_Point_ = self.gds_validate_string(Address_Of_Entry_Point_, node, 'Address_Of_Entry_Point')
+            Address_Of_Entry_Point_ = common.HexBinaryObjectAttributeType.factory()
+            Address_Of_Entry_Point_.build(child_)
             self.Address_Of_Entry_Point = Address_Of_Entry_Point_
         elif nodeName_ == 'Base_Of_Code':
-            Base_Of_Code_ = child_.text
-            Base_Of_Code_ = self.gds_validate_string(Base_Of_Code_, node, 'Base_Of_Code')
+            Base_Of_Code_ = common.HexBinaryObjectAttributeType.factory()
+            Base_Of_Code_.build(child_)
             self.Base_Of_Code = Base_Of_Code_
         elif nodeName_ == 'Base_Of_Data':
-            Base_Of_Data_ = child_.text
-            Base_Of_Data_ = self.gds_validate_string(Base_Of_Data_, node, 'Base_Of_Data')
+            Base_Of_Data_ = common.HexBinaryObjectAttributeType.factory()
+            Base_Of_Data_.build(child_)
             self.Base_Of_Data = Base_Of_Data_
         elif nodeName_ == 'Image_Base':
-            Image_Base_ = child_.text
-            Image_Base_ = self.gds_validate_string(Image_Base_, node, 'Image_Base')
+            Image_Base_ = common.HexBinaryObjectAttributeType.factory()
+            Image_Base_.build(child_)
             self.Image_Base = Image_Base_
         elif nodeName_ == 'Section_Alignment':
-            Section_Alignment_ = child_.text
-            Section_Alignment_ = self.gds_validate_string(Section_Alignment_, node, 'Section_Alignment')
+            Section_Alignment_ = common.HexBinaryObjectAttributeType.factory()
+            Section_Alignment_.build(child_)
             self.Section_Alignment = Section_Alignment_
         elif nodeName_ == 'File_Alignment':
-            File_Alignment_ = child_.text
-            File_Alignment_ = self.gds_validate_string(File_Alignment_, node, 'File_Alignment')
+            File_Alignment_ = common.HexBinaryObjectAttributeType.factory()
+            File_Alignment_.build(child_)
             self.File_Alignment = File_Alignment_
         elif nodeName_ == 'Major_OS_Version':
-            Major_OS_Version_ = child_.text
-            Major_OS_Version_ = self.gds_validate_string(Major_OS_Version_, node, 'Major_OS_Version')
+            Major_OS_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Major_OS_Version_.build(child_)
             self.Major_OS_Version = Major_OS_Version_
         elif nodeName_ == 'Minor_OS_Version':
-            Minor_OS_Version_ = child_.text
-            Minor_OS_Version_ = self.gds_validate_string(Minor_OS_Version_, node, 'Minor_OS_Version')
+            Minor_OS_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Minor_OS_Version_.build(child_)
             self.Minor_OS_Version = Minor_OS_Version_
         elif nodeName_ == 'Major_Image_Version':
-            Major_Image_Version_ = child_.text
-            Major_Image_Version_ = self.gds_validate_string(Major_Image_Version_, node, 'Major_Image_Version')
+            Major_Image_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Major_Image_Version_.build(child_)
             self.Major_Image_Version = Major_Image_Version_
         elif nodeName_ == 'Minor_Image_Version':
-            Minor_Image_Version_ = child_.text
-            Minor_Image_Version_ = self.gds_validate_string(Minor_Image_Version_, node, 'Minor_Image_Version')
+            Minor_Image_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Minor_Image_Version_.build(child_)
             self.Minor_Image_Version = Minor_Image_Version_
         elif nodeName_ == 'Major_Subsystem_Version':
-            Major_Subsystem_Version_ = child_.text
-            Major_Subsystem_Version_ = self.gds_validate_string(Major_Subsystem_Version_, node, 'Major_Subsystem_Version')
+            Major_Subsystem_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Major_Subsystem_Version_.build(child_)
             self.Major_Subsystem_Version = Major_Subsystem_Version_
         elif nodeName_ == 'Minor_Subsystem_Version':
-            Minor_Subsystem_Version_ = child_.text
-            Minor_Subsystem_Version_ = self.gds_validate_string(Minor_Subsystem_Version_, node, 'Minor_Subsystem_Version')
+            Minor_Subsystem_Version_ = common.HexBinaryObjectAttributeType.factory()
+            Minor_Subsystem_Version_.build(child_)
             self.Minor_Subsystem_Version = Minor_Subsystem_Version_
         elif nodeName_ == 'Win32_Version_Value':
-            Win32_Version_Value_ = child_.text
-            Win32_Version_Value_ = self.gds_validate_string(Win32_Version_Value_, node, 'Win32_Version_Value')
+            Win32_Version_Value_ = common.HexBinaryObjectAttributeType.factory()
+            Win32_Version_Value_.build(child_)
             self.Win32_Version_Value = Win32_Version_Value_
         elif nodeName_ == 'Size_Of_Image':
-            Size_Of_Image_ = child_.text
-            Size_Of_Image_ = self.gds_validate_string(Size_Of_Image_, node, 'Size_Of_Image')
+            Size_Of_Image_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Image_.build(child_)
             self.Size_Of_Image = Size_Of_Image_
         elif nodeName_ == 'Size_Of_Headers':
-            Size_Of_Headers_ = child_.text
-            Size_Of_Headers_ = self.gds_validate_string(Size_Of_Headers_, node, 'Size_Of_Headers')
+            Size_Of_Headers_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Headers_.build(child_)
             self.Size_Of_Headers = Size_Of_Headers_
         elif nodeName_ == 'Checksum':
-            Checksum_ = child_.text
-            Checksum_ = self.gds_validate_string(Checksum_, node, 'Checksum')
+            Checksum_ = common.HexBinaryObjectAttributeType.factory()
+            Checksum_.build(child_)
             self.Checksum = Checksum_
         elif nodeName_ == 'Subsystem':
-            Subsystem_ = child_.text
-            Subsystem_ = self.gds_validate_string(Subsystem_, node, 'Subsystem')
+            Subsystem_ = common.HexBinaryObjectAttributeType.factory()
+            Subsystem_.build(child_)
             self.Subsystem = Subsystem_
         elif nodeName_ == 'DLL_Characteristics':
-            DLL_Characteristics_ = child_.text
-            DLL_Characteristics_ = self.gds_validate_string(DLL_Characteristics_, node, 'DLL_Characteristics')
+            DLL_Characteristics_ = common.HexBinaryObjectAttributeType.factory()
+            DLL_Characteristics_.build(child_)
             self.DLL_Characteristics = DLL_Characteristics_
         elif nodeName_ == 'Size_Of_Stack_Reserve':
-            Size_Of_Stack_Reserve_ = child_.text
-            Size_Of_Stack_Reserve_ = self.gds_validate_string(Size_Of_Stack_Reserve_, node, 'Size_Of_Stack_Reserve')
+            Size_Of_Stack_Reserve_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Stack_Reserve_.build(child_)
             self.Size_Of_Stack_Reserve = Size_Of_Stack_Reserve_
         elif nodeName_ == 'Size_Of_Stack_Commit':
-            Size_Of_Stack_Commit_ = child_.text
-            Size_Of_Stack_Commit_ = self.gds_validate_string(Size_Of_Stack_Commit_, node, 'Size_Of_Stack_Commit')
+            Size_Of_Stack_Commit_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Stack_Commit_.build(child_)
             self.Size_Of_Stack_Commit = Size_Of_Stack_Commit_
         elif nodeName_ == 'Size_Of_Heap_Reserve':
-            Size_Of_Heap_Reserve_ = child_.text
-            Size_Of_Heap_Reserve_ = self.gds_validate_string(Size_Of_Heap_Reserve_, node, 'Size_Of_Heap_Reserve')
+            Size_Of_Heap_Reserve_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Heap_Reserve_.build(child_)
             self.Size_Of_Heap_Reserve = Size_Of_Heap_Reserve_
         elif nodeName_ == 'Size_Of_Heap_Commit':
-            Size_Of_Heap_Commit_ = child_.text
-            Size_Of_Heap_Commit_ = self.gds_validate_string(Size_Of_Heap_Commit_, node, 'Size_Of_Heap_Commit')
+            Size_Of_Heap_Commit_ = common.HexBinaryObjectAttributeType.factory()
+            Size_Of_Heap_Commit_.build(child_)
             self.Size_Of_Heap_Commit = Size_Of_Heap_Commit_
         elif nodeName_ == 'Loader_Flags':
-            Loader_Flags_ = child_.text
-            Loader_Flags_ = self.gds_validate_string(Loader_Flags_, node, 'Loader_Flags')
+            Loader_Flags_ = common.HexBinaryObjectAttributeType.factory()
+            Loader_Flags_.build(child_)
             self.Loader_Flags = Loader_Flags_
         elif nodeName_ == 'Number_Of_Rva_And_Sizes':
-            Number_Of_Rva_And_Sizes_ = child_.text
-            Number_Of_Rva_And_Sizes_ = self.gds_validate_string(Number_Of_Rva_And_Sizes_, node, 'Number_Of_Rva_And_Sizes')
+            Number_Of_Rva_And_Sizes_ = common.HexBinaryObjectAttributeType.factory()
+            Number_Of_Rva_And_Sizes_.build(child_)
             self.Number_Of_Rva_And_Sizes = Number_Of_Rva_And_Sizes_
         elif nodeName_ == 'Data_Directory':
             obj_ = DataDirectoryType.factory()
             obj_.build(child_)
             self.set_Data_Directory(obj_)
         elif nodeName_ == 'Hashes':
-            Hashes_ = child_.text
-            Hashes_ = self.gds_validate_string(Hashes_, node, 'Hashes')
+            Hashes_ = common.HashListType.factory()
+            Hashes_.build(child_)
             self.Hashes = Hashes_
 # end class PEOptionalHeaderType
 

@@ -494,17 +494,17 @@ class EmailMessageObjectType(common.DefinedObjectType):
             obj_.build(child_)
             self.set_Optional_Header(obj_)
         elif nodeName_ == 'Email_Server':
-            Email_Server_ = child_.text
-            Email_Server_ = self.gds_validate_string(Email_Server_, node, 'Email_Server')
-            self.Email_Server = Email_Server_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Email_Server(obj_)
         elif nodeName_ == 'Raw_Body':
-            Raw_Body_ = child_.text
-            Raw_Body_ = self.gds_validate_string(Raw_Body_, node, 'Raw_Body')
-            self.Raw_Body = Raw_Body_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Raw_Body(obj_)
         elif nodeName_ == 'Raw_Header':
-            Raw_Header_ = child_.text
-            Raw_Header_ = self.gds_validate_string(Raw_Header_, node, 'Raw_Header')
-            self.Raw_Header = Raw_Header_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Raw_Body(obj_)
         super(EmailMessageObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class EmailMessageObjectType
 
@@ -578,9 +578,9 @@ class AttachmentsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'File':
-            File_ = child_.text
-            File_ = self.gds_validate_string(File_, node, 'File')
-            self.File.append(File_)
+            obj_ = file_object.FileObjectType.factory()
+            obj_.build(child_)
+            self.File.append(obj_)
 # end class AttachmentsType
 
 
@@ -753,37 +753,37 @@ class EmailHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_BCC(obj_)
         elif nodeName_ == 'From':
-            From_ = child_.text
-            From_ = self.gds_validate_string(From_, node, 'From')
-            self.From = From_
+            obj_ = address_object.AddressObjectType.factory()
+            obj_.build(child_)
+            self.set_From(obj_)
         elif nodeName_ == 'Subject':
-            Subject_ = child_.text
-            Subject_ = self.gds_validate_string(Subject_, node, 'Subject')
-            self.Subject = Subject_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Subject(obj_)
         elif nodeName_ == 'In_Reply_To':
-            In_Reply_To_ = child_.text
-            In_Reply_To_ = self.gds_validate_string(In_Reply_To_, node, 'In_Reply_To')
-            self.In_Reply_To = In_Reply_To_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_In_Reply_To(obj_)
         elif nodeName_ == 'Date':
-            Date_ = child_.text
-            Date_ = self.gds_validate_string(Date_, node, 'Date')
-            self.Date = Date_
+            obj_ = common.DateTimeObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Date(obj_)
         elif nodeName_ == 'Message_ID':
-            Message_ID_ = child_.text
-            Message_ID_ = self.gds_validate_string(Message_ID_, node, 'Message_ID')
-            self.Message_ID = Message_ID_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Message_ID(obj_)
         elif nodeName_ == 'Sender':
-            Sender_ = child_.text
-            Sender_ = self.gds_validate_string(Sender_, node, 'Sender')
-            self.Sender = Sender_
+            obj_ = address_object.AddressObjectType.factory()
+            obj_.build(child_)
+            self.set_Sender(obj_)
         elif nodeName_ == 'Reply_To':
-            Reply_To_ = child_.text
-            Reply_To_ = self.gds_validate_string(Reply_To_, node, 'Reply_To')
-            self.Reply_To = Reply_To_
+            obj_ = address_object.AddressObjectType.factory()
+            obj_.build(child_)
+            self.set_Reply_To(obj_)
         elif nodeName_ == 'Errors_To':
-            Errors_To_ = child_.text
-            Errors_To_ = self.gds_validate_string(Errors_To_, node, 'Errors_To')
-            self.Errors_To = Errors_To_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Errors_To(obj_)
 # end class EmailHeaderType
 
 
@@ -837,17 +837,17 @@ class EmailOptionalHeaderType(GeneratedsSuper):
         if self.Boundary is not None:
             self.Boundary.export(outfile, level, 'EmailMessageObj:', name_='Boundary')
         if self.Content_Type is not None:
-            self.Content_Type.export(outfile, level, 'EmailMessageObj:', name_='Content_Type')
+            self.Content_Type.export(outfile, level, 'EmailMessageObj:', name_='Content-Type')
         if self.MIME_Version is not None:
-            self.MIME_Version.export(outfile, level, 'EmailMessageObj:', name_='MIME_Version')
+            self.MIME_Version.export(outfile, level, 'EmailMessageObj:', name_='MIME-Version')
         if self.Precedence is not None:
             self.Precedence.export(outfile, level, 'EmailMessageObj:', name_='Precedence')
         if self.X_Mailer is not None:
-            self.X_Mailer.export(outfile, level, 'EmailMessageObj:', name_='X_Mailer')
+            self.X_Mailer.export(outfile, level, 'EmailMessageObj:', name_='X-Mailer')
         if self.X_Originating_IP is not None:
-            self.X_Originating_IP.export(outfile, level, 'EmailMessageObj:', name_='X_Originating_IP')
+            self.X_Originating_IP.export(outfile, level, 'EmailMessageObj:', name_='X-Originating-IP')
         if self.X_Priority is not None:
-            self.X_Priority.export(outfile, level, 'EmailMessageObj:', name_='X_Priority')
+            self.X_Priority.export(outfile, level, 'EmailMessageObj:', name_='X-Priority')
     def hasContent_(self):
         if (
             self.Boundary is not None or
@@ -874,22 +874,22 @@ class EmailOptionalHeaderType(GeneratedsSuper):
             outfile.write('Boundary=%s,\n' % quote_python(self.Boundary).encode(ExternalEncoding))
         if self.Content_Type is not None:
             showIndent(outfile, level)
-            outfile.write('Content_Type=%s,\n' % quote_python(self.Content_Type).encode(ExternalEncoding))
+            outfile.write('Content-Type=%s,\n' % quote_python(self.Content_Type).encode(ExternalEncoding))
         if self.MIME_Version is not None:
             showIndent(outfile, level)
-            outfile.write('MIME_Version=%s,\n' % quote_python(self.MIME_Version).encode(ExternalEncoding))
+            outfile.write('MIME-Version=%s,\n' % quote_python(self.MIME_Version).encode(ExternalEncoding))
         if self.Precedence is not None:
             showIndent(outfile, level)
             outfile.write('Precedence=%s,\n' % quote_python(self.Precedence).encode(ExternalEncoding))
         if self.X_Mailer is not None:
             showIndent(outfile, level)
-            outfile.write('X_Mailer=%s,\n' % quote_python(self.X_Mailer).encode(ExternalEncoding))
+            outfile.write('X-Mailer=%s,\n' % quote_python(self.X_Mailer).encode(ExternalEncoding))
         if self.X_Originating_IP is not None:
             showIndent(outfile, level)
-            outfile.write('X_Originating_IP=%s,\n' % quote_python(self.X_Originating_IP).encode(ExternalEncoding))
+            outfile.write('X-Originating-IP=%s,\n' % quote_python(self.X_Originating_IP).encode(ExternalEncoding))
         if self.X_Priority is not None:
             showIndent(outfile, level)
-            outfile.write('X_Priority=%s,\n' % quote_python(self.X_Priority).encode(ExternalEncoding))
+            outfile.write('X-Priority=%s,\n' % quote_python(self.X_Priority).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -899,33 +899,33 @@ class EmailOptionalHeaderType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Boundary':
-            Boundary_ = child_.text
-            Boundary_ = self.gds_validate_string(Boundary_, node, 'Boundary')
-            self.Boundary = Boundary_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Boundary(obj_)
         elif nodeName_ == 'Content-Type':
-            Content_Type_ = child_.text
-            Content_Type_ = self.gds_validate_string(Content_Type_, node, 'Content_Type')
-            self.Content_Type = Content_Type_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Content_Type(obj_)
         elif nodeName_ == 'MIME-Version':
-            MIME_Version_ = child_.text
-            MIME_Version_ = self.gds_validate_string(MIME_Version_, node, 'MIME_Version')
-            self.MIME_Version = MIME_Version_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_MIME_Version(obj_)
         elif nodeName_ == 'Precedence':
-            Precedence_ = child_.text
-            Precedence_ = self.gds_validate_string(Precedence_, node, 'Precedence')
-            self.Precedence = Precedence_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_Precedence(obj_)
         elif nodeName_ == 'X-Mailer':
-            X_Mailer_ = child_.text
-            X_Mailer_ = self.gds_validate_string(X_Mailer_, node, 'X_Mailer')
-            self.X_Mailer = X_Mailer_
+            obj_ = common.StringObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_X_Mailer(obj_)
         elif nodeName_ == 'X-Originating-IP':
-            X_Originating_IP_ = child_.text
-            X_Originating_IP_ = self.gds_validate_string(X_Originating_IP_, node, 'X_Originating_IP')
-            self.X_Originating_IP = X_Originating_IP_
+            obj_ = address_object.AddressObjectType.factory()
+            obj_.build(child_)
+            self.set_X_Originating_IP(obj_)
         elif nodeName_ == 'X-Priority':
-            X_Priority_ = child_.text
-            X_Priority_ = self.gds_validate_string(X_Priority_, node, 'X_Priority')
-            self.X_Priority = X_Priority_
+            obj_ = common.PositiveIntegerObjectAttributeType.factory()
+            obj_.build(child_)
+            self.set_X_Priority(obj_)
 # end class EmailOptionalHeaderType
 
 
@@ -964,7 +964,8 @@ class EmailRecipientsType(GeneratedsSuper):
         pass
     def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailRecipientsType', fromsubclass_=False):
         for Recipient_ in self.Recipient:
-            self.Recipient_.export(outfile, level, 'EmailMessageObj:', name_='Recipient_')
+            #self.Recipient_.export(outfile, level, 'EmailMessageObj:', name_='Recipient')
+            Recipient_.export(outfile, level, 'EmailMessageObj:', name_='Recipient')
     def hasContent_(self):
         if (
             self.Recipient
@@ -998,9 +999,9 @@ class EmailRecipientsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Recipient':
-            Recipient_ = child_.text
-            Recipient_ = self.gds_validate_string(Recipient_, node, 'Recipient')
-            self.Recipient.append(Recipient_)
+            obj_ = address_object.AddressObjectType.factory()
+            obj_.build(child_)
+            self.Recipient.append(obj_)
 # end class EmailRecipientsType
 
 
