@@ -28,15 +28,6 @@ class maec_to_oval_processor(object):
         self.verbose_mode = verbose_mode
         self.stat_mode = stat_mode
 
-    #Find an observable that was referenced
-    #This assumes that the reference was from inside an observable composition to an external observable
-    #i.e. not one in the same observable
-    def process_observable_ref(self, idref, observables):
-        for observable in observables:
-            if type(observable) is cybox.ObservableType and observable.id == idref:
-                return observable
-        return None
-
     #Process an associated object and create the corresponding OVAL
     def process_associated_object(self, associated_object, action_id):
         #Only process 'affected' objects (those that were manipulated/instantiated as a result of the action)
