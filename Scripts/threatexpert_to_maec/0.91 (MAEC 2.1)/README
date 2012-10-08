@@ -1,0 +1,70 @@
+****************************************************
+
+      ThreatExpert XML -> MAEC XML Converter Script
+
+ Copyright (c) 2012 - The MITRE Corporation
+
+****************************************************
+
+BY USING THE THREATEXPERT TO MAEC SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
+CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SCRIPT.
+
+For more information, please refer to the terms.txt file.
+
+#################################################################
+#Generates MAEC Output from a ThreatExpert XML File             #
+#                                                               #
+#v0.91 - BETA                                                   #
+#10/08/2012                                                     #
+#Ivan Kirillov & Andrew Sillers, MITRE                          #
+#                                                               #
+#################################################################
+# MAEC - http://maec.mitre.org                                  #
+# ThreatExpert - http://www.threatexpert.com                    #
+#################################################################
+--------------------------------------------------------------------------------
+--Installation Notes------------------------------------------------------------
+
+Simply extract all files from the archive into your directory of choice. No external modules should be required. This script was created using Python 2.6.x, and so may not be compatible with 3.0.x.
+--------------------------------------------------------------------------------
+--Included Files----------------------------------------------------------------
+
+README: this file.
+threatexpert_to_maec.py: the ThreatExpert XML to MAEC XML Python converter script.
+maec_2_1.py: the MAEC Python bindings which the script imports.
+\cybox: the CybOX Python bindings which the script imports.
+threatexpert.py: the ThreatExpert Python bindings which the script imports.
+threatexpert_parser.py: the ThreatExpert parser class which does most of the work.
+terms.txt: the terms of use for this script.
+--------------------------------------------------------------------------------
+--Usage Notes-------------------------------------------------------------------
+
+There are two modes of operation for this script:
+
+1) Processing a single ThreatExpert XML file. The following parameters must be used:
+
+-i: the path to the input ThreatExpert XML file
+
+-o: the path to the output MAEC XML file
+
+2) Batch processing an entire folder of ThreatExpert files. The following parameter must be used:
+
+-d: the path to the ThreatExpert XML reports directory
+
+There are also two additional, optional parameters that may be specified before the main parameters:
+
+-s: print statistics regarding the number of actions/objects extracted
+
+-v: print verbose error output (tracebacks)
+
+To use the script, run the following command:
+
+python threatexpert_to_maec.py -i <threatexpert_file> -o <maec_file> OR
+python threatexpert_to_maec.py -d <directory of threatexpert files>
+
+To grab an XML copy of a ThreatExpert page, simply append '&xml=1' to the URL of any ThreatExpert analysis.
+E.g. http://www.threatexpert.com/report.aspx?md5=650d1234eef93f546b88442ad3eaba99&xml=1
+
+For the latest version of the script, please check the MAEC Github site.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
