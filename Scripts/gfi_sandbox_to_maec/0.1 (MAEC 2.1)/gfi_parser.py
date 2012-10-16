@@ -123,7 +123,6 @@ class parser:
         self.__handle_com_section(process.get_com_section(), process_object_id)
         self.__handle_error_section(process.get_error_section(), process_object_id)
         self.__handle_connection_section(process.get_connection_section(), process_object_id)
-        return
     
     #Create and add the process object to the MAEC object list
     def __create_process_object(self, process):
@@ -438,7 +437,7 @@ class parser:
     
     #Special method for handling AV classifications reported for the process
     def __handle_scanner_section(self, scanner_section):
-        if scanner_section != None:
+        if scanner_section != None and scanner_section.hasContent_():
             av_classifications = []
             for scanner in scanner_section.get_scanner():
                 av_classification = {}
