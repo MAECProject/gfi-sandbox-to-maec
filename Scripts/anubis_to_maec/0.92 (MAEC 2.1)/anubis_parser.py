@@ -131,7 +131,7 @@ class parser:
                 analysis_subject_object = self.__create_analysis_subject_object(analysis_subject, general_info, analysis_subjects, id_map)
                 #create the maec analysis object
                 analysis = maec_helper.maec_analysis(self.generator, analysis_subject_object, 'TTAnalyze', 'ISECLab', self.version)
-                analysis.create_analysis()
+                #analysis.create_analysis() # no longer needed: create_analysis is now called on analysis init 
                 analysis_object = analysis.get_analysis_object()
                 self.tool_id = analysis.get_tool_id()
                 self.maec_analysis = analysis.get_analysis_object()
@@ -1012,7 +1012,7 @@ class parser:
         for created_process in process_activity.get_process_created():
             process_attributes = {}
             process_attributes['filename'] = created_process.get_exe_name()
-            process_attributes['cmd_line'] = created_process.get_cmd_line()
+            process_attributes['command_line'] = created_process.get_cmd_line()
             process_attributes['association'] = 'Affected'
             #Generate the MAEC objects and actions
             #First, create the object
@@ -1137,7 +1137,7 @@ class parser:
             driver_attributes['association'] = 'Affected'
             #Generate the MAEC objects and actions
             #First, create the object
-            driver_object = self.maec_object.create_driver_object(driver_attributes)
+            driver_object = self.maec_object.create_win_driver_object(driver_attributes)
 
             #Next, create the action (that operated on the object)
             action_attributes = {}
@@ -1157,7 +1157,7 @@ class parser:
             driver_attributes['association'] = 'Affected'
             #Generate the MAEC objects and actions
             #First, create the object
-            driver_object = self.maec_object.create_driver_object(driver_attributes)
+            driver_object = self.maec_object.create_win_driver_object(driver_attributes)
 
             #Next, create the action (that operated on the object)
             action_attributes = {}
