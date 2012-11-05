@@ -2516,7 +2516,7 @@ class IndicatorType(common.IndicatorType):
     subclass = None
     superclass = common.IndicatorType
     def __init__(self, type_=None, creation_datetime=None, importance=None, numeric_importance=None, lastupdate_datetime=None, version=None, id=None, Author=None, Description=None, Source=None, Comments=None, Target=None, Observables=None):
-        super(IndicatorType, self).__init__(type_)
+        super(IndicatorType, self).__init__()
         self.creation_datetime = _cast(None, creation_datetime)
         self.importance = _cast(None, importance)
         self.numeric_importance = _cast(int, numeric_importance)
