@@ -1,9 +1,9 @@
-#MAEC Helper Classes
+#MAEC Helper Classes - a very rough cut at a MAEC API
 
 #Copyright (c) 2012, The MITRE Corporation
 #All rights reserved.
 
-#Anubis Converter Script v0.92
+#Compatible with MAEC v2.1
 
 import maec_2_1 as maec
 import cybox.file_object_1_2 as file_object
