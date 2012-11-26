@@ -4783,7 +4783,7 @@ class AVClassificationsType(cybox_core_1_0.DomainSpecificObjectAttributesType):
         else:
             eol_ = ''
         for AV_Classification_ in self.AV_Classification:
-            AV_Classification_.export(outfile, level, 'maecBundle:', name_='AV_Classification', pretty_print=pretty_print)
+            AV_Classification_.export(outfile, level, 'maecBundle:', name_='AV_Classification')
     def hasContent_(self):
         if (
             self.AV_Classification or
