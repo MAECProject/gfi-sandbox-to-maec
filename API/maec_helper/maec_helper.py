@@ -3,9 +3,11 @@
 #Copyright (c) 2012, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v2.1
+#Compatible with MAEC v3.0
+#Last updated 11/26/2012
 
-import maec_2_1 as maec
+import maec_bundle_3_0 as maec_bundle
+import maec_package_1_0 as maec_package
 import cybox.file_object_1_2 as file_object
 import cybox.socket_object_1_3 as socket_object
 import cybox.process_object_1_2 as process_object
