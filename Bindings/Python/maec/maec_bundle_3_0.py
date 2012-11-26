@@ -2258,7 +2258,7 @@ class BehavioralActionsType(GeneratedsSuper):
             obj_.build(child_)
             self.Action_Collection.append(obj_)
         elif nodeName_ == 'Action':
-            obj_ = cybox_core_1_0.ActionType.factory()
+            obj_ = BehavioralActionType.factory()
             obj_.build(child_)
             self.Action.append(obj_)
         elif nodeName_ == 'Action_Reference':
@@ -2420,8 +2420,8 @@ class ActionListType(GeneratedsSuper):
         level += 1
         for Action_ in self.Action:
             showIndent(outfile, level)
-            outfile.write('model_.cybox_core_1_0.ActionType(\n')
-            Action_.exportLiteral(outfile, level, name_='cybox_core_1_0.ActionType')
+            outfile.write('model_.MalwareActionType.ActionType(\n')
+            Action_.exportLiteral(outfile, level, name_='MalwareActionType')
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -2436,7 +2436,7 @@ class ActionListType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Action':
-            obj_ = cybox_core_1_0.ActionType.factory()
+            obj_ = MalwareActionType.factory()
             obj_.build(child_)
             self.add_Action(obj_)
 # end class ActionListType
@@ -4321,22 +4321,22 @@ class ObjectCollectionListType(GeneratedsSuper):
             self.Object_Collection.append(obj_)
 # end class ObjectCollectionListType
 
-class ActionType(cybox_core_1_0.ActionType):
-    """The ActionType is one of the foundational MAEC types, and serves as a method for the characterization of actions found or observed in malware. Actions can be thought of as system state changes and similar operations that represent the fundamental low-level operation of malware. Some examples include the creation of a file, deletion of a registry key, and the sending of some  data on a socket. It imports and extends the CybOX ActionType. For MAEC, the id attribute is required and must follow the proper syntax: A dash-delimited format is used with the id or idref starting with the word maec followed by a unique string, followed by the three letter code 'act', and ending with an integer."""
+class MalwareActionType(cybox_core_1_0.ActionType):
+    """The MalwareActionType is one of the foundational MAEC types, and serves as a method for the characterization of actions found or observed in malware. Actions can be thought of as system state changes and similar operations that represent the fundamental low-level operation of malware. Some examples include the creation of a file, deletion of a registry key, and the sending of some  data on a socket. It imports and extends the CybOX ActionType. For MAEC, the id attribute is required and must follow the proper syntax: A dash-delimited format is used with the id or idref starting with the word maec followed by a unique string, followed by the three letter code 'act', and ending with an integer."""
     subclass = None
     superclass = cybox_core_1_0.ActionType
-    def __init__(self, undefined_name=None, name=None, timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, type_=None, id=None, network_protocol=None, Description=None, Action_Aliases=None, Action_Arguments=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None, extensiontype_=None, Implementation=None):
-        super(ActionType, self).__init__(undefined_name, name, timestamp, action_status, ordinal_position, context, idref, type_, id, network_protocol, Description, Action_Aliases, Action_Arguments, Discovery_Method, Associated_Objects, Relationships, Frequency, extensiontype_)
+    def __init__(self, undefined_name=None, name=None, timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, type_=None, id=None, network_protocol=None, Description=None, Action_Aliases=None, Action_Arguments=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None, Implementation=None):
+        super(MalwareActionType, self).__init__(undefined_name, name, timestamp, action_status, ordinal_position, context, idref, type_, id, network_protocol, Description, Action_Aliases, Action_Arguments, Discovery_Method, Associated_Objects, Relationships, Frequency)
         self.Implementation = Implementation
     def factory(*args_, **kwargs_):
-        if ActionType.subclass:
-            return ActionType.subclass(*args_, **kwargs_)
+        if MalwareActionType.subclass:
+            return MalwareActionType.subclass(*args_, **kwargs_)
         else:
-            return ActionType(*args_, **kwargs_)
+            return MalwareActionType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Implementation(self): return self.Implementation
     def set_Implementation(self, Implementation): self.Implementation = Implementation
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ActionType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='maecBundle:', name_='MalwareActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4344,7 +4344,7 @@ class ActionType(cybox_core_1_0.ActionType):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareActionType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -4352,10 +4352,10 @@ class ActionType(cybox_core_1_0.ActionType):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ActionType'):
-        super(ActionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ActionType')
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ActionType', fromsubclass_=False, pretty_print=True):
-        super(ActionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='MalwareActionType'):
+        super(MalwareActionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareActionType')
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MalwareActionType', fromsubclass_=False, pretty_print=True):
+        super(MalwareActionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
@@ -4365,20 +4365,20 @@ class ActionType(cybox_core_1_0.ActionType):
     def hasContent_(self):
         if (
             self.Implementation is not None or
-            super(ActionType, self).hasContent_()
+            super(MalwareActionType, self).hasContent_()
             ):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='ActionType'):
+    def exportLiteral(self, outfile, level, name_='MalwareActionType'):
         level += 1
         self.exportLiteralAttributes(outfile, level, [], name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(ActionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
+        super(MalwareActionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
     def exportLiteralChildren(self, outfile, level, name_):
-        super(ActionType, self).exportLiteralChildren(outfile, level, name_)
+        super(MalwareActionType, self).exportLiteralChildren(outfile, level, name_)
         if self.Implementation is not None:
             showIndent(outfile, level)
             outfile.write('Implementation=model_.maec_bundle_3_0.ActionImplementationType(\n')
@@ -4391,14 +4391,14 @@ class ActionType(cybox_core_1_0.ActionType):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        super(ActionType, self).buildAttributes(node, attrs, already_processed)
+        super(MalwareActionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Implementation':
             obj_ = ActionImplementationType.factory()
             obj_.build(child_)
             self.set_Implementation(obj_)
-        super(ActionType, self).buildChildren(child_, node, nodeName_, True)
-# end class ActionType
+        super(MalwareActionType, self).buildChildren(child_, node, nodeName_, True)
+# end class MalwareActionType
 
 class ProcessTreeNodeType(process_object_1_3.ProcessObjectType):
     """The ProcessTreeNodeType captures a single process, or node, in the
@@ -4653,7 +4653,7 @@ class BehavioralActionReferenceType(cybox_core_1_0.ActionReferenceType):
         pass
 # end class BehavioralActionReferenceType
 
-class BehavioralActionType(cybox_core_1_0.ActionType):
+class BehavioralActionType(MalwareActionType):
     """The BehavioralActionType defines an Action that can be used as part
     of a Behavior.The behavioral_ordering attribute defines the
     ordering of the Action with respect to the other Actions that
@@ -4661,9 +4661,9 @@ class BehavioralActionType(cybox_core_1_0.ActionType):
     "1" would come before an Action with a behavioral_ordering of
     "2", etc."""
     subclass = None
-    superclass = cybox_core_1_0.ActionType
-    def __init__(self, undefined_name=None, name=None, timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, type_=None, id=None, network_protocol=None, Description=None, Action_Aliases=None, Action_Arguments=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None, behavioral_ordering=None):
-        super(BehavioralActionType, self).__init__(undefined_name, name, timestamp, action_status, ordinal_position, context, idref, type_, id, network_protocol, Description, Action_Aliases, Action_Arguments, Discovery_Method, Associated_Objects, Relationships, Frequency, )
+    superclass = MalwareActionType
+    def __init__(self, undefined_name=None, name=None, timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, type_=None, id=None, network_protocol=None, Description=None, Action_Aliases=None, Action_Arguments=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None, behavioral_ordering=None, Implementation=None):
+        super(BehavioralActionType, self).__init__(undefined_name, name, timestamp, action_status, ordinal_position, context, idref, type_, id, network_protocol, Description, Action_Aliases, Action_Arguments, Discovery_Method, Associated_Objects, Relationships, Frequency, Implementation)
         self.behavioral_ordering = _cast(int, behavioral_ordering)
         pass
     def factory(*args_, **kwargs_):
@@ -4735,7 +4735,6 @@ class BehavioralActionType(cybox_core_1_0.ActionType):
         super(BehavioralActionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         super(BehavioralActionType, self).buildChildren(child_, node, nodeName_, True)
-        pass
 # end class BehavioralActionType
 
 class AVClassificationsType(cybox_core_1_0.DomainSpecificObjectAttributesType):
@@ -5212,7 +5211,7 @@ if __name__ == '__main__':
     main()
 
 __all__ = [
-    "ActionType",
+    "MalwareActionType",
     "BehaviorType",
     "BundleType",
     "BehaviorCollectionType",
