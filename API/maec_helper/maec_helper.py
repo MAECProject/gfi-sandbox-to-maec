@@ -166,7 +166,7 @@ class maec_package:
     #Export the package and its contents to an XML file
     def export_to_file(self, outfilename):
         outfile = open(outfilename, 'w')
-        self.export_to_file(outfile, 0)
+        self.package.export(outfile, 0)
 
 
 class maec_subject:
@@ -174,6 +174,31 @@ class maec_subject:
         self.generator = generator
         #Create the MAEC Subject object
         self.subject = maecpackage.MalwareSubjectType(id=self.generator.generate_sub_id())
+        #Instantiate the lists
+        self.analyses = maecpackage.AnalysisListType()
+        self.findings_bundles = maecpackage.FindingsBundleListType()
+
+    #Public methods
+    #Set the subject_attributes with a CybOX object
+    def set_subject_attributes(self, subject_object):
+        self.subject.set_Subject_Attributes(subject_object)
+
+    #Add an Analysis to the Analyses
+    def add_analysis(self, analysis):
+        self.analyses.add_Analysis(analysis)
+
+    #Add a MAEC Bundle to the Findings Bundles
+    def add_findings_bundle(self, findings_bundle):
+        self.findings_bundles.add_Bundle(findings_bundle)
+
+    #Get the Malware Subject
+    def get_malware_subject(self):
+        return self.subject
+
+    #Export the Malware Subject and its contents to an XML file
+    def export_to_file(self, outfilename):
+        outfile = open(outfilename, 'w')
+        self.subject.export(outfile, 0)
 
     
 class maec_bundle:
