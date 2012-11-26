@@ -143,12 +143,38 @@ class maec_package:
         self.generator = generator
         #Create the MAEC Package object
         self.package = maecpackage.PackageType(id=self.generator.generate_pkg_id())
+        #Set the schema version
+        self.package.set_schema_version(schema_version)
+        #Create the subject list
+        self.subjects = maecpackage.MalwareSubjectListType()
+
+    #Public methods
+
+    #Add a malware subject
+    def add_malware_subject(self, malware_subject):
+        self.subjects.add_Malware_Subject(malware_subject)
+    
+    #Set the grouping relationship based on an input dictionary
+    def set_grouping_relationship(self, grouping_relationship_attributes):
+        for key, value in grouping_relationship_attributes.items():
+            pass
+
+    #Get the package
+    def get_package(self):
+        return self.package
+
+    #Export the package and its contents to an XML file
+    def export_to_file(self, outfilename):
+        outfile = open(outfilename, 'w')
+        self.export_to_file(outfile, 0)
+
 
 class maec_subject:
     def __init__(self, generator, schema_version):
         self.generator = generator
         #Create the MAEC Subject object
         self.subject = maecpackage.MalwareSubjectType(id=self.generator.generate_sub_id())
+
     
 class maec_bundle:
     def __init__(self, generator, schema_version):
