@@ -398,7 +398,7 @@ class ContainerType(GeneratedsSuper):
     def set_id(self, id): self.id = id
     def get_schema_version(self): return self.schema_version
     def set_schema_version(self, schema_version): self.schema_version = schema_version
-    def export(self, outfile, level, namespace_='maecContainer:', name_='ContainerType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -406,7 +406,7 @@ class ContainerType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ContainerType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Container')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -414,7 +414,7 @@ class ContainerType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecContainer:', name_='ContainerType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecContainer:', name_='MAEC_Container'):
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.append('timestamp')
             outfile.write(' timestamp=%s' % (self.gds_format_string(quote_attrib(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), ))
@@ -424,7 +424,7 @@ class ContainerType(GeneratedsSuper):
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.append('schema_version')
             outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
-    def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='ContainerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -438,7 +438,7 @@ class ContainerType(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='ContainerType'):
+    def exportLiteral(self, outfile, level, name_='MAEC_Container'):
         level += 1
         self.exportLiteralAttributes(outfile, level, [], name_)
         if self.hasContent_():
