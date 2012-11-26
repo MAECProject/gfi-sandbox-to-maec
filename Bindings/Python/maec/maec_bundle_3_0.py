@@ -2937,7 +2937,7 @@ class ActionReferenceListType(GeneratedsSuper):
         if nodeName_ == 'Action_Reference':
             obj_ = BehavioralActionReferenceType.factory()
             obj_.build(child_)
-            self.set_Action_Reference(obj_)
+            self.add_Action_Reference(obj_)
 # end class ActionReferenceListType
 
 class ObjectReferenceListType(GeneratedsSuper):
