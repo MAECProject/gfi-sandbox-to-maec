@@ -38,6 +38,8 @@ class generator:
     def __init__(self, namespace):
         self.namespace = namespace
         self.general_id_base = 0
+        self.pkg_id_base = 0
+        self.sub_id_base = 0
         self.bnd_id_base = 0
         self.act_id_base = 0
         self.bhv_id_base = 0
@@ -59,6 +61,14 @@ class generator:
     def generate_id(self):
         self.general_id_base += 1
         return self.general_id_base
+
+    def generate_pkg_id(self):
+        self.pkg_id_base += 1
+        return 'maec-' + self.namespace + '-pkg-' + str(self.pkg_id_base)
+
+    def generate_sub_id(self):
+        self.sub_id_base += 1
+        return 'maec-' + self.namespace + '-sub-' + str(self.sub_id_base)
     
     def generate_bnd_id(self):
         self.bnd_id_base += 1
