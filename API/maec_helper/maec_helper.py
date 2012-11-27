@@ -202,43 +202,51 @@ class maec_subject:
 
     
 class maec_bundle:
-    def __init__(self, generator, schema_version):
+    def __init__(self, generator, schema_version, defined_subject, content_type = None, subject_attributes = None):
         self.generator = generator
         #Create the MAEC Bundle object
-        self.bundle = maec_bundle.BundleType(id=self.generator.generate_bnd_id())
+        self.bundle = maecbundle.BundleType(id=self.generator.generate_bnd_id())
         #Set the bundle schema version
         self.bundle.set_schema_version(schema_version)
         #Set the bundle timestamp
         self.bundle.set_timestamp(datetime.datetime.now().isoformat())
+        #Set whether this Bundle has a defined_subject
+        self.bundle.set_defined_subject(defined_subject)
+        #Set the content_type if it is not none
+        if content_type is not None:
+            self.bundle.set_content_type(content_type)
+        #Set the subject attributes (a CybOX object) if they are not none
+        if subject_attributes is not None:
+            self.bundle.set_Subject_Attributes(subject_attributes)
         #Create the MAEC collections object
-        self.collections = maec_bundle.CollectionsType()
+        self.collections = maecbundle.CollectionsType()
         #Create the object collections
-        self.object_collections = maec_bundle.ObjectCollectionListType()
+        self.object_collections = maecbundle.ObjectCollectionListType()
         #Create the action collections
-        self.action_collections = maec_bundle.ActionCollectionListType()
+        self.action_collections = maecbundle.ActionCollectionListType()
         #Create the analyses
         self.analyses = maec_package.AnalysisListType()
         #Create the object collections
-        self.process_object_collection = maec_bundle.ObjectCollectionType(name='Process Objects', id=self.generator.generate_objc_id())
+        self.process_object_collection = maecbundle.ObjectCollectionType(name='Process Objects', id=self.generator.generate_objc_id())
         self.process_object_collection.set_Description('This collection encompasses the chain of processes spawned by the subject binary.')
 
         #Create the action collections
-        self.filesystem_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="File System Actions")
-        self.ipc_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="IPC Actions")
-        self.service_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Service Actions")
-        self.process_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Process Actions")
-        self.registry_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Registry Actions")
-        self.network_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Actions")
-        self.memory_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Memory Actions")
-        self.module_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Module Actions")
-        self.system_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Actions")
-        self.internet_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Internet Actions")
-        self.filemapping_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Filemapping Actions")
-        self.thread_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Thread Actions")
-        self.sysobject_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Object Actions")
-        self.driver_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Driver Actions")
-        self.user_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="User Actions")
-        self.networkshare_action_collection = maec_bundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Share Actions")
+        self.filesystem_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="File System Actions")
+        self.ipc_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="IPC Actions")
+        self.service_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Service Actions")
+        self.process_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Process Actions")
+        self.registry_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Registry Actions")
+        self.network_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Actions")
+        self.memory_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Memory Actions")
+        self.module_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Module Actions")
+        self.system_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Actions")
+        self.internet_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Internet Actions")
+        self.filemapping_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Filemapping Actions")
+        self.thread_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Thread Actions")
+        self.sysobject_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Object Actions")
+        self.driver_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Driver Actions")
+        self.user_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="User Actions")
+        self.networkshare_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Share Actions")
 
     #"Public" methods
     def add_process_object(self, object):
@@ -249,119 +257,119 @@ class maec_bundle:
             if self.filesystem_action_collection.get_Action_List() is not None:
                 self.filesystem_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.filesystem_action_collection.set_Action_List(action_list)
         elif action_group == 'ipc':
             if self.ipc_action_collection.get_Action_List() is not None:
                 self.ipc_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.ipc_action_collection.set_Action_List(action_list)
         elif action_group == 'service':
             if self.service_action_collection.get_Action_List() is not None:
                 self.service_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.service_action_collection.set_Action_List(action_list)
         elif action_group == 'registry':
             if self.registry_action_collection.get_Action_List() is not None:
                 self.registry_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.registry_action_collection.set_Action_List(action_list)
         elif action_group == 'network':
             if self.network_action_collection.get_Action_List() is not None:
                 self.network_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.network_action_collection.set_Action_List(action_list)
         elif action_group == 'memory':
             if self.memory_action_collection.get_Action_List() is not None:
                 self.memory_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.memory_action_collection.set_Action_List(action_list)        
         elif action_group == 'process':
             if self.process_action_collection.get_Action_List() is not None:
                 self.process_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.process_action_collection.set_Action_List(action_list)        
         elif action_group == 'module':
             if self.module_action_collection.get_Action_List() is not None:
                 self.module_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.module_action_collection.set_Action_List(action_list)            
         elif action_group == 'system':
             if self.system_action_collection.get_Action_List() is not None:
                 self.system_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.system_action_collection.set_Action_List(action_list)     
         elif action_group == 'internet':
             if self.internet_action_collection.get_Action_List() is not None:
                 self.internet_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.internet_action_collection.set_Action_List(action_list)
         elif action_group == 'filemapping':
             if self.filemapping_action_collection.get_Action_List() is not None:
                 self.filemapping_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.filemapping_action_collection.set_Action_List(action_list)
         elif action_group == 'thread':
             if self.thread_action_collection.get_Action_List() is not None:
                 self.thread_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.thread_action_collection.set_Action_List(action_list)
         elif action_group == 'sysobject':
             if self.sysobject_action_collection.get_Action_List() is not None:
                 self.sysobject_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.sysobject_action_collection.set_Action_List(action_list)
         elif action_group == 'driver':
             if self.driver_action_collection.get_Action_List() is not None:
                 self.driver_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.driver_action_collection.set_Action_List(action_list) 
         elif action_group == 'user':
             if self.user_action_collection.get_Action_List() is not None:
                 self.user_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.user_action_collection.set_Action_List(action_list)
         elif action_group == 'share':
             if self.networkshare_action_collection.get_Action_List() is not None:
                 self.networkshare_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.networkshare_action_collection.set_Action_List(action_list)
         elif action_group == 'module':
             if self.module_action_collection.get_Action_List() is not None:
                 self.module_action_collection.get_Action_List().add_Action(action)
             else:
-                action_list = maec_bundle.ActionListType()
+                action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
                 self.module_action_collection.set_Action_List(action_list)                             
     
@@ -405,7 +413,7 @@ class maec_bundle:
             if self.process_object_collection.get_Object_List() is not None:
                 self.process_object_collection.get_Object_List().add_Object(object)
             else:
-                object_list = maec_bundle.ObjectListType()
+                object_list = maecbundle.ObjectListType()
                 object_list.add_Object(object)
                 self.process_object_collection.set_Object_List(object_list)
             
@@ -415,7 +423,7 @@ class maec_bundle:
                 self.process_object_collection.get_Object_List().add_Object(object)            
                                    
     #Build the MAEC bundle by adding all applicable elements
-    def build_maec_bundle(self):
+    def build_maecbundle(self):
         #Add the collections to their respective pools
         #Add the action collections
         if self.filesystem_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.filesystem_action_collection)
@@ -447,7 +455,7 @@ class maec_bundle:
         outfile = open(filename, 'w')
         print ("Exporting MAEC Bundle to: " + filename)
         self.bundle.export(outfile, 0, namespacedef_='xmlns:mmdef="http://xml/metadataSharing.xsd"\
-        xmlns:maec="http://maec.mitre.org/XMLSchema/maec-core-2"\
+        xmlns:maec="http://maec.mitre.org/XMLSchema/maec-core-3"\
         xmlns:cybox="http://cybox.mitre.org/cybox_v1"\
         xmlns:Common="http://cybox.mitre.org/Common_v1"\
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
@@ -481,7 +489,7 @@ class maec_bundle:
         xsi:schemaLocation="http://cybox.mitre.org/Common_v1 http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd\
         http://cybox.mitre.org/objects#SystemObject http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd\
         http://cybox.mitre.org/cybox_v1 http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd\
-        http://maec.mitre.org/XMLSchema/maec-bundle-2 http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd\
+        http://maec.mitre.org/XMLSchema/maec-bundle-3 http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd\
         http://cybox.mitre.org/objects#FileObject http://cybox.mitre.org/XMLSchema/objects/File/File_Object_1.3.xsd\
         http://cybox.mitre.org/objects#ProcessObject http://cybox.mitre.org/XMLSchema/objects/Process/Process_Object_1.3.xsd\
         http://cybox.mitre.org/objects#SocketObject http://cybox.mitre.org/XMLSchema/objects/Socket/Socket_Object_1.4.xsd\
