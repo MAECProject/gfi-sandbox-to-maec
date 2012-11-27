@@ -202,14 +202,24 @@ class maec_subject:
 
     #Get the Malware Subject
     def get_object(self):
+        self.__build__()
         return self.subject
 
     #Export the Malware Subject and its contents to an XML file
     def export_to_file(self, outfilename):
+        self.__build__()
         outfile = open(outfilename, 'w')
         self.subject.export(outfile, 0)
+ 
+    #Private methods
 
-    
+    #Build the Subject, adding any list or other items
+    def __build__(self):
+        if self.analyses.hasContent_():
+            self.subject.set_Analyses(self.analyses)
+        if self.findings_bundles.hasContent_():
+            self.subject.set_Findings_Bundles(self.findings_bundles)
+
 class maec_bundle:
     def __init__(self, generator, schema_version, defined_subject, content_type = None, subject_attributes = None):
         self.generator = generator
