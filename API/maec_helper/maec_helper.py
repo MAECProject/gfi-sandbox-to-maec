@@ -220,6 +220,8 @@ class maec_bundle:
         #Set the subject attributes (a CybOX object) if they are not none
         if subject_attributes is not None:
             self.bundle.set_Subject_Attributes(subject_attributes)
+        #Create the top-level objects
+        self.objects = maecbundle.ObjectListType()
         #Create the MAEC collections object
         self.collections = maecbundle.CollectionsType()
         #Create the object collections
@@ -410,7 +412,7 @@ class maec_bundle:
             for action in actions:
                 self.filemapping_action_collection.get_Action_List().add_Action(action)
             
-    def add_object(self, object, action_group):
+    def add_object(self, object, action_group = None):
         if action_group == 'process':
             if self.process_object_collection.get_Object_List() is not None:
                 self.process_object_collection.get_Object_List().add_Object(object)
@@ -418,6 +420,8 @@ class maec_bundle:
                 object_list = maecbundle.ObjectListType()
                 object_list.add_Object(object)
                 self.process_object_collection.set_Object_List(object_list)
+        elif action_group == None:
+            self.objects.add_Object(object)
             
     def add_objects(self, objects, action_group):        
         if action_group == 'process':
@@ -444,6 +448,8 @@ class maec_bundle:
         if self.driver_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.driver_action_collection)
         if self.user_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.user_action_collection)
         if self.networkshare_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.networkshare_action_collection)
+        #Add the objects
+        if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
         #Add the object collections
         if self.process_object_collection.hasContent_(): self.object_collections.add_Object_Collection(self.process_object_collection)
         #Add everything to the pools
