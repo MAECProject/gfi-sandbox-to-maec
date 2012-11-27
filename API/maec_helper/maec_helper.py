@@ -162,16 +162,21 @@ class maec_package:
 
     #Get the package
     def get_object(self):
-        if self.subjects.hasContent_():
-            self.package.set_Malware_Subjects(malware_subjects)
+        self.__build__()
         return self.package
 
     #Export the package and its contents to an XML file
     def export_to_file(self, outfilename):
+        self.__build__()
         outfile = open(outfilename, 'w')
         self.package.export(outfile, 0)
 
+    #Private methods
 
+    #Build the package, adding any list or other items
+    def __build__(self):
+        if self.subjects.hasContent_():
+            self.package.set_Malware_Subjects(self.subjects)
 
 class maec_subject:
     def __init__(self, generator, schema_version):
