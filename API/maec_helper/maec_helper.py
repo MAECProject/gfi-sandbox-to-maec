@@ -160,7 +160,7 @@ class maec_package:
             pass
 
     #Get the package
-    def get_package(self):
+    def get_object(self):
         return self.package
 
     #Export the package and its contents to an XML file
@@ -192,7 +192,7 @@ class maec_subject:
         self.findings_bundles.add_Bundle(findings_bundle)
 
     #Get the Malware Subject
-    def get_malware_subject(self):
+    def get_object(self):
         return self.subject
 
     #Export the Malware Subject and its contents to an XML file
@@ -512,7 +512,7 @@ class maec_bundle:
         http://cybox.mitre.org/objects#WinUserAccountObject http://cybox.mitre.org/XMLSchema/objects/Win_User_Account/Win_User_Account_Object_1.3.xsd"')
         
     #accessor methods
-    def get_bundle(self):
+    def get_object(self):
         return self.bundle
 
 class maec_analysis:
@@ -537,7 +537,7 @@ class maec_analysis:
     def add_tool(self, tool_dictionary):
         self.__create_tool(tool_dictionary)
 
-    def get_analysis(self):
+    def get_object(self):
         if self.tool_list.hasContent_():
             self.analysis.set_Tools(tool_list)
         return self.analysis
@@ -572,7 +572,6 @@ class maec_action:
         #Create the action type and add basic attributes
         self.action = maecbundle.MalwareActionType()
         self.action.set_id(self.generator.generate_act_id())
-        #action.set_action_status('Success')
         self.associated_objects = maecbundle.cybox_core_1_0.AssociatedObjectsType()
         for key, value in action_attributes.items():
             if key == 'undefined_name':
@@ -598,42 +597,38 @@ class maec_action:
             elif key == 'object_new':
                 if value is not None and value.hasContent_():
                     self.associated_objects.add_Associated_Object(value)
-            elif key == 'initiator_id':
-                associated_object = maec.cybox.AssociatedObjectType(idref=value, association_type='Initiating')
-                associated_objects.add_Associated_Object(associated_object)
             elif key == 'context':
-                action.set_context(value)
-            elif key == 'networkprotocol':
-                action.set_network_protocol(value)
-            elif key == 'tool_id':
-                discovery_method = maec.common.MeasureSourceType()
-                tools = maec.common.ToolsInformationType()
-                tool=maec.common.ToolInformationType(idref=value)
-                tools.add_Tool(tool)
-                discovery_method.set_Tools(tools)
-                action.set_Discovery_Method(discovery_method)
+                self.action.set_context(value)
+            elif key == 'network_protocol':
+                self.action.set_network_protocol(value)
+            #elif key == 'tool_id':
+            #    discovery_method = maec.common.MeasureSourceType()
+            #    tools = maec.common.ToolsInformationType()
+            #    tool=maec.common.ToolInformationType(idref=value)
+            #    tools.add_Tool(tool)
+            #    discovery_method.set_Tools(tools)
+            #    action.set_Discovery_Method(discovery_method)
             elif key == 'action_arguments':
-                action_arguments = maec.cybox.ActionArgumentsType()
+                action_arguments = maecbundle.cybox_core_1_0.ActionArgumentsType()
                 for argument in value:
-                    action_argument = maec.cybox.ActionArgumentType()
+                    action_argument = maecbundle.cybox_core_1_0.ActionArgumentType()
                     for key, value in argument.items():
                         if key == 'defined_argument_name':
-                            action_argument.set_Argument_Name_Defined(value)
+                            action_argument.set_defined_argument_name(value)
                         elif key == 'undefined_argument_name':
-                            action_argument.set_Argument_Name_Undefined(value)
+                            action_argument.set_undefined_argument_name(value)
                         elif key == 'argument_value':
-                            action_argument.set_Argument_Value(value)
+                            action_argument.set_argument_value(value)
                     action_arguments.add_Action_Argument(action_argument)
                 if action_arguments.hasContent_():
-                    action.set_Action_Arguments(action_arguments)
+                    self.action.set_Action_Arguments(action_arguments)
 
         if associated_objects.hasContent_():
-            action.set_Associated_Objects(associated_objects)
-        return action
+            self.action.set_Associated_Objects(associated_objects)
     
     #Getter methods
-    def get_action_object(self):
-        return self.action_object
+    def get_object(self):
+        return self.action
             
 class maec_object:
     def __init__(self, generator):
