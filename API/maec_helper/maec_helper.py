@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 11/26/2012
+#Last updated 11/27/2012
 
 import maec_bundle_3_0 as maecbundle
 import maec_package_1_0 as maecpackage
@@ -516,102 +516,88 @@ class maec_bundle:
         return self.bundle
 
 class maec_analysis:
-    def __init__(self, generator, analysis_subject = None, tool_name = None, tool_vendor = None, tool_version = None):
+    def __init__(self, generator, method = None, type = None):
         self.generator = generator
-        self.analysis_subject = analysis_subject
-        self.tool_name = tool_name
-        self.tool_vendor = tool_vendor
-        self.tool_version = tool_version
-        self.analysis_object = None
-        self.tool_id = 0
-        self.__create_analysis()
+        self.analysis = maecpackage.AnalysisType(id=self.generator.generate_ana_id())
+        if method is not None:
+            self.analysis.set_method(method)
+        if type is not None:
+            self.analysis.set_type(type)
+        self.tool_list = maecpackage.ToolListType()
+
         
     #"Public" methods
-    
-    #Create the analysis subject
-    def set_analysis_subject(self, analysis_object, command_line = None, analysis_duration = None, exit_code = None):
-        analysis_subject = maec.AnalysisSubjectType()
-        analysis_subject.set_Object(analysis_object)
-        if command_line != None:
-            analysis_subject.set_Command_Line(command_line)
-        if analysis_duration != None:
-            analysis_subject.set_Analysis_Duration(analysis_duration)
-        if exit_code != None:
-            analysis_subject.set_Command_Line(exit_code)
-        self.analysis_subject = analysis_subject
-        self.analysis_object.set_Subject(analysis_subject)
-    
-    #Create the analysis object
-    def __create_analysis(self):
-        analysis = maec.AnalysisType(id=self.generator.generate_ana_id(), method='Dynamic', type_='Triage')
-        #Set the analysis subject
-        if self.analysis_subject != None : analysis.set_Subject(self.analysis_subject)
-        #Create the tools
-        tools = maec.ToolsType()
-        tool = self._create_tool()
-        tools.add_Tool(tool)
-        analysis.set_Tools(tools)
-        self.analysis_object = analysis
-    
-    def get_analysis_object(self):
-        return self.analysis_object
-    
-    def get_tool_id(self):
-        return self.tool_id
+    def set_findings_bundle_reference(self, bundle_idref):
+        bundle_reference = maecbundle.BundleReferenceType(bundle_idref = bundle_idref)
+        self.analysis.set_Findings_Bundle_Reference(bundle_reference)
+
+    def set_summary(self, summary):
+        self.analysis.set_Summary(summary)
+   
+    def add_tool(self, tool_dictionary):
+        self.__create_tool(tool_dictionary)
+
+    def get_analysis(self):
+        if self.tool_list.hasContent_():
+            self.analysis.set_Tools(tool_list)
+        return self.analysis
     
     #"Private" methods
 
     #Create the MAEC tool type
-    def _create_tool(self):
+    def __create_tool(self, tool_dictionary):
         #Set the tool id
         tool_id = self.generator.generate_tol_id()
-        self.tool_id = tool_id
-        tool = maec.common.ToolInformationType(id=tool_id, Name=self.tool_name) 
-        if self.tool_vendor != None:
-            tool.set_Vendor(self.tool_vendor)
-        if self.tool_version != None:
-            tool.set_Version(self.tool_version)
-        #Return the created tool
-        return tool
+        tool = maecpackage.cybox_common_types_1_0.ToolInformationType(id=tool_id, Name=self.tool_name)
+        for key, value in tool_dictionary.items():
+            if key.lower() == 'description':
+                if value is not None and len(value) > 0:
+                    tool.set_Description(value)
+            elif key.lower() == 'vendor':
+                if value is not None and len(value) > 0:
+                    tool.set_Vendor(value)
+            elif key.lower() == 'name':
+                if value is not None and len(value) > 0:
+                    tool.set_Name(value)  
+            elif key.lower() == 'version':
+                if value is not None and len(value) > 0:
+                    tool.set_Version(value)
+        if tool.hasContent_():
+            self.tool_list.add_Tool(tool)      
+
 
 class maec_action:
-    def __init__(self, generator):
+    def __init__(self, generator, action_attributes):
         self.generator = generator
-        
-    #Create a MAEC Action
-    def create_action(self, action_attributes):
         #Create the action type and add basic attributes
-        action = maec.ActionType()
-        action.set_id(self.generator.generate_act_id())
+        self.action = maecbundle.MalwareActionType()
+        self.action.set_id(self.generator.generate_act_id())
         #action.set_action_status('Success')
-        action_name = maec.cybox.ActionNameType()
-        associated_objects = maec.cybox.AssociatedObjectsType()
+        self.associated_objects = maecbundle.cybox_core_1_0.AssociatedObjectsType()
         for key, value in action_attributes.items():
-            if key == 'undefined_action_name':
-                action_name.set_Undefined_Name(value)
-                action.set_Action_Name(action_name)
-            elif key == 'defined_action_name':
-                action_name.set_Defined_Name(value)
-                action.set_Action_Name(action_name)
+            if key == 'undefined_name':
+                self.action.set_undefined_name(value)
+            elif key == 'name':
+                self.action.set_name(value)
             elif key == 'action_status':
-                action.set_action_status(value)
+                self.action.set_action_status(value)
             elif key == 'action_type':
                 if value.count('/') > 0:
-                    action.set_type(value)
+                    self.action.set_type(value)
                 else:
-                    action.set_type(value.capitalize())
+                    self.action.set_type(value.capitalize())
             elif key == 'object':
                 if value is not None and value.hasContent_():
-                    associated_objects.add_Associated_Object(value)
+                    self.associated_objects.add_Associated_Object(value)
             elif key == 'secondary_object':
                 if value is not None and value.hasContent_():
-                    associated_objects.add_Associated_Object(value)
+                    self.associated_objects.add_Associated_Object(value)
             elif key == 'object_old':
                 if value is not None and value.hasContent_():
-                    associated_objects.add_Associated_Object(value)
+                    self.associated_objects.add_Associated_Object(value)
             elif key == 'object_new':
                 if value is not None and value.hasContent_():
-                    associated_objects.add_Associated_Object(value)
+                    self.associated_objects.add_Associated_Object(value)
             elif key == 'initiator_id':
                 associated_object = maec.cybox.AssociatedObjectType(idref=value, association_type='Initiating')
                 associated_objects.add_Associated_Object(associated_object)
