@@ -1571,12 +1571,12 @@ class PackageType(GeneratedsSuper):
     generated."""
     subclass = None
     superclass = None
-    def __init__(self, timestamp=None, id=None, schema_version=None, Malware_Subjects=None, Grouping_Relationship=None):
+    def __init__(self, timestamp=None, id=None, schema_version=None, Malware_Subjects=None, Grouping_Relationships=None):
         self.timestamp = _cast(None, timestamp)
         self.id = _cast(None, id)
         self.schema_version = _cast(float, schema_version)
         self.Malware_Subjects = Malware_Subjects
-        self.Grouping_Relationship = Grouping_Relationship
+        self.Grouping_Relationships = Grouping_Relationships
     def factory(*args_, **kwargs_):
         if PackageType.subclass:
             return PackageType.subclass(*args_, **kwargs_)
@@ -1585,8 +1585,8 @@ class PackageType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_Malware_Subjects(self): return self.Malware_Subjects
     def set_Malware_Subjects(self, Malware_Subjects): self.Malware_Subjects = Malware_Subjects
-    def get_Grouping_Relationship(self): return self.Grouping_Relationship
-    def set_Grouping_Relationship(self, Grouping_Relationship): self.Grouping_Relationship = Grouping_Relationship
+    def get_Grouping_Relationships(self): return self.Grouping_Relationships
+    def set_Grouping_Relationships(self, Grouping_Relationships): self.Grouping_Relationships = Grouping_Relationships
     def get_timestamp(self): return self.timestamp
     def set_timestamp(self, timestamp): self.timestamp = timestamp
     def get_id(self): return self.id
@@ -1626,12 +1626,12 @@ class PackageType(GeneratedsSuper):
             eol_ = ''
         if self.Malware_Subjects is not None:
             self.Malware_Subjects.export(outfile, level, 'maecPackage:', name_='Malware_Subjects', pretty_print=pretty_print)
-        if self.Grouping_Relationship is not None:
-            self.Grouping_Relationship.export(outfile, level, 'maecPackage:', name_='Grouping_Relationship', pretty_print=pretty_print)
+        if self.Grouping_Relationships is not None:
+            self.Grouping_Relationships.export(outfile, level, 'maecPackage:', name_='Grouping_Relationships', pretty_print=pretty_print)
     def hasContent_(self):
         if (
             self.Malware_Subjects is not None or
-            self.Grouping_Relationship is not None
+            self.Grouping_Relationships is not None
             ):
             return True
         else:
@@ -1661,10 +1661,10 @@ class PackageType(GeneratedsSuper):
             self.Malware_Subjects.exportLiteral(outfile, level, name_='Malware_Subjects')
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Grouping_Relationship is not None:
+        if self.Grouping_Relationships is not None:
             showIndent(outfile, level)
-            outfile.write('Grouping_Relationship=model_.GroupingRelationshipType(\n')
-            self.Grouping_Relationship.exportLiteral(outfile, level, name_='Grouping_Relationship')
+            outfile.write('Grouping_Relationships=model_.GroupingRelationshipListType(\n')
+            self.Grouping_Relationship.exportLiteral(outfile, level, name_='Grouping_Relationships')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
@@ -1693,10 +1693,10 @@ class PackageType(GeneratedsSuper):
             obj_ = MalwareSubjectListType.factory()
             obj_.build(child_)
             self.set_Malware_Subjects(obj_)
-        elif nodeName_ == 'Grouping_Relationship':
-            obj_ = GroupingRelationshipType.factory()
+        elif nodeName_ == 'Grouping_Relationships':
+            obj_ = GroupingRelationshipListType.factory()
             obj_.build(child_)
-            self.set_Grouping_Relationship(obj_)
+            self.set_Grouping_Relationships(obj_)
 # end class PackageType
 
 class MalwareSubjectType(GeneratedsSuper):
@@ -2535,6 +2535,92 @@ class GroupingRelationshipType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Clustering_Metadata(obj_)
 # end class GroupingRelationshipType
+
+class GroupingRelationshipListType(GeneratedsSuper):
+    """The GroupingRelationshipListType captures a list of grouping
+    relationships relating the Malware Subjects in a Package."""
+    subclass = None
+    superclass = None
+    def __init__(self, Grouping_Relationship=None):
+        if Grouping_Relationship is None:
+            self.Grouping_Relationship = []
+        else:
+            self.Grouping_Relationship = Grouping_Relationship
+    def factory(*args_, **kwargs_):
+        if GroupingRelationshipListType.subclass:
+            return GroupingRelationshipListType.subclass(*args_, **kwargs_)
+        else:
+            return GroupingRelationshipListType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Grouping_Relationship(self): return self.Grouping_Relationship
+    def set_Grouping_Relationship(self, Grouping_Relationship): self.Grouping_Relationship = Grouping_Relationship
+    def add_Grouping_Relationship(self, value): self.Grouping_Relationship.append(value)
+    def insert_Grouping_Relationship(self, index, value): self.Grouping_Relationship[index] = value
+    def export(self, outfile, level, namespace_='maecPackage:', name_='GroupingRelationshipListType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = []
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='GroupingRelationshipListType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='GroupingRelationshipListType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='GroupingRelationshipListType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Grouping_Relationship_ in self.Grouping_Relationship:
+            Grouping_Relationship_.export(outfile, level, 'maecPackage:', name_='Grouping_Relationship', pretty_print=pretty_print)
+    def hasContent_(self):
+        if (
+            self.Grouping_Relationship
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='GroupingRelationshipListType'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, [], name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Grouping_Relationship=[\n')
+        level += 1
+        for Grouping_Relationship_ in self.Grouping_Relationship:
+            showIndent(outfile, level)
+            outfile.write('model_.GroupingRelationshipType(\n')
+            Grouping_Relationship_.exportLiteral(outfile, level, name_='GroupingRelationshipType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        self.buildAttributes(node, node.attrib, [])
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Grouping_Relationship':
+            obj_ = GroupingRelationshipType.factory()
+            obj_.build(child_)
+            self.Grouping_Relationship.append(obj_)
+# end class GroupingRelationshipListType
 
 class ClusteringMetadataType(GeneratedsSuper):
     """The ClusteringMetadataType specifies the metadata regarding a
@@ -3923,6 +4009,7 @@ __all__ = [
     "MalwareSubjectListType",
     "FindingsBundleListType",
     "GroupingRelationshipType",
+    "GroupingRelationshipListType",
     "ClusteringMetadataType",
     "ClusterEdgeNodePairType",
     "ClusterCompositionType",
