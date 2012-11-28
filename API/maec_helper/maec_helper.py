@@ -174,7 +174,7 @@ class maec_package:
 
     #Add a namespace to the namespaces list
     def add_namespace(self, namespace_prefix, namespace):
-        self.namespace_prefixes[namespace_prefix] = namespace
+        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
 
     #Add a schemalocation to the schemalocation list
     def add_schemalocation(self, namespace, schemalocation):
@@ -257,7 +257,7 @@ class maec_subject:
 
     #Add a namespace to the namespaces list
     def add_namespace(self, namespace_prefix, namespace):
-        self.namespace_prefixes[namespace_prefix] = namespace
+        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
 
     #Add a schemalocation to the schemalocation list
     def add_schemalocation(self, namespace, schemalocation):
@@ -553,10 +553,12 @@ class maec_bundle:
         if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
         #Add the object collections
         if self.process_object_collection.get_Object_List(): self.object_collections.add_Object_Collection(self.process_object_collection)
-        #Add everything to the pools
+        #Add everything to the collections
         if self.object_collections.hasContent_() : self.collections.set_Object_Collections(self.object_collections)
         if self.action_collections.hasContent_() : self.collections.set_Action_Collections(self.action_collections)
-        self.bundle.set_Collections(self.collections)
+        #Add the collections
+        if self.collections.hasContent_():
+            self.bundle.set_Collections(self.collections)
     
     #Export the MAEC bundle and its contents to an XML file
     def export(self, outfilename):
