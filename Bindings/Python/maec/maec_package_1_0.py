@@ -2427,10 +2427,11 @@ class GroupingRelationshipType(GeneratedsSuper):
     'other')."""
     subclass = None
     superclass = None
-    def __init__(self, type_=None, other_type=None, Malware_Family_Name=None, Clustering_Metadata=None):
+    def __init__(self, type_=None, other_type=None, Malware_Family_Name=None, Malware_Toolkit_Name=None, Clustering_Metadata=None):
         self.type_ = _cast(None, type_)
         self.other_type = _cast(None, other_type)
         self.Malware_Family_Name = Malware_Family_Name
+        self.Malware_Toolkit_Name = Malware_Toolkit_Name
         self.Clustering_Metadata = Clustering_Metadata
     def factory(*args_, **kwargs_):
         if GroupingRelationshipType.subclass:
@@ -2440,6 +2441,8 @@ class GroupingRelationshipType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_Malware_Family_Name(self): return self.Malware_Family_Name
     def set_Malware_Family_Name(self, Malware_Family_Name): self.Malware_Family_Name = Malware_Family_Name
+    def get_Malware_Toolkit_Name(self): return self.Malware_Toolkit_Name
+    def set_Malware_Toolkit_Name(self, Malware_Family_Name): self.Malware_Toolkit_Name = Malware_Toolkit_Name
     def get_Clustering_Metadata(self): return self.Clustering_Metadata
     def set_Clustering_Metadata(self, Clustering_Metadata): self.Clustering_Metadata = Clustering_Metadata
     def get_type(self): return self.type_
@@ -2477,6 +2480,9 @@ class GroupingRelationshipType(GeneratedsSuper):
         if self.Malware_Family_Name is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sMalware_Family_Name>%s</%sMalware_Family_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Malware_Family_Name).encode(ExternalEncoding), input_name='Malware_Family_Name'), 'maecPackage:', eol_))
+        if self.Malware_Toolkit_Name is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sMalware_Toolkit_Name>%s</%sMalware_Toolkit_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Malware_Toolkit_Name).encode(ExternalEncoding), input_name='Malware_Toolkit_Name'), 'maecPackage:', eol_))
         if self.Clustering_Metadata is not None:
             self.Clustering_Metadata.export(outfile, level, 'maecPackage:', name_='Clustering_Metadata', pretty_print=pretty_print)
     def hasContent_(self):
@@ -2505,6 +2511,9 @@ class GroupingRelationshipType(GeneratedsSuper):
         if self.Malware_Family_Name is not None:
             showIndent(outfile, level)
             outfile.write('Malware_Family_Name=%s,\n' % quote_python(self.Malware_Family_Name).encode(ExternalEncoding))
+        if self.Malware_Toolkit_Name is not None:
+            showIndent(outfile, level)
+            outfile.write('Malware_Toolkit_Name=%s,\n' % quote_python(self.Malware_Toolkit_Name).encode(ExternalEncoding))
         if self.Clustering_Metadata is not None:
             showIndent(outfile, level)
             outfile.write('Clustering_Metadata=model_.ClusteringMetadataType(\n')
@@ -2530,6 +2539,10 @@ class GroupingRelationshipType(GeneratedsSuper):
             Malware_Family_Name_ = child_.text
             Malware_Family_Name_ = self.gds_validate_string(Malware_Family_Name_, node, 'Malware_Family_Name')
             self.Malware_Family_Name = Malware_Family_Name_
+        if nodeName_ == 'Malware_Toolkit_Name':
+            Malware_Toolkit_Name_ = child_.text
+            Malware_Toolkit_Name_ = self.gds_validate_string(Malware_Toolkit_Name_, node, 'Malware_Toolkit_Name')
+            self.Malware_Toolkit_Name = Malware_Toolkit_Name_
         elif nodeName_ == 'Clustering_Metadata':
             obj_ = ClusteringMetadataType.factory()
             obj_.build(child_)
