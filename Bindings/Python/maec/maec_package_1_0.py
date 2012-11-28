@@ -2791,20 +2791,21 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
     the similarity index value (if included)."""
     subclass = None
     superclass = None
-    def __init__(self, similarity_distance=None, similarity_index=None, Malware_Subject_Node=None):
+    def __init__(self, similarity_distance=None, similarity_index=None, Malware_Subject_Node_A=None, Malware_Subject_Node_B=None):
         self.similarity_distance = _cast(float, similarity_distance)
         self.similarity_index = _cast(float, similarity_index)
-        self.Malware_Subject_Node = Malware_Subject_Node
+        self.Malware_Subject_Node_A = Malware_Subject_Node_A
+        self.Malware_Subject_Node_B = Malware_Subject_Node_B
     def factory(*args_, **kwargs_):
         if ClusterEdgeNodePairType.subclass:
             return ClusterEdgeNodePairType.subclass(*args_, **kwargs_)
         else:
             return ClusterEdgeNodePairType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Malware_Subject_Node(self): return self.Malware_Subject_Node
-    def set_Malware_Subject_Node(self, Malware_Subject_Node): self.Malware_Subject_Node = Malware_Subject_Node
-    def get_Malware_Subject_Node(self): return self.Malware_Subject_Node
-    def set_Malware_Subject_Node(self, Malware_Subject_Node): self.Malware_Subject_Node = Malware_Subject_Node
+    def get_Malware_Subject_Node_A(self): return self.Malware_Subject_Node_A
+    def set_Malware_Subject_Node_A(self, Malware_Subject_Node_A): self.Malware_Subject_Node_A = Malware_Subject_Node_A
+    def get_Malware_Subject_Node_B(self): return self.Malware_Subject_Node_B
+    def set_Malware_Subject_Node_B(self, Malware_Subject_Node_B): self.Malware_Subject_Node_B = Malware_Subject_Node_B
     def get_similarity_distance(self): return self.similarity_distance
     def set_similarity_distance(self, similarity_distance): self.similarity_distance = similarity_distance
     def get_similarity_index(self): return self.similarity_index
@@ -2837,14 +2838,14 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Malware_Subject_Node is not None:
-            self.Malware_Subject_Node.export(outfile, level, 'maecPackage:', name_='Malware_Subject_Node', pretty_print=pretty_print)
-        if self.Malware_Subject_Node is not None:
-            self.Malware_Subject_Node.export(outfile, level, 'maecPackage:', name_='Malware_Subject_Node', pretty_print=pretty_print)
+        if self.Malware_Subject_Node_A is not None:
+            self.Malware_Subject_Node_A.export(outfile, level, 'maecPackage:', name_='Malware_Subject_Node_A', pretty_print=pretty_print)
+        if self.Malware_Subject_Node_B is not None:
+            self.Malware_Subject_Node_B.export(outfile, level, 'maecPackage:', name_='Malware_Subject_Node_B', pretty_print=pretty_print)
     def hasContent_(self):
         if (
-            self.Malware_Subject_Node is not None or
-            self.Malware_Subject_Node is not None
+            self.Malware_Subject_Node_A is not None or
+            self.Malware_Subject_Node_B is not None
             ):
             return True
         else:
@@ -2866,14 +2867,14 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Malware_Subject_Node is not None:
             showIndent(outfile, level)
-            outfile.write('Malware_Subject_Node=model_.MalwareSubjectReferenceType(\n')
-            self.Malware_Subject_Node.exportLiteral(outfile, level, name_='Malware_Subject_Node')
+            outfile.write('Malware_Subject_Node_A=model_.MalwareSubjectReferenceType(\n')
+            self.Malware_Subject_Node_A.exportLiteral(outfile, level, name_='Malware_Subject_Node_A')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Malware_Subject_Node is not None:
             showIndent(outfile, level)
-            outfile.write('Malware_Subject_Node=model_.MalwareSubjectReferenceType(\n')
-            self.Malware_Subject_Node.exportLiteral(outfile, level, name_='Malware_Subject_Node')
+            outfile.write('Malware_Subject_Node_B=model_.MalwareSubjectReferenceType(\n')
+            self.Malware_Subject_Node_B.exportLiteral(outfile, level, name_='Malware_Subject_Node_B')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
@@ -2897,14 +2898,14 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
             except ValueError, exp:
                 raise ValueError('Bad float/double attribute (similarity_index): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Malware_Subject_Node':
+        if nodeName_ == 'Malware_Subject_Node_A':
             obj_ = MalwareSubjectReferenceType.factory()
             obj_.build(child_)
-            self.set_Malware_Subject_Node(obj_)
-        elif nodeName_ == 'Malware_Subject_Node':
+            self.set_Malware_Subject_Node_A(obj_)
+        elif nodeName_ == 'Malware_Subject_Node_B':
             obj_ = MalwareSubjectReferenceType.factory()
             obj_.build(child_)
-            self.set_Malware_Subject_Node(obj_)
+            self.set_Malware_Subject_Node_B(obj_)
 # end class ClusterEdgeNodePairType
 
 class ClusterCompositionType(GeneratedsSuper):
@@ -3992,7 +3993,6 @@ __all__ = [
     "CommentListType",
     "AnalysisSystemListType",
     "ToolListType",
-    "PlatformListType",
     "CommentType",
     "AnalysisSystemType",
     "HypervisorHostSystemType",
