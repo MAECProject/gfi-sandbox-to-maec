@@ -148,6 +148,18 @@ class maec_package:
         self.package.set_schema_version(schema_version)
         #Create the subject list
         self.subjects = maecpackage.MalwareSubjectListType()
+        #Create the namespace and schemalocation declarations
+        self.namespace_prefixes = {'xmlns:maecPackage' : '"http://maec.mitre.org/XMLSchema/maec-package-1"',
+                                   'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
+                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
+                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
+                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
+                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'maec-bundle-schema.xsd',
+                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
+                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
+                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
 
     #Public methods
 
@@ -160,6 +172,14 @@ class maec_package:
         for key, value in grouping_relationship_attributes.items():
             pass
 
+    #Add a namespace to the namespaces list
+    def add_namespace(self, namespace_prefix, namespace):
+        self.namespace_prefixes[namespace_prefix] = namespace
+
+    #Add a schemalocation to the schemalocation list
+    def add_schemalocation(self, namespace, schemalocation):
+        self.schemalocations[namespace] = schemalocation
+
     #Get the package
     def get_object(self):
         self.__build__()
@@ -169,7 +189,8 @@ class maec_package:
     def export_to_file(self, outfilename):
         self.__build__()
         outfile = open(outfilename, 'w')
-        self.package.export(outfile, 0)
+        self.package.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
+
 
     #Private methods
 
@@ -177,6 +198,27 @@ class maec_package:
     def __build__(self):
         if self.subjects.hasContent_():
             self.package.set_Malware_Subjects(self.subjects)
+
+    #Build the namespace/schemalocation declaration string
+    def __build_samespaces_schemalocations(self):
+        output_string = '\n '
+        schemalocs = []
+        first_string = True
+        for namespace_prefix, namespace in self.namespace_prefixes.items():
+            output_string += (namespace_prefix + '=' + namespace + ' \n ')
+        output_string += 'xsi:schemaLocation="'
+        for namespace, schemalocation in self.schemalocations.items():
+            if first_string:
+                schemalocs.append(namespace + ' ' + schemalocation)
+                first_string = False
+            else:
+                schemalocs.append(' ' + namespace + ' ' + schemalocation)
+        for schemalocation_string in schemalocs:
+            if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
+                output_string += (schemalocation_string + '"\n')
+            else:
+                output_string += (schemalocation_string + '\n')
+        return output_string
 
 class maec_subject:
     def __init__(self, generator, schema_version):
@@ -186,6 +228,19 @@ class maec_subject:
         #Instantiate the lists
         self.analyses = maecpackage.AnalysisListType()
         self.findings_bundles = maecpackage.FindingsBundleListType()
+        #Create the namespace and schemalocation declarations
+        self.namespace_prefixes = {'xmlns:maecPackage' : '"http://maec.mitre.org/XMLSchema/maec-package-1"',
+                                   'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
+                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
+                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
+                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
+                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'maec-bundle-schema.xsd',
+                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
+                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
+                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
+
 
     #Public methods
     #Set the subject_attributes with a CybOX object
@@ -200,6 +255,14 @@ class maec_subject:
     def add_findings_bundle(self, findings_bundle):
         self.findings_bundles.add_Bundle(findings_bundle)
 
+    #Add a namespace to the namespaces list
+    def add_namespace(self, namespace_prefix, namespace):
+        self.namespace_prefixes[namespace_prefix] = namespace
+
+    #Add a schemalocation to the schemalocation list
+    def add_schemalocation(self, namespace, schemalocation):
+        self.schemalocations[namespace] = schemalocation
+
     #Get the Malware Subject
     def get_object(self):
         self.__build__()
@@ -209,8 +272,8 @@ class maec_subject:
     def export_to_file(self, outfilename):
         self.__build__()
         outfile = open(outfilename, 'w')
-        self.subject.export(outfile, 0)
- 
+        self.subject.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
+    
     #Private methods
 
     #Build the Subject, adding any list or other items
@@ -219,6 +282,27 @@ class maec_subject:
             self.subject.set_Analyses(self.analyses)
         if self.findings_bundles.hasContent_():
             self.subject.set_Findings_Bundles(self.findings_bundles)
+
+    #Build the namespace/schemalocation declaration string
+    def __build_samespaces_schemalocations(self):
+        output_string = '\n '
+        schemalocs = []
+        first_string = True
+        for namespace_prefix, namespace in self.namespace_prefixes.items():
+            output_string += (namespace_prefix + '=' + namespace + ' \n ')
+        output_string += 'xsi:schemaLocation="'
+        for namespace, schemalocation in self.schemalocations.items():
+            if first_string:
+                schemalocs.append(namespace + ' ' + schemalocation)
+                first_string = False
+            else:
+                schemalocs.append(' ' + namespace + ' ' + schemalocation)
+        for schemalocation_string in schemalocs:
+            if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
+                output_string += (schemalocation_string + '"\n')
+            else:
+                output_string += (schemalocation_string + '\n')
+        return output_string
 
 class maec_bundle:
     def __init__(self, generator, schema_version, defined_subject, content_type = None, subject_attributes = None):
@@ -480,7 +564,7 @@ class maec_bundle:
         outfile = open(filename, 'w')
         print ("Exporting MAEC Bundle to: " + filename)
         self.bundle.export(outfile, 0, namespacedef_='xmlns:mmdef="http://xml/metadataSharing.xsd"\
-        xmlns:maec="http://maec.mitre.org/XMLSchema/maec-core-3"\
+        xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3"\
         xmlns:cybox="http://cybox.mitre.org/cybox_v1"\
         xmlns:Common="http://cybox.mitre.org/Common_v1"\
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
@@ -550,7 +634,6 @@ class maec_analysis:
             self.analysis.set_type(type)
         self.tool_list = maecpackage.ToolListType()
 
-        
     #"Public" methods
     def set_findings_bundle_reference(self, bundle_idref):
         bundle_reference = maecbundle.BundleReferenceType(bundle_idref = bundle_idref)
