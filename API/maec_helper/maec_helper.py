@@ -468,7 +468,7 @@ class maec_bundle:
         #Add the objects
         if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
         #Add the object collections
-        if self.process_object_collection.hasContent_(): self.object_collections.add_Object_Collection(self.process_object_collection)
+        if self.process_object_collection.get_Object_List(): self.object_collections.add_Object_Collection(self.process_object_collection)
         #Add everything to the pools
         if self.object_collections.hasContent_() : self.collections.set_Object_Collections(self.object_collections)
         if self.action_collections.hasContent_() : self.collections.set_Action_Collections(self.action_collections)
@@ -587,7 +587,11 @@ class maec_analysis:
                 if value is not None and len(value) > 0:
                     tool.set_Version(value)
         if tool.hasContent_():
-            self.tool_list.add_Tool(tool)      
+            self.tool_list.add_Tool(tool)
+    
+    def __build__(self):
+        if self.tool_list.hasContent_():
+            self.analysis.set_Tools(tool_list)      
 
 
 class maec_action:
