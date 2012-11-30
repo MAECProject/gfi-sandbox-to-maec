@@ -1708,9 +1708,9 @@ class MalwareSubjectType(GeneratedsSuper):
     the MalwareSubjectIDPattern simple type."""
     subclass = None
     superclass = None
-    def __init__(self, id=None, Subject_Attributes=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None):
+    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None):
         self.id = _cast(None, id)
-        self.Subject_Attributes = Subject_Attributes
+        self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.Field_Data = Field_Data
         self.Analyses = Analyses
         self.Findings_Bundles = Findings_Bundles
@@ -1721,8 +1721,8 @@ class MalwareSubjectType(GeneratedsSuper):
         else:
             return MalwareSubjectType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Subject_Attributes(self): return self.Subject_Attributes
-    def set_Subject_Attributes(self, Subject_Attributes): self.Subject_Attributes = Subject_Attributes
+    def get_Malware_Instance_Object_Attributes(self): return self.Malware_Instance_Object_Attributes
+    def set_Malware_Instance_Object_Attributes(self, Malware_Instance_Object_Attributes): self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
     def get_Field_Data(self): return self.Field_Data
     def set_Field_Data(self, Field_Data): self.Field_Data = Field_Data
     def get_Analyses(self): return self.Analyses
@@ -1758,8 +1758,8 @@ class MalwareSubjectType(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Subject_Attributes is not None:
-            self.Subject_Attributes.export(outfile, level, 'maecPackage:', name_='Subject_Attributes', pretty_print=pretty_print)
+        if self.Malware_Instance_Object_Attributes is not None:
+            self.Malware_Instance_Object_Attributes.export(outfile, level, 'maecPackage:', name_='Malware_Instance_Object_Attributes', pretty_print=pretty_print)
         if self.Field_Data is not None:
             self.Field_Data.export(outfile, level, 'maecPackage:', name_='Field_Data', pretty_print=pretty_print)
         if self.Analyses is not None:
@@ -1770,7 +1770,7 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Relationships.export(outfile, level, 'maecPackage:', name_='Relationships', pretty_print=pretty_print)
     def hasContent_(self):
         if (
-            self.Subject_Attributes is not None or
+            self.Malware_Instance_Object_Attributes is not None or
             self.Field_Data is not None or
             self.Analyses is not None or
             self.Findings_Bundles is not None or
@@ -1790,10 +1790,10 @@ class MalwareSubjectType(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('id = %s,\n' % (self.id,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Subject_Attributes is not None:
+        if self.Malware_Instance_Object_Attributes is not None:
             showIndent(outfile, level)
-            outfile.write('Subject_Attributes=model_.cybox_core_1_0.ObjectType(\n')
-            self.Subject_Attributes.exportLiteral(outfile, level, name_='Subject_Attributes')
+            outfile.write('Malware_Instance_Object_Attributes=model_.cybox_core_1_0.ObjectType(\n')
+            self.Malware_Instance_Object_Attributes.exportLiteral(outfile, level, name_='Malware_Instance_Object_Attributes')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Field_Data is not None:
@@ -1831,10 +1831,10 @@ class MalwareSubjectType(GeneratedsSuper):
             already_processed.append('id')
             self.id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Subject_Attributes':
+        if nodeName_ == 'Malware_Instance_Object_Attributes':
             obj_ = cybox_core_1_0.ObjectType.factory()
             obj_.build(child_)
-            self.set_Subject_Attributes(obj_)
+            self.set_Malware_Instance_Object_Attributes(obj_)
         elif nodeName_ == 'Field_Data':
             obj_ = mmdef_1_2.fieldDataEntry.factory()
             obj_.build(child_)

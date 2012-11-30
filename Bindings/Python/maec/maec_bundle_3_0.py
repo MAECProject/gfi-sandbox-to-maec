@@ -613,7 +613,7 @@ class BundleType(GeneratedsSuper):
     should be used for validation.The required defined_subject
     attribute specifies whether the subject attributes of the
     malware instance characterized here are included inside this
-    Bundle (via the top-level Subject_Attributes element) or
+    Bundle (via the top-level Malware_Instance_Object_Attributes element) or
     elsewhere (such as a MAEC Subject in a MAEC Package).The
     content_type attribute specifies the general type of content
     contained in this Bundle, e.g. static analysis tool output,
@@ -621,13 +621,13 @@ class BundleType(GeneratedsSuper):
     specifies the date/time that the bundle was generated."""
     subclass = None
     superclass = None
-    def __init__(self, defined_subject=None, content_type=None, id=None, schema_version=None, timestamp=None, Subject_Attributes=None, Process_Tree=None, Behaviors=None, Actions=None, Objects=None, Candidate_Indicators=None, Collections=None):
+    def __init__(self, defined_subject=None, content_type=None, id=None, schema_version=None, timestamp=None, Malware_Instance_Object_Attributes=None, Process_Tree=None, Behaviors=None, Actions=None, Objects=None, Candidate_Indicators=None, Collections=None):
         self.defined_subject = _cast(bool, defined_subject)
         self.content_type = _cast(None, content_type)
         self.id = _cast(None, id)
         self.schema_version = _cast(float, schema_version)
         self.timestamp = _cast(None, timestamp)
-        self.Subject_Attributes = Subject_Attributes
+        self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.Process_Tree = Process_Tree
         self.Behaviors = Behaviors
         self.Actions = Actions
@@ -640,8 +640,8 @@ class BundleType(GeneratedsSuper):
         else:
             return BundleType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Subject_Attributes(self): return self.Subject_Attributes
-    def set_Subject_Attributes(self, Subject_Attributes): self.Subject_Attributes = Subject_Attributes
+    def get_Malware_Instance_Object_Attributes(self): return self.Malware_Instance_Object_Attributes
+    def set_Malware_Instance_Object_Attributes(self, Malware_Instance_Object_Attributes): self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
     def get_Process_Tree(self): return self.Process_Tree
     def set_Process_Tree(self, Process_Tree): self.Process_Tree = Process_Tree
     def get_Behaviors(self): return self.Behaviors
@@ -701,8 +701,8 @@ class BundleType(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Subject_Attributes is not None:
-            self.Subject_Attributes.export(outfile, level, 'maecBundle:', name_='Subject_Attributes', pretty_print=pretty_print)
+        if self.Malware_Instance_Object_Attributes is not None:
+            self.Malware_Instance_Object_Attributes.export(outfile, level, 'maecBundle:', name_='Malware_Instance_Object_Attributes', pretty_print=pretty_print)
         if self.Process_Tree is not None:
             self.Process_Tree.export(outfile, level, 'maecBundle:', name_='Process_Tree', pretty_print=pretty_print)
         if self.Behaviors is not None:
@@ -717,7 +717,7 @@ class BundleType(GeneratedsSuper):
             self.Collections.export(outfile, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
     def hasContent_(self):
         if (
-            self.Subject_Attributes is not None or
+            self.Malware_Instance_Object_Attributes is not None or
             self.Process_Tree is not None or
             self.Behaviors is not None or
             self.Actions is not None or
@@ -755,10 +755,10 @@ class BundleType(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('timestamp = "%s",\n' % (self.timestamp,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Subject_Attributes is not None:
+        if self.Malware_Instance_Object_Attributes is not None:
             showIndent(outfile, level)
-            outfile.write('Subject_Attributes=model_.cybox_core_1_0.ObjectType(\n')
-            self.Subject_Attributes.exportLiteral(outfile, level, name_='Subject_Attributes')
+            outfile.write('Malware_Instance_Object_Attributes=model_.cybox_core_1_0.ObjectType(\n')
+            self.Malware_Instance_Object_Attributes.exportLiteral(outfile, level, name_='Malware_Instance_Object_Attributes')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Process_Tree is not None:
@@ -832,10 +832,10 @@ class BundleType(GeneratedsSuper):
             already_processed.append('timestamp')
             self.timestamp = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Subject_Attributes':
+        if nodeName_ == 'Malware_Instance_Object_Attributes':
             obj_ = cybox_core_1_0.ObjectType.factory()
             obj_.build(child_)
-            self.set_Subject_Attributes(obj_)
+            self.set_Malware_Instance_Object_Attributes(obj_)
         elif nodeName_ == 'Process_Tree':
             obj_ = ProcessTreeType.factory()
             obj_.build(child_)
