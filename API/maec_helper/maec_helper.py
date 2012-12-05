@@ -228,19 +228,6 @@ class maec_subject:
         #Instantiate the lists
         self.analyses = maecpackage.AnalysisListType()
         self.findings_bundles = maecpackage.FindingsBundleListType()
-        #Create the namespace and schemalocation declarations
-        self.namespace_prefixes = {'xmlns:maecPackage' : '"http://maec.mitre.org/XMLSchema/maec-package-1"',
-                                   'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
-                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
-                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
-                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
-                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
-                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
-                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
-                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
-
 
     #Public methods
     #Set the Malware_Instance_Object_Attributes with a CybOX object
@@ -255,24 +242,10 @@ class maec_subject:
     def add_findings_bundle(self, findings_bundle):
         self.findings_bundles.add_Bundle(findings_bundle)
 
-    #Add a namespace to the namespaces list
-    def add_namespace(self, namespace_prefix, namespace):
-        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
-
-    #Add a schemalocation to the schemalocation list
-    def add_schemalocation(self, namespace, schemalocation):
-        self.schemalocations[namespace] = schemalocation
-
     #Get the Malware Subject
     def get_object(self):
         self.__build__()
         return self.subject
-
-    #Export the Malware Subject and its contents to an XML file
-    def export_to_file(self, outfilename):
-        self.__build__()
-        outfile = open(outfilename, 'w')
-        self.subject.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
     
     #Private methods
 
@@ -282,27 +255,6 @@ class maec_subject:
             self.subject.set_Analyses(self.analyses)
         if self.findings_bundles.hasContent_():
             self.subject.set_Findings_Bundles(self.findings_bundles)
-
-    #Build the namespace/schemalocation declaration string
-    def __build_samespaces_schemalocations(self):
-        output_string = '\n '
-        schemalocs = []
-        first_string = True
-        for namespace_prefix, namespace in self.namespace_prefixes.items():
-            output_string += (namespace_prefix + '=' + namespace + ' \n ')
-        output_string += 'xsi:schemaLocation="'
-        for namespace, schemalocation in self.schemalocations.items():
-            if first_string:
-                schemalocs.append(namespace + ' ' + schemalocation)
-                first_string = False
-            else:
-                schemalocs.append(' ' + namespace + ' ' + schemalocation)
-        for schemalocation_string in schemalocs:
-            if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
-                output_string += (schemalocation_string + '"\n')
-            else:
-                output_string += (schemalocation_string + '\n')
-        return output_string
 
 class maec_bundle:
     def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
@@ -321,6 +273,17 @@ class maec_bundle:
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
         if malware_instance_object is not None:
             self.bundle.set_Malware_Instance_Attributes(malware_instance_object)
+        #Create the namespace and schemalocation declarations
+        self.namespace_prefixes = {'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
+                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
+                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
+                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
+                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
+                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
+                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
+                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
         #Create the top-level objects
         self.objects = maecbundle.ObjectListType()
         #Create the MAEC collections object
@@ -357,7 +320,7 @@ class maec_bundle:
     def add_process_object(self, object):
         self.process_object_collection.add_Object(object)
         
-    def add_action(self, action, action_group):
+    def add_action(self, action, action_group = None):
         if action_group == 'file_system':
             if self.filesystem_action_collection.get_Action_List() is not None:
                 self.filesystem_action_collection.get_Action_List().add_Action(action)
@@ -476,43 +439,10 @@ class maec_bundle:
             else:
                 action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
-                self.module_action_collection.set_Action_List(action_list)                             
+                self.module_action_collection.set_Action_List(action_list)  
+        elif action_group == None:
+            self.actions.add_Action(action)                           
     
-    def add_actions(self, actions, action_group):
-        if action_group == 'file_system':
-            for action in actions:
-                self.filesystem_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'ipc':
-            for action in actions:
-                self.ipc_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'service':
-            for action in actions:
-                self.service_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'registry':
-            for action in actions:
-                self.registry_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'network':
-            for action in actions:
-                self.network_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'memory':
-            for action in actions:
-                self.memory_action_collection.get_Action_List().add_Action(action)           
-        elif action_group == 'process':
-            for action in actions:
-                self.process_action_collection.get_Action_List().add_Action(action)            
-        elif action_group == 'module':
-            for action in actions:
-                self.module_action_collection.get_Action_List().add_Action(action)            
-        elif action_group == 'system':
-            for action in actions:
-                self.system_action_collection.get_Action_List().add_Action(action) 
-        elif action_group == 'internet':
-            for action in actions:
-                self.internet_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'filemapping':
-            for action in actions:
-                self.filemapping_action_collection.get_Action_List().add_Action(action)
-            
     def add_object(self, object, action_group = None):
         if action_group == 'process':
             if self.process_object_collection.get_Object_List() is not None:
@@ -529,6 +459,14 @@ class maec_bundle:
             for object in objects:
                 self.process_object_collection.get_Object_List().add_Object(object)            
                                    
+    #Add a namespace to the namespaces list
+    def add_namespace(self, namespace_prefix, namespace):
+        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
+
+    #Add a schemalocation to the schemalocation list
+    def add_schemalocation(self, namespace, schemalocation):
+        self.schemalocations[namespace] = schemalocation
+
     #Build the MAEC bundle by adding all applicable elements
     def build_maecbundle(self):
         #Add the collections to their respective pools
@@ -561,66 +499,10 @@ class maec_bundle:
             self.bundle.set_Collections(self.collections)
     
     #Export the MAEC bundle and its contents to an XML file
-    def export(self, outfilename):
-        filename = outfilename
-        outfile = open(filename, 'w')
-        print ("Exporting MAEC Bundle to: " + filename)
-        self.bundle.export(outfile, 0, namespacedef_='xmlns:mmdef="http://xml/metadataSharing.xsd"\
-        xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3"\
-        xmlns:cybox="http://cybox.mitre.org/cybox_v1"\
-        xmlns:Common="http://cybox.mitre.org/Common_v1"\
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
-        xmlns:SystemObj="http://cybox.mitre.org/objects#SystemObject"\
-        xmlns:FileObj="http://cybox.mitre.org/objects#FileObject"\
-        xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject"\
-        xmlns:PipeObj="http://cybox.mitre.org/objects#PipeObject"\
-        xmlns:PortObj="http://cybox.mitre.org/objects#PortObject"\
-        xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject"\
-        xmlns:SocketObj="http://cybox.mitre.org/objects#SocketObject"\
-        xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject"\
-        xmlns:MemoryObj="http://cybox.mitre.org/objects#MemoryObject"\
-        xmlns:LibraryObj="http://cybox.mitre.org/objects#LibraryObject"\
-        xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject"\
-        xmlns:URIObj="http://cybox.mitre.org/objects#URIObject"\
-        xmlns:WinMutexObj="http://cybox.mitre.org/objects#WinMutexObject"\
-        xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject"\
-        xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject"\
-        xmlns:WinPipeObj="http://cybox.mitre.org/objects#WinPipeObject"\
-        xmlns:WinDriverObj="http://cybox.mitre.org/objects#WinDriverObject"\
-        xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject"\
-        xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject"\
-        xmlns:WinMailslotObj="http://cybox.mitre.org/objects#WinMailslotObject"\
-        xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject"\
-        xmlns:WinHandleObj="http://cybox.mitre.org/objects#WinHandleObject"\
-        xmlns:WinThreadObj="http://cybox.mitre.org/objects#WinThreadObject"\
-        xmlns:WinTaskObj="http://cybox.mitre.org/objects#WinThreadObject"\
-        xmlns:WinSystemObj="http://cybox.mitre.org/objects#WinSystemObject"\
-        xmlns:WinNetworkShareObj="http://cybox.mitre.org/objects#WinNetworkShareObject"\
-        xmlns:WinUserAccountObj="http://cybox.mitre.org/objects#WinUserAccountObject"\
-        xsi:schemaLocation="http://cybox.mitre.org/Common_v1 http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd\
-        http://cybox.mitre.org/objects#SystemObject http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd\
-        http://cybox.mitre.org/cybox_v1 http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd\
-        http://maec.mitre.org/XMLSchema/maec-bundle-3 http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd\
-        http://cybox.mitre.org/objects#FileObject http://cybox.mitre.org/XMLSchema/objects/File/File_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#ProcessObject http://cybox.mitre.org/XMLSchema/objects/Process/Process_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#SocketObject http://cybox.mitre.org/XMLSchema/objects/Socket/Socket_Object_1.4.xsd\
-        http://cybox.mitre.org/objects#MemoryObject http://cybox.mitre.org/XMLSchema/objects/Memory/Memory_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#LibraryObject http://cybox.mitre.org/XMLSchema/objects/Library/Library_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinMutexObject http://cybox.mitre.org/XMLSchema/objects/Win_Mutex/Win_Mutex_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinServiceObject http://cybox.mitre.org/XMLSchema/objects/Win_Service/Win_Service_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinRegistryKeyObject http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/Win_Registry_Key_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinPipeObject http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/Win_Pipe_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinDriverObject http://cybox.mitre.org/XMLSchema/objects/Win_Driver/Win_Driver_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinFileObject http://cybox.mitre.org/XMLSchema/objects/Win_File/Win_File_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinExecutableFileObject http://cybox.mitre.org/XMLSchema/objects/Win_Executable_File/Win_Executable_File_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinMailslotObject http://cybox.mitre.org/XMLSchema/objects/Win_Mailslot/Win_Mailslot_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinProcessObject http://cybox.mitre.org/XMLSchema/objects/Win_Process/Win_Process_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinHandleObject http://cybox.mitre.org/XMLSchema/objects/Win_Handle/Win_Handle_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinThreadObject http://cybox.mitre.org/XMLSchema/objects/Win_Thread/Win_Thread_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinTaskObject http://cybox.mitre.org/XMLSchema/objects/Win_Task/Win_Task_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinSystemObject http://cybox.mitre.org/XMLSchema/objects/Win_System/Win_System_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinNetworkShareObject http://cybox.mitre.org/XMLSchema/objects/Win_Network_Share/Win_Network_Share_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinUserAccountObject http://cybox.mitre.org/XMLSchema/objects/Win_User_Account/Win_User_Account_Object_1.3.xsd"')
+    def export_to_file(self, outfilename):
+        self.__build__()
+        outfile = open(outfilename, 'w')
+        self.bundle.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
         
     #accessor methods
     def get_object(self):
