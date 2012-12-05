@@ -155,8 +155,8 @@ class maec_package:
                                    'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
                                    'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
                                    'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'maec-bundle-schema.xsd',
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
                                 'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
                                 'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
                                 'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
@@ -235,17 +235,17 @@ class maec_subject:
                                    'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
                                    'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
                                    'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'maec-bundle-schema.xsd',
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
                                 'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
                                 'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
                                 'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
 
 
     #Public methods
-    #Set the subject_attributes with a CybOX object
-    def set_subject_attributes(self, subject_object):
-        self.subject.set_Subject_Attributes(subject_object)
+    #Set the Malware_Instance_Object_Attributes with a CybOX object
+    def set_malware_instance_object_attributes(self, malware_instance_object):
+        self.subject.set_Malware_Instance_Object_Attributes(malware_instance_object)
 
     #Add an Analysis to the Analyses
     def add_analysis(self, analysis):
@@ -305,7 +305,7 @@ class maec_subject:
         return output_string
 
 class maec_bundle:
-    def __init__(self, generator, schema_version, defined_subject, content_type = None, subject_attributes = None):
+    def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
         self.generator = generator
         #Create the MAEC Bundle object
         self.bundle = maecbundle.BundleType(id=self.generator.generate_bnd_id())
@@ -318,9 +318,9 @@ class maec_bundle:
         #Set the content_type if it is not none
         if content_type is not None:
             self.bundle.set_content_type(content_type)
-        #Set the subject attributes (a CybOX object) if they are not none
-        if subject_attributes is not None:
-            self.bundle.set_Subject_Attributes(subject_attributes)
+        #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
+        if malware_instance_object is not None:
+            self.bundle.set_Malware_Instance_Attributes(malware_instance_object)
         #Create the top-level objects
         self.objects = maecbundle.ObjectListType()
         #Create the MAEC collections object
