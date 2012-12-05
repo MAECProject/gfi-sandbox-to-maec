@@ -29,35 +29,8 @@ try:
     if Verbose_import_:
         print("running with lxml.etree")
 except ImportError:
-    try:
-        # cElementTree from Python 2.5+
-        import xml.etree.cElementTree as etree_
-        XMLParser_import_library = XMLParser_import_elementtree
-        if Verbose_import_:
-            print("running with cElementTree on Python 2.5+")
-    except ImportError:
-        try:
-            # ElementTree from Python 2.5+
-            import xml.etree.ElementTree as etree_
-            XMLParser_import_library = XMLParser_import_elementtree
-            if Verbose_import_:
-                print("running with ElementTree on Python 2.5+")
-        except ImportError:
-            try:
-                # normal cElementTree install
-                import cElementTree as etree_
-                XMLParser_import_library = XMLParser_import_elementtree
-                if Verbose_import_:
-                    print("running with cElementTree")
-            except ImportError:
-                try:
-                    # normal ElementTree install
-                    import elementtree.ElementTree as etree_
-                    XMLParser_import_library = XMLParser_import_elementtree
-                    if Verbose_import_:
-                        print("running with ElementTree")
-                except ImportError:
-                    raise ImportError("Failed to import ElementTree from any known place")
+    if Verbose_import_:
+        print 'Error: LXML version 2.3+ required for parsing files'
 
 def parsexml_(*args, **kwargs):
     if (XMLParser_import_library == XMLParser_import_lxml and
@@ -2516,7 +2489,7 @@ class IndicatorType(common.IndicatorType):
     subclass = None
     superclass = common.IndicatorType
     def __init__(self, type_=None, creation_datetime=None, importance=None, numeric_importance=None, lastupdate_datetime=None, version=None, id=None, Author=None, Description=None, Source=None, Comments=None, Target=None, Observables=None):
-        super(IndicatorType, self).__init__(type_)
+        super(IndicatorType, self).__init__()
         self.creation_datetime = _cast(None, creation_datetime)
         self.importance = _cast(None, importance)
         self.numeric_importance = _cast(int, numeric_importance)

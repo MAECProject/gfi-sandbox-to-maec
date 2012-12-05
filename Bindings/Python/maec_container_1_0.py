@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*- 
 
 #
-# Generated Tue Apr 10 13:54:51 2012 by generateDS.py version 2.7b.
+# Generated Mon Nov 26 15:49:30 2012 by generateDS.py version 2.7c.
 #
 
 import sys
 import getopt
 import re as re_
-import common_types_1_0 as common
+
+import maec_package_1_0
 
 etree_ = None
 Verbose_import_ = False
@@ -23,35 +24,8 @@ try:
     if Verbose_import_:
         print("running with lxml.etree")
 except ImportError:
-    try:
-        # cElementTree from Python 2.5+
-        import xml.etree.cElementTree as etree_
-        XMLParser_import_library = XMLParser_import_elementtree
-        if Verbose_import_:
-            print("running with cElementTree on Python 2.5+")
-    except ImportError:
-        try:
-            # ElementTree from Python 2.5+
-            import xml.etree.ElementTree as etree_
-            XMLParser_import_library = XMLParser_import_elementtree
-            if Verbose_import_:
-                print("running with ElementTree on Python 2.5+")
-        except ImportError:
-            try:
-                # normal cElementTree install
-                import cElementTree as etree_
-                XMLParser_import_library = XMLParser_import_elementtree
-                if Verbose_import_:
-                    print("running with cElementTree")
-            except ImportError:
-                try:
-                    # normal ElementTree install
-                    import elementtree.ElementTree as etree_
-                    XMLParser_import_library = XMLParser_import_elementtree
-                    if Verbose_import_:
-                        print("running with ElementTree")
-                except ImportError:
-                    raise ImportError("Failed to import ElementTree from any known place")
+    if Verbose_import_:
+        print 'Error: LXML version 2.3+ required for parsing files'
 
 def parsexml_(*args, **kwargs):
     if (XMLParser_import_library == XMLParser_import_lxml and
@@ -192,9 +166,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level):
-    for idx in range(level):
-        outfile.write('    ')
+def showIndent(outfile, level, pretty_print=True):
+    if pretty_print:
+        for idx in range(level):
+            outfile.write('    ')
 
 def quote_xml(inStr):
     if not inStr:
@@ -299,7 +274,7 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace):
+    def export(self, outfile, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip(): 
@@ -307,7 +282,7 @@ class MixedContainer:
         elif self.category == MixedContainer.CategorySimple:
             self.exportSimple(outfile, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace,name)
+            self.value.export(outfile, level, namespace, name, pretty_print)
     def exportSimple(self, outfile, level, name):
         if self.content_type == MixedContainer.TypeString:
             outfile.write('<%s>%s</%s>' % (self.name, self.value, self.name))
@@ -366,90 +341,213 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class MutexObjectType(common.DefinedObjectType):
-    """The MutexObjectType type is intended to characterize generic mutual
-    exclusion (mutex) objects.The named attribute specifies whether
-    the Mutex is named."""
+class ContainerType(GeneratedsSuper):
+    """The ContainerType encompasses all forms of MAEC data. Currently,
+    this entails a list of Packages.The required id attribute
+    specifies a unique ID for this Container. The ID must follow the
+    pattern defined in the ContainerIDPattern simple type.The
+    required schema_version attribute specifies the version of the
+    MAEC Container Schema that the document has been written in and
+    that should be used for validation.The timestamp attribute
+    specifies the date/time that the Container was generated."""
     subclass = None
-    superclass = common.DefinedObjectType
-    def __init__(self, named=None, Name=None):
-        super(MutexObjectType, self).__init__(None)
-        self.named = _cast(bool, named)
-        self.Name = Name
+    superclass = None
+    def __init__(self, timestamp=None, id=None, schema_version=None, Packages=None):
+        self.timestamp = _cast(None, timestamp)
+        self.id = _cast(None, id)
+        self.schema_version = _cast(float, schema_version)
+        self.Packages = Packages
     def factory(*args_, **kwargs_):
-        if MutexObjectType.subclass:
-            return MutexObjectType.subclass(*args_, **kwargs_)
+        if ContainerType.subclass:
+            return ContainerType.subclass(*args_, **kwargs_)
         else:
-            return MutexObjectType(*args_, **kwargs_)
+            return ContainerType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Name(self): return self.Name
-    def set_Name(self, Name): self.Name = Name
-    def get_named(self): return self.named
-    def set_named(self, named): self.named = named
-    def export(self, outfile, level, namespace_='MutexObj:', name_='MutexObjectType', namespacedef_=''):
-        showIndent(outfile, level)
+    def get_Packages(self): return self.Packages
+    def set_Packages(self, Packages): self.Packages = Packages
+    def get_timestamp(self): return self.timestamp
+    def set_timestamp(self, timestamp): self.timestamp = timestamp
+    def get_id(self): return self.id
+    def set_id(self, id): self.id = id
+    def get_schema_version(self): return self.schema_version
+    def set_schema_version(self, schema_version): self.schema_version = schema_version
+    def export(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MutexObjectType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Container')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='MutexObj:', name_='MutexObjectType'):
-        super(MutexObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MutexObjectType')
-        if self.named is not None and 'named' not in already_processed:
-            already_processed.append('named')
-            outfile.write(' named="%s"' % self.gds_format_boolean(self.gds_str_lower(str(self.named)), input_name='named'))		
-    def exportChildren(self, outfile, level, namespace_='MutexObj:', name_='MutexObjectType', fromsubclass_=False):
-        if self.Name is not None:
-            self.Name.export(outfile, level, 'MutexObj:', name_='Name')
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecContainer:', name_='MAEC_Container'):
+        if self.timestamp is not None and 'timestamp' not in already_processed:
+            already_processed.append('timestamp')
+            outfile.write(' timestamp=%s' % (self.gds_format_string(quote_attrib(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), ))
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.append('id')
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+        if self.schema_version is not None and 'schema_version' not in already_processed:
+            already_processed.append('schema_version')
+            outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
+    def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Packages is not None:
+            self.Packages.export(outfile, level, 'maecContainer:', name_='Packages', pretty_print=pretty_print)
     def hasContent_(self):
         if (
-            self.Name is not None
+            self.Packages is not None
             ):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='MutexObjectType'):
+    def exportLiteral(self, outfile, level, name_='MAEC_Container'):
         level += 1
         self.exportLiteralAttributes(outfile, level, [], name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.named is not None and 'named' not in already_processed:
-            already_processed.append('named')
+        if self.timestamp is not None and 'timestamp' not in already_processed:
+            already_processed.append('timestamp')
             showIndent(outfile, level)
-            outfile.write('named = %s,\n' % (self.named,))
+            outfile.write('timestamp = "%s",\n' % (self.timestamp,))
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.append('id')
+            showIndent(outfile, level)
+            outfile.write('id = %s,\n' % (self.id,))
+        if self.schema_version is not None and 'schema_version' not in already_processed:
+            already_processed.append('schema_version')
+            showIndent(outfile, level)
+            outfile.write('schema_version = %f,\n' % (self.schema_version,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
+        if self.Packages is not None:
             showIndent(outfile, level)
-            outfile.write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
+            outfile.write('Packages=model_.PackageListType(\n')
+            self.Packages.exportLiteral(outfile, level, name_='Packages')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('named', node)
-        if value is not None and 'named' not in already_processed:
-            already_processed.append('named')
-            if value in ('true', '1'):
-                self.named = True
-            elif value in ('false', '0'):
-                self.named = False
-            else:
-                raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('timestamp', node)
+        if value is not None and 'timestamp' not in already_processed:
+            already_processed.append('timestamp')
+            self.timestamp = value
+        value = find_attr_value_('id', node)
+        if value is not None and 'id' not in already_processed:
+            already_processed.append('id')
+            self.id = value
+        value = find_attr_value_('schema_version', node)
+        if value is not None and 'schema_version' not in already_processed:
+            already_processed.append('schema_version')
+            try:
+                self.schema_version = float(value)
+            except ValueError, exp:
+                raise ValueError('Bad float/double attribute (schema_version): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Name':
-            Name_ = child_.text
-            Name_ = self.gds_validate_string(Name_, node, 'Name')
-            self.Name = Name_
-        super(MutexObjectType, self).buildChildren(child_, node, nodeName_, True)
-# end class MutexObjectType
+        if nodeName_ == 'Packages':
+            obj_ = PackageListType.factory()
+            obj_.build(child_)
+            self.set_Packages(obj_)
+# end class ContainerType
 
+class PackageListType(GeneratedsSuper):
+    """The PackageListType captures a list of Packages."""
+    subclass = None
+    superclass = None
+    def __init__(self, Package=None):
+        if Package is None:
+            self.Package = []
+        else:
+            self.Package = Package
+    def factory(*args_, **kwargs_):
+        if PackageListType.subclass:
+            return PackageListType.subclass(*args_, **kwargs_)
+        else:
+            return PackageListType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Package(self): return self.Package
+    def set_Package(self, Package): self.Package = Package
+    def add_Package(self, value): self.Package.append(value)
+    def insert_Package(self, index, value): self.Package[index] = value
+    def export(self, outfile, level, namespace_='maecContainer:', name_='PackageListType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = []
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PackageListType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecContainer:', name_='PackageListType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='PackageListType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Package_ in self.Package:
+            Package_.export(outfile, level, 'maecContainer:', name_='Package', pretty_print=pretty_print)
+    def hasContent_(self):
+        if (
+            self.Package
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='PackageListType'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, [], name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Package=[\n')
+        level += 1
+        for Package_ in self.Package:
+            showIndent(outfile, level)
+            outfile.write('model_.maec_package_1_0.PackageType(\n')
+            Package_.exportLiteral(outfile, level, name_='maec_package_1_0.PackageType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        self.buildAttributes(node, node.attrib, [])
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Package':
+            obj_ = maec_package_1_0.PackageType.factory()
+            obj_.build(child_)
+            self.Package.append(obj_)
+# end class PackageListType
 
 USAGE_TEXT = """
 Usage: python <Parser>.py [ -s ] <in_xml_file>
@@ -459,29 +557,27 @@ def usage():
     print USAGE_TEXT
     sys.exit(1)
 
-
 def get_root_tag(node):
     tag = Tag_pattern_.match(node.tag).groups()[-1]
     rootClass = globals().get(tag)
     return tag, rootClass
-
 
 def parse(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'Mutex'
-        rootClass = MutexObjectType
+        rootTag = 'MAEC_Container'
+        rootClass = ContainerType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_=rootTag, 
-        namespacedef_='')
+    rootObj.export(sys.stdout, 0, name_=rootTag,
+        namespacedef_='',
+        pretty_print=True)
     return rootObj
-
 
 def parseString(inString):
     from StringIO import StringIO
@@ -489,36 +585,34 @@ def parseString(inString):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'Mutex'
-        rootClass = MutexObjectType
+        rootTag = 'MAEC_Container'
+        rootClass = ContainerType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_="Mutex",
+    rootObj.export(sys.stdout, 0, name_="MAEC_Container",
         namespacedef_='')
     return rootObj
-
 
 def parseLiteral(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'Mutex'
-        rootClass = MutexObjectType
+        rootTag = 'MAEC_Container'
+        rootClass = ContainerType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-    sys.stdout.write('#from Mutex_Object import *\n\n')
-    sys.stdout.write('import Mutex_Object as model_\n\n')
+    sys.stdout.write('#from maec_container import *\n\n')
+    sys.stdout.write('import maec_container as model_\n\n')
     sys.stdout.write('rootObj = model_.rootTag(\n')
     rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
     sys.stdout.write(')\n')
     return rootObj
-
 
 def main():
     args = sys.argv[1:]
@@ -527,12 +621,11 @@ def main():
     else:
         usage()
 
-
 if __name__ == '__main__':
     #import pdb; pdb.set_trace()
     main()
 
-
 __all__ = [
-    "MutexObjectType"
+    "ContainerType",
+    "PackageListType"
     ]
