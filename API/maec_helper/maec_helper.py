@@ -54,8 +54,8 @@ class generator:
         self.dat_id_base = 0
         self.actc_id_base = 0
         self.bhvc_id_base = 0
-        self.effc_id_base = 0
         self.objc_id_base = 0
+        self.indc_id_base = 0
         self.avclass_id_base = 0
         
     #Methods for generating unique ids
@@ -122,14 +122,14 @@ class generator:
     def generate_bhvc_id(self):
         self.bhvc_id_base += 1
         return 'maec-' + self.namespace + '-bhvc-' + str(self.bhvc_id_base)
-        
-    def generate_effc_id(self):
-        self.effc_id_base += 1
-        return 'maec-' + self.namespace + '-effc-' + str(self.effc_id_base)
 
     def generate_objc_id(self):
         self.objc_id_base += 1
         return 'maec-' + self.namespace + '-objc-' + str(self.objc_id_base)
+
+    def generate_indc_id(self):
+        self.indc_id_base += 1
+        return 'maec-' + self.namespace + '-indc-' + str(self.indc_id_base)
 
     def generate_avclass_id(self):
         self.avclass_id_base += 1
@@ -273,6 +273,18 @@ class maec_bundle:
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
         if malware_instance_object is not None:
             self.bundle.set_Malware_Instance_Attributes(malware_instance_object)
+        #Add all of the top-level containers
+        self.actions = maecbundle.ActionListType()
+        self.process_tree = maecbundle.ProcessTreeType()
+        self.behaviors = maecbundle.BehaviorListType()
+        self.objects = maecbundle.ObjectListType()
+        self.candidate_indicators = maecbundle.CandidateIndicatorListType()
+        self.collections = maecbundle.CollectionsType()
+        #Add the collection dictionaries
+        self.action_collections = {}
+        self.object_collections = {}
+        self.behavior_collections = {}
+        self.candidate_indicator_collections = {}
         #Create the namespace and schemalocation declarations
         self.namespace_prefixes = {'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
                                    'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
@@ -284,180 +296,86 @@ class maec_bundle:
                                 'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
                                 'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
                                 'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
-        #Create the top-level objects
-        self.objects = maecbundle.ObjectListType()
-        #Create the MAEC collections object
-        self.collections = maecbundle.CollectionsType()
-        #Create the object collections
-        self.object_collections = maecbundle.ObjectCollectionListType()
-        #Create the action collections
-        self.action_collections = maecbundle.ActionCollectionListType()
-        #Create the analyses
-        self.analyses = maecpackage.AnalysisListType()
-        #Create the object collections
-        self.process_object_collection = maecbundle.ObjectCollectionType(name='Process Objects', id=self.generator.generate_objc_id())
-        self.process_object_collection.set_Description('This collection encompasses the chain of processes spawned by the subject binary.')
 
-        #Create the action collections
-        self.filesystem_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="File System Actions")
-        self.ipc_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="IPC Actions")
-        self.service_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Service Actions")
-        self.process_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Process Actions")
-        self.registry_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Registry Actions")
-        self.network_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Actions")
-        self.memory_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Memory Actions")
-        self.module_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Module Actions")
-        self.system_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Actions")
-        self.internet_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Internet Actions")
-        self.filemapping_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Filemapping Actions")
-        self.thread_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Thread Actions")
-        self.sysobject_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Object Actions")
-        self.driver_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Driver Actions")
-        self.user_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="User Actions")
-        self.networkshare_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Share Actions")
+    #Set the Malware Instance Object Attributes
+    def set_malware_instance_object_atttributes(self, malware_instance_object):
+        self.bundle.set_Malware_Instance_Object_Attributes(malware_instance_object)
 
-    #"Public" methods
-    def add_process_object(self, object):
-        self.process_object_collection.add_Object(object)
+    #Set the Process Tree, in the top-level <Process_Tree> element
+    def set_process_tree(self, process_tree):
+        self.process_tree = process_tree
         
-    def add_action(self, action, action_group = None):
-        if action_group == 'file_system':
-            if self.filesystem_action_collection.get_Action_List() is not None:
-                self.filesystem_action_collection.get_Action_List().add_Action(action)
+    #Add an Action to an existing collection; if it does not exist, add it to the top-level <Actions> element
+    def add_action(self, action, action_collection_name = None):
+        if action_collection_name is not None:
+            #The collection has already been defined
+            if self.action_collections.has_key(action_collection_name):
+                action_collection = self.action_collections.get(action_collection_name)
+                action_list = action_collection.get_Action_List()
+                action_list.add_Action(action)
+            #The collection has not already been defined
             else:
+                action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name = action_collection_name)
                 action_list = maecbundle.ActionListType()
                 action_list.add_Action(action)
-                self.filesystem_action_collection.set_Action_List(action_list)
-        elif action_group == 'ipc':
-            if self.ipc_action_collection.get_Action_List() is not None:
-                self.ipc_action_collection.get_Action_List().add_Action(action)
+                action_collection.set_Action_List(action_list)
+                self.action_collections[action_collection_name] = action_collection
+        elif action_collection_name == None:
+            self.actions.add_Action(action) 
+                                      
+    #Add an Object to an existing collection; if it does not exist, add it to the top-level <Objects> element
+    def add_object(self, object, object_collection_name = None):
+        if object_collection_name is not None:
+            #The collection has already been defined
+            if self.object_collections.has_key(object_collection_name):
+                object_collection = self.object_collections.get(object_collection_name)
+                object_list = object_collection.get_Object_List()
+                object_list.add_Object(object)
+            #The collection has not already been defined
             else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.ipc_action_collection.set_Action_List(action_list)
-        elif action_group == 'service':
-            if self.service_action_collection.get_Action_List() is not None:
-                self.service_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.service_action_collection.set_Action_List(action_list)
-        elif action_group == 'registry':
-            if self.registry_action_collection.get_Action_List() is not None:
-                self.registry_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.registry_action_collection.set_Action_List(action_list)
-        elif action_group == 'network':
-            if self.network_action_collection.get_Action_List() is not None:
-                self.network_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.network_action_collection.set_Action_List(action_list)
-        elif action_group == 'memory':
-            if self.memory_action_collection.get_Action_List() is not None:
-                self.memory_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.memory_action_collection.set_Action_List(action_list)        
-        elif action_group == 'process':
-            if self.process_action_collection.get_Action_List() is not None:
-                self.process_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.process_action_collection.set_Action_List(action_list)        
-        elif action_group == 'module':
-            if self.module_action_collection.get_Action_List() is not None:
-                self.module_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.module_action_collection.set_Action_List(action_list)            
-        elif action_group == 'system':
-            if self.system_action_collection.get_Action_List() is not None:
-                self.system_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.system_action_collection.set_Action_List(action_list)     
-        elif action_group == 'internet':
-            if self.internet_action_collection.get_Action_List() is not None:
-                self.internet_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.internet_action_collection.set_Action_List(action_list)
-        elif action_group == 'filemapping':
-            if self.filemapping_action_collection.get_Action_List() is not None:
-                self.filemapping_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.filemapping_action_collection.set_Action_List(action_list)
-        elif action_group == 'thread':
-            if self.thread_action_collection.get_Action_List() is not None:
-                self.thread_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.thread_action_collection.set_Action_List(action_list)
-        elif action_group == 'sysobject':
-            if self.sysobject_action_collection.get_Action_List() is not None:
-                self.sysobject_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.sysobject_action_collection.set_Action_List(action_list)
-        elif action_group == 'driver':
-            if self.driver_action_collection.get_Action_List() is not None:
-                self.driver_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.driver_action_collection.set_Action_List(action_list) 
-        elif action_group == 'user':
-            if self.user_action_collection.get_Action_List() is not None:
-                self.user_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.user_action_collection.set_Action_List(action_list)
-        elif action_group == 'share':
-            if self.networkshare_action_collection.get_Action_List() is not None:
-                self.networkshare_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.networkshare_action_collection.set_Action_List(action_list)
-        elif action_group == 'module':
-            if self.module_action_collection.get_Action_List() is not None:
-                self.module_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.module_action_collection.set_Action_List(action_list)  
-        elif action_group == None:
-            self.actions.add_Action(action)                           
-    
-    def add_object(self, object, action_group = None):
-        if action_group == 'process':
-            if self.process_object_collection.get_Object_List() is not None:
-                self.process_object_collection.get_Object_List().add_Object(object)
-            else:
+                object_collection = maecbundle.ObjectCollectionType(id=self.generator.generate_objc_id(), name = object_collection_name)
                 object_list = maecbundle.ObjectListType()
                 object_list.add_Object(object)
-                self.process_object_collection.set_Object_List(object_list)
-        elif action_group == None:
+                object_collection.set_Object_List(object_list)
+                self.object_collections[object_collection_name] = object_collection
+        elif object_collection_name == None:
             self.objects.add_Object(object)
-            
-    def add_objects(self, objects, action_group):        
-        if action_group == 'process':
-            for object in objects:
-                self.process_object_collection.get_Object_List().add_Object(object)            
+
+    #Add an Behavior to an existing collection; if it does not exist, add it to the top-level <Behaviors> element
+    def add_behavior(self, behavior, behavior_collection_name = None):
+        if behavior_collection_name is not None:
+            #The collection has already been defined
+            if self.behavior_collections.has_key(behavior_collection_name):
+                behavior_collection = self.behavior_collections.get(behavior_collection_name)
+                behavior_list = behavior_collection.get_Behavior_List()
+                behavior_list.add_Behavior(behavior)
+            #The collection has not already been defined
+            else:
+                behavior_collection = maecbundle.BehaviorCollectionType(id=self.generator.generate_bhvc_id(), name = behavior_collection_name)
+                behavior_list = maecbundle.BehaviorListType()
+                behavior_list.add_Behavior(behavior)
+                behavior_collection.set_Behavior_List(behavior_list)
+                self.behavior_collections[behavior_collection_name] = behavior_collection
+        elif behavior_collection_name == None:
+            self.behaviors.add_Behavior(behavior)
+
+    #Add a Candidate Indicator to an existing collection; if it does not exist, add it to the top-level <Candidate_Indicators> element
+    def add_candidate_indicator(self, candidate_indicator, candidate_indicator_collection_name = None):
+        if candidate_indicator_collection_name is not None:
+            #The collection has already been defined
+            if self.candidate_indicator_collections.has_key(candidate_indicator_collection_name):
+                candidate_indicator_collection = self.candidate_indicator_collections.get(candidate_indicator_collection_name)
+                candidate_indicator_list = candidate_indicator_collection.get_Candidate_Indicator_List()
+                candidate_indicator_list.add_Candidate_Indicator(candidate_indicator)
+            #The collection has not already been defined
+            else:
+                candidate_indicator_collection = maecbundle.CandidateIndicatorCollectionType(id=self.generator.generate_indc_id(), name = candidate_indicator_collection_name)
+                candidate_indicator_list = maecbundle.CandidateIndicatorListType()
+                candidate_indicator_list.add_Candidate_Indicator(candidate_indicator)
+                candidate_indicator_collection.set_Candidate_Indicator_List(candidate_indicator_list)
+                self.candidate_indicator_collections[candidate_indicator_collection_name] = candidate_indicator_collection
+        elif candidate_indicator_collection_name == None:
+            self.candidate_indicators.add_Candidate_Indicator(candidate_indicator)
                                    
     #Add a namespace to the namespaces list
     def add_namespace(self, namespace_prefix, namespace):
@@ -466,37 +384,6 @@ class maec_bundle:
     #Add a schemalocation to the schemalocation list
     def add_schemalocation(self, namespace, schemalocation):
         self.schemalocations[namespace] = schemalocation
-
-    #Build the MAEC bundle by adding all applicable elements
-    def build_maecbundle(self):
-        #Add the collections to their respective pools
-        #Add the action collections
-        if self.filesystem_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.filesystem_action_collection)
-        if self.ipc_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.ipc_action_collection)
-        if self.service_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.service_action_collection)
-        if self.registry_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.registry_action_collection)
-        if self.network_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.network_action_collection)
-        if self.memory_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.memory_action_collection)
-        if self.process_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.process_action_collection)
-        if self.module_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.module_action_collection)
-        if self.system_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.system_action_collection)
-        if self.internet_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.internet_action_collection)
-        if self.filemapping_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.filemapping_action_collection)
-        if self.thread_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.thread_action_collection)
-        if self.sysobject_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.sysobject_action_collection)
-        if self.driver_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.driver_action_collection)
-        if self.user_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.user_action_collection)
-        if self.networkshare_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.networkshare_action_collection)
-        #Add the objects
-        if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
-        #Add the object collections
-        if self.process_object_collection.get_Object_List(): self.object_collections.add_Object_Collection(self.process_object_collection)
-        #Add everything to the collections
-        if self.object_collections.hasContent_() : self.collections.set_Object_Collections(self.object_collections)
-        if self.action_collections.hasContent_() : self.collections.set_Action_Collections(self.action_collections)
-        #Add the collections
-        if self.collections.hasContent_():
-            self.bundle.set_Collections(self.collections)
     
     #Export the MAEC bundle and its contents to an XML file
     def export_to_file(self, outfilename):
@@ -504,9 +391,69 @@ class maec_bundle:
         outfile = open(outfilename, 'w')
         self.bundle.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
         
-    #accessor methods
+    #Accessor methods
     def get_object(self):
+        self.__build__()
         return self.bundle
+
+    #Private methods
+
+    #Build the MAEC bundle by adding all applicable elements
+    def __build__(self):
+        #Add the Behaviors
+        if self.behaviors.hasContent_(): self.bundle.set_Behaviors(self.behaviors)
+        #Add the Actions
+        if self.actions.hasContent_(): self.bundle.set_Actions(self.behaviors)
+        #Add the Objects
+        if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
+        #Add the Process Tree
+        if self.process_tree.hasContent_(): self.bundle.set_Process_Tree(self.process_tree)
+        #Add the Candidate Indicators
+        if self.candidate_indicators.hasContent_(): self.bundle.set_Candidate_Indicators(self.candidate_indicators)
+        #Add the particular Collection types, if applicable
+        if len(self.action_collections) > 0:
+            action_collection_list = maecbundle.ActionCollectionListType()
+            for action_collection in self.action_collections.values():
+                action_collection_list.add_Action_Collection(action_collection)
+            self.collections.set_Action_Collections(action_collection_list)
+        if len(self.object_collections) > 0:
+            object_collection_list = maecbundle.ObjectCollectionListType()
+            for object_collection in self.object_collections.values():
+                object_collection_list.add_Object_Collection(object_collection)
+            self.collections.set_Object_Collections(object_collection_list)
+        if len(self.behavior_collections) > 0:
+            behavior_collection_list = maecbundle.BehaviorCollectionListType()
+            for behavior_collection in self.behavior_collections.values():
+                behavior_collection_list.add_Behavior_Collection(behavior_collection)
+            self.collections.set_Behavior_Collections(behavior_collection_list)
+        if len(self.candidate_indicator_collections) > 0:
+            candidate_indicator_collection_list = maecbundle.CandidateIndicatorCollectionListType()
+            for candidate_indicator_collection in self.candidate_indicator_collections.values():
+                candidate_indicator_collection_list.add_Candidate_Indicator_Collection(candidate_indicator_collection)
+            self.collections.set_Candidate_Indicator_Collections(candidate_indicator_collection_list)
+        #Add the Collections
+        if self.collections.hasContent_(): self.bundle.set_Collections(self.collections)
+
+    #Build the namespace/schemalocation declaration string
+    def __build_samespaces_schemalocations(self):
+        output_string = '\n '
+        schemalocs = []
+        first_string = True
+        for namespace_prefix, namespace in self.namespace_prefixes.items():
+            output_string += (namespace_prefix + '=' + namespace + ' \n ')
+        output_string += 'xsi:schemaLocation="'
+        for namespace, schemalocation in self.schemalocations.items():
+            if first_string:
+                schemalocs.append(namespace + ' ' + schemalocation)
+                first_string = False
+            else:
+                schemalocs.append(' ' + namespace + ' ' + schemalocation)
+        for schemalocation_string in schemalocs:
+            if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
+                output_string += (schemalocation_string + '"\n')
+            else:
+                output_string += (schemalocation_string + '\n')
+        return output_string
 
 class maec_analysis:
     def __init__(self, generator, method = None, type = None):
