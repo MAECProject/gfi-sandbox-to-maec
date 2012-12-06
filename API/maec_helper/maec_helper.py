@@ -189,7 +189,7 @@ class maec_package:
     def export_to_file(self, outfilename):
         self.__build__()
         outfile = open(outfilename, 'w')
-        self.package.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
+        self.package.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
 
 
     #Private methods
@@ -200,7 +200,7 @@ class maec_package:
             self.package.set_Malware_Subjects(self.subjects)
 
     #Build the namespace/schemalocation declaration string
-    def __build_samespaces_schemalocations(self):
+    def __build_namespaces_schemalocations(self):
         output_string = '\n '
         schemalocs = []
         first_string = True
@@ -389,7 +389,7 @@ class maec_bundle:
     def export_to_file(self, outfilename):
         self.__build__()
         outfile = open(outfilename, 'w')
-        self.bundle.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
+        self.bundle.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
         
     #Accessor methods
     def get_object(self):
@@ -435,7 +435,7 @@ class maec_bundle:
         if self.collections.hasContent_(): self.bundle.set_Collections(self.collections)
 
     #Build the namespace/schemalocation declaration string
-    def __build_samespaces_schemalocations(self):
+    def __build_namespaces_schemalocations(self):
         output_string = '\n '
         schemalocs = []
         first_string = True
