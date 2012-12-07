@@ -590,9 +590,112 @@ class maec_object:
         local_address = socket_object.SocketAddressType()
         
         for key, value in network_attributes.items():
-            if key == 'socket_type':
+            if key == 'address_family':
+                if value == "unspecified":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_UNSPEC'))
+                if value == "berkley" or value == "ipv4":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_INET'))
+                if value == "ipv6":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_INET6'))
+                if value == "ipx":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_IPX'))
+                if value == "netbios":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_NETBIOS'))
+                if value == "appletalk":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_APPLETALK'))
+                if value == "irda":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_IRDA'))
+                if value == "bth":
+                    socketobj.set_Address_Family(maec.common.StringObjectAttributeType(datatype='String', valueOf_='AF_BTH'))
+            elif key == "domain":
+                if value == "local":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_LOCAL'))
+                if value == "unix":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_UNIX'))
+                if value == "inet" or value == "ipv4" or value == "ip":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_INET'))
+                if value == "file":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_FILE'))
+                if value == "ax.25":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_AX25'))
+                if value == "ipx":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_IPX'))
+                if value == "ipv6":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_INET6'))
+                if value == "appletalk":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_APPLETALK'))
+                if value == "netrom":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_NETROM'))
+                if value == "bridge":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_BRIDGE'))
+                if value == "atmpvc":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMPVC'))
+                if value == "x.25":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_X25'))
+                if value == "rose":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_ROSE'))
+                if value == "key":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_KEY'))
+                if value == "security":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_SECURITY'))
+                if value == "netbeui":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_NETBEUI'))
+                if value == "netlink":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_NETLINK'))
+                if value == "route":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_ROUTE'))
+                if value == "decnet":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_DECNET'))
+                if value == "packet":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_PACKET'))
+                if value == "ash":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_ASH'))
+                if value == "econet":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_ECONET'))
+                if value == "atmsvc":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMSVC'))
+                if value == "sna":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_SNA'))
+                if value == "irda":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_IRDA'))
+                if value == "pppox":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_PPPOX'))
+                if value == "wanpipe":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_WANPIPE'))
+                if value == "bluetootk":
+                    socketobj.set_Domain(maec.common.StringObjectAttributeType(datatype='String', valueOf_='PF_BLUETOOTH'))
+            elif key == 'options':
+                options = socket_object.SocketOptionsType()
+                for op_key, op_value in value.items():
+                    # TODO: populate options
+                    pass
+                socketobj.set_Options(options)
+            elif key == 'protocol':
+                if key == 'icmp':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
+                if key == 'icmpv6':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMPV6'))
+                if key == 'igmp':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_IGMP'))
+                if key == 'udp':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_TCP'))
+                if key == 'tcp':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_UDP'))
+                if key == 'rm':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
+                if key == 'bluetooth':
+                    socketobj.set_Protocol(maec.common.StringObjectAttributeType(datatype='String', valueOf_='BTHPROTO_RFCOMM'))
+            elif key == 'socket_type':
                 if value == 'tcp':
                     socketobj.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_='SOCK_STREAM'))
+                if value == 'udp':
+                    socketobj.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_='SOCK_DGRAM'))
+                if value == 'raw':
+                    socketobj.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RAW'))
+                if value == 'rdm':
+                    socketobj.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RDM'))
+                if value == 'congestion control':
+                    socketobj.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_='SOCK_SEQPACKET'))
             elif key == 'remote_port':
                 if self.__value_test(value) and value != '0':
                     port = socket_object.port_object.PortObjectType()
@@ -634,6 +737,11 @@ class maec_object:
         for key, value in port_attributes.items():
             if key == 'value':
                 portobj.set_Port_Value(maec.common.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
+            elif key == 'protocol':
+                if value == 'tcp':
+                    portobj.set_Layer4_Protocol("TCP")
+                if value == 'udp':
+                    portobj.set_Layer4_Protocol("UDP")
             elif key == 'association':
                 cybox_object.set_association_type(value)
                 
@@ -654,6 +762,25 @@ class maec_object:
             elif key == 'path':
                 if self.__value_test(value):
                     libobject.set_Path(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'size':
+                if self.__value_test(value):
+                    libobject.set_Size(maec.common.UnsignedLongObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            elif key == 'version':
+                if self.__value_test(value):
+                    libobject.set_Version(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'type':
+                if value == 'static':
+                    libobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Static"))
+                elif value == 'dynamic':
+                    libobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Dynamic"))
+                elif value == 'remote':
+                    libobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Remote"))
+                elif value == 'shared':
+                    libobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Shared"))
+                elif value == 'other':
+                    libobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Other"))
+            elif key == 'base_address' or key == 'address':
+                libobject.set_Base_Address(maec.common.HexBinaryObjectAttributeType(valueOf_=value));
             elif key == 'association':
                 cybox_object.set_association_type(value)
         
@@ -670,7 +797,34 @@ class maec_object:
         for key, value in hook_attributes.items():
             if key == 'function_name':
                 if self.__value_test(value):
-                    hookobject.set_Name(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+                    hookobject.set_Hooked_Function(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            if key == 'hooked_module_name':
+                if self.__value_test(value):
+                    hookobject.set_Hooked_Module(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            if key == 'hooking_module_name':
+                if self.__value_test(value):
+                    hookobject.set_Hooking_Module(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'description':
+                if self.__value_test(value):
+                    hookobject.set_Hook_Description(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'address':
+                if self.__value_test(value):
+                    hookobject.set_Hooking_Address(maec.common.UnsignedLongObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            elif key == 'type':
+                if value == 'IAT_API':
+                    hookobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="IAT_API"))
+                elif value == 'inline':
+                    hookobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Inline_Function"))
+                elif value == 'instruction hooking':
+                    hookobject.set_Type(maec.common.StringObjectAttributeType(datatype='String', valueOf_="Instruction_Hooking"))
+            elif key == 'hooking_signature':
+                if self.__value_test(value):
+                    hookobject.set_Digital_Signature_Hooking(value) # TODO: maec.common.DigitalSignatureInfoType
+                    
+            elif key == 'hooked_signature':
+                if self.__value_test(value):
+                    hookobject.set_Digital_Signature_Hooked(value) # TODO: maec.common.DigitalSignatureInfoType
+            
             elif key == 'association':
                 cybox_object.set_association_type(value)
         
@@ -688,6 +842,22 @@ class maec_object:
             if key == 'category':
                 if self.__value_test(value):
                     addrobject.set_category(value)
+            elif key == 'ext_category':
+                if self.__value_test(value):
+                    addrobject.set_Ext_Category(value)
+            elif key == 'vlan_name':
+                if self.__value_test(value):
+                    addrobject.set_VLAN_Name(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'vlan_num':
+                if self.__value_test(value):
+                    addrobject.set_VLAN_Num(maec.common.IntegerObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            # TODO: implement Is_Source and Is_Destination for AddressObject
+            #elif key == 'is_source':
+            #    if self.__value_test(value):
+            #        addrobject.set_Is_Source(value?true:false)
+            #elif key == 'is_destination':
+            #    if self.__value_test(value):
+            #        addrobject.set_Is_Destination(value?true:false)
             elif key == 'address_value':
                 if self.__value_test(value):
                     addrobject.set_Address_Value(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
@@ -731,6 +901,7 @@ class maec_object:
         
         return cybox_object
 
+    # TODO: learn how this maps onto XML fields
     def create_registry_object(self, registry_attributes):
         cybox_object = maec.cybox.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Key/Key Group')
         reg_object = win_registry_object.WindowsRegistryKeyObjectType()
@@ -791,6 +962,12 @@ class maec_object:
                     packer = file_object.PackerAttributesType(Name=maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
                     packer_list.add_Packer(packer)
                     fileobj.set_Packer_List(packer_list)
+            elif key == 'is_packed':
+                if self.__value_test(value):
+                    fileobj.set_is_packed(true if value else false)
+            elif key == 'peak_entropy':
+                if self.__value_test(value):
+                    fileobj.set_Peak_Entropy(maec.common.DoubleObjectAttributeType(valueOf_=maec.quote_xml(value)))
             elif key == 'av_aliases':
                 cybox_object.set_Domain_specific_Object_Attributes(value)
             elif key == 'filename':
@@ -800,6 +977,44 @@ class maec_object:
                 if self.__value_test(value):
                     filepath = maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value))
                     fileobj.set_File_Path(filepath)
+            elif key == 'device_path':
+                if self.__value_test(value):
+                    devicepath = maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value))
+                    fileobj.set_Device_Path(devicepath)
+            elif key == 'full_path': #TODO: use device path and file path, if they're set?
+                if self.__value_test(value):
+                    fileobj.set_Full_Path(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'file_extension' or key == 'extension':
+                if self.__value_test(value):
+                    fileobj.set_File_Extension(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'file_format':
+                if self.__value_test(value):
+                    fileobj.set_File_Format(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'magic_number':
+                if self.__value_test(value):
+                    fileobj.set_File_Extension(maec.common.HexBianryObjectAttributeType(valueOf_=value))
+            elif key == 'full_path': #TODO: use device path and file path, if they're set?
+                if self.__value_test(value):
+                    fileobj.set_Full_Path(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'size_in_bytes' or key == 'size':
+                if self.__value_test(value):
+                    fileobj.set_Size_In_Bytes(maec.common.UnsignedLongObjectAttributeType(valueOf_=value))
+            elif key == 'modified_time':
+                if self.__value_test(value):
+                    fileobj.set_Modified_Time(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'accessed_time':
+                if self.__value_test(value):
+                    fileobj.set_Accessed_Time(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'created_time':
+                if self.__value_test(value):
+                    fileobj.set_Created_Time(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'owner' or key=='user_owner':
+                if self.__value_test(value):
+                    fileobj.set_User_Owner(maec.common.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'permissions':
+                pass #TODO
+            elif key == 'byteruns': # expects an array
+                fileobj.set_Byte_Runs(maec.common.ByteRunsType(Byte_Run=value));
             elif key == 'origin':
                 if self.__value_test(value):
                     uriobj = uri_object.URIObjectType()
@@ -883,7 +1098,8 @@ class maec_object:
         image_info = process_object.ImageInfoType()
         for key, value in process_attributes.items():
             if key == 'name':
-                continue
+                if self.__value_test(value):
+                    proc_object.set_Name(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(value)))
             elif key == 'filename':
                 if self.__value_test(value):
                     proc_object.set_Path(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(value)))
@@ -902,6 +1118,53 @@ class maec_object:
             elif key == 'start_time':
                 if self.__value_test(value):
                     proc_object.set_Start_Time(maec.common.DateTimeObjectAttributeType(datatype='DateTime',valueOf_=maec.quote_xml(value)))
+            elif key == 'creation_time':
+                if self.__value_test(value):
+                    proc_object.set_Creation_Time(maec.common.DateTimeObjectAttributeType(datatype='DateTime',valueOf_=maec.quote_xml(value)))
+            elif key == 'child_pid_list':
+                if self.__value_test(value):
+                    proc_object.set_Child_PID_List(process_object.ChildPIDListType(Child_PID=value))
+            elif key == 'image_info':
+                if self.__value_test(value):
+                    image_info = process_object.ImageInfoType()
+                    for image_key, image_value in value.items():
+                        if image_key == 'file_name':
+                            pess # image_info.set_File_Name()
+                        elif image_key == 'command_line':
+                            image_info.set_Command_Line(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(image_value)))
+                        elif image_key == 'current_directory':
+                            image_info.set_Current_Directory(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(image_value)))
+                        elif image_key == 'path':
+                            image_info.set_Path(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(image_value)))
+                    proc_object.set_Image_Info(image_info)
+            elif key == 'argument_list':
+                if self.__value_test(value):
+                    pass #TODO
+            elif key == 'environment_variables':
+                if self.__value_test(value):
+                    pass #TODO
+            elif key == 'kernel_time':
+                if self.__value_test(value):
+                    maec.common.DurationObjectAttributeType()
+                    pass 
+            elif key == 'user_time':
+                if self.__value_test(value):
+                    pass
+            elif key == 'port_list':
+                if self.__value_test(value):
+                    pass
+            elif key == 'network_connection_list':
+                if self.__value_test(value):
+                    pass
+            elif key == 'status':
+                if self.__value_test(value):
+                    pass
+            elif key == 'string_list': # expects an array of strings TODO: or array of StringObjectAttributeType?
+                if self.__value_test(value):
+                    proc_object.set_String_List(maec.common.ExtractedStringsType(String=value))
+            elif key == 'is_hidden':
+                if self.__value_test(value):
+                    proc_object.set_is_hidden(true if value else false)
             elif key == 'association':
                 cybox_object.set_association_type(value)
             elif key == 'av_classifications':
@@ -1220,9 +1483,6 @@ class maec_object:
             cybox_object.set_Defined_Object(sys_obj)
         
         return cybox_object
-
-    def create_port_object(self, port_attributes): #stub
-        pass
     
     #Create a related object based on a cybox object and relationhip
     def create_related_object(self, cybox_object, relationship):
