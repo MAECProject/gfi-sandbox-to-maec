@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 11/27/2012
+#Last updated 12/6/2012
 
 import maec_bundle_3_0 as maecbundle
 import maec_package_1_0 as maecpackage
@@ -221,10 +221,13 @@ class maec_package:
         return output_string
 
 class maec_subject:
-    def __init__(self, generator, schema_version):
+    def __init__(self, generator, schema_version, malware_instance_object = None):
         self.generator = generator
         #Create the MAEC Subject object
         self.subject = maecpackage.MalwareSubjectType(id=self.generator.generate_sub_id())
+        #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
+        if malware_instance_object is not None:
+            self.subject.set_Malware_Instance_Object_Attributes(malware_instance_object)
         #Instantiate the lists
         self.analyses = maecpackage.AnalysisListType()
         self.findings_bundles = maecpackage.FindingsBundleListType()
@@ -506,7 +509,6 @@ class maec_analysis:
     def __build__(self):
         if self.tool_list.hasContent_():
             self.analysis.set_Tools(tool_list)      
-
 
 class maec_action:
     def __init__(self, generator, action_attributes):
