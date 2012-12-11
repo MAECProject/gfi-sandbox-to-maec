@@ -578,40 +578,151 @@ class maec_object:
     def __init__(self, generator):
         self.generator = generator
             
-    def create_socket_object(self, network_attributes):
+    def create_socket_object(self, socket_attributes):
         cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Socket')
         socketobj = socket_object.SocketObjectType()
         socketobj.set_anyAttributes_({'xsi:type' : 'SocketObj:SocketObjectType'})
         remote_address = socket_object.SocketAddressType()
         local_address = socket_object.SocketAddressType()
         
-        for key, value in network_attributes.items():
-            if key == 'socket_type':
+        for key, value in socket_attributes.items():
+            if key == 'address_family' and self.__value_test(value):
+                if value == "unspecified":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_UNSPEC'))
+                elif value == "berkeley" or value == "ipv4":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_INET'))
+                elif value == "ipv6":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_INET6'))
+                elif value == "ipx":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_IPX'))
+                elif value == "netbios":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_NETBIOS'))
+                elif value == "appletalk":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_APPLETALK'))
+                elif value == "irda":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_IRDA'))
+                elif value == "bth":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_BTH'))
+                elif "af_" in value:
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == "domain" and self.__value_test(value):
+                if value == "local":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_LOCAL'))
+                elif value == "unix":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_UNIX'))
+                elif value == "inet" or value == "ipv4" or value == "ip":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_INET'))
+                elif value == "file":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_FILE'))
+                elif value == "ax.25":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_AX25'))
+                elif value == "ipx":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_IPX'))
+                elif value == "ipv6":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_INET6'))
+                elif value == "appletalk":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_APPLETALK'))
+                elif value == "netrom":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETROM'))
+                elif value == "bridge":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BRIDGE'))
+                elif value == "atmpvc":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMPVC'))
+                elif value == "x.25":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_X25'))
+                elif value == "rose":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ROSE'))
+                elif value == "key":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_KEY'))
+                elif value == "security":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_SECURITY'))
+                elif value == "netbeui":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETBEUI'))
+                elif value == "netlink":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETLINK'))
+                elif value == "route":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ROUTE'))
+                elif value == "decnet":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_DECNET'))
+                elif value == "packet":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_PACKET'))
+                elif value == "ash":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ASH'))
+                elif value == "econet":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ECONET'))
+                elif value == "atmsvc":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMSVC'))
+                elif value == "sna":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_SNA'))
+                elif value == "irda":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_IRDA'))
+                elif value == "pppox":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_PPPOX'))
+                elif value == "wanpipe":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_WANPIPE'))
+                elif value == "bluetooth":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BLUETOOTH'))
+                elif 'pf_' in value:
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == 'options':
+                options = socket_object.SocketOptionsType()
+                for op_key, op_value in value.items():
+                    # TODO: populate options
+                    pass
+                socketobj.set_Options(options)
+            elif key == 'protocol' and self.__value_test(value):
+                if value == 'icmp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
+                elif value == 'icmpv6':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMPV6'))
+                elif value == 'igmp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_IGMP'))
+                elif value == 'udp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_TCP'))
+                elif value == 'tcp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_UDP'))
+                elif value == 'rm':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
+                elif value == 'bluetooth':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='BTHPROTO_RFCOMM'))
+                elif 'proto_' in value:
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == 'type' and self.__value_test(value):
                 if value == 'tcp':
                     socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_STREAM'))
-            elif key == 'remote_port':
-                if self.__value_test(value) and value != '0':
-                    port = socket_object.port_object.PortObjectType()
-                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
+                elif value == 'udp':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_DGRAM'))
+                elif value == 'raw':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RAW'))
+                elif value == 'rdm':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RDM'))
+                elif value == 'congestion control':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_SEQPACKET'))
+                elif 'sock_' in value:
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == 'remote_port' and self.__value_test(value):
+                if value != '0':
+                    port = socket_object.port_object_1_3.PortObjectType()
+                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
                     remote_address.set_Port(port)
-            elif key == 'remote_address':
-                if self.__value_test(value) :
-                    ip_address = socket_object.address_object.AddressObjectType(category='ipv4-addr')
-                    ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-                    remote_address.set_IP_Address(ip_address)
-            elif key == 'local_port':
-                if self.__value_test(value) and value != '0':
-                    port = socket_object.port_object.PortObjectType()
-                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
+            elif key == 'remote_address' and self.__value_test(value):
+                ip_address = socket_object.address_object_1_2.AddressObjectType(category='ipv4-addr')
+                ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+                remote_address.set_IP_Address(ip_address)
+            elif key == 'local_port' and self.__value_test(value):
+                if value != '0':
+                    port = socket_object.port_object_1_3.PortObjectType()
+                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
                     local_address.set_Port(port)
-            elif key == 'local_address':
-                if self.__value_test(value):
-                    ip_address = socket_object.address_object.AddressObjectType(category='ipv4-addr')
-                    ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-                    local_address.set_IP_Address(ip_address)
-            elif key == 'islistening':
+            elif key == 'local_address' and self.__value_test(value):
+                ip_address = socket_object.address_object_1_2.AddressObjectType(category='ipv4-addr')
+                ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+                local_address.set_IP_Address(ip_address)
+            elif key == 'is_listening' and self.__value_test(value):
                 socketobj.set_is_listening(value)
-            elif key == 'association':
+            elif key == 'is_blocking' and self.__value_test(value):
+                socketobj.set_is_blocking(value)
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         if remote_address.hasContent_():
             socketobj.set_Remote_Address(remote_address)
@@ -628,8 +739,13 @@ class maec_object:
         portobj = port_object.PortObjectType()
         portobj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
         for key, value in port_attributes.items():
-            if key == 'value':
-                portobj.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
+            if key == 'port_value' and self.__value_test(value):
+                portobj.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
+            elif key == 'protocol' and self.__value_test(value):
+                if value == 'tcp':
+                    portobj.set_Layer4_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='TCP'))
+                elif value == 'udp':
+                    portobj.set_Layer4_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='UDP'))
             elif key == 'association':
                 cybox_object.set_association_type(value)
                 
@@ -644,13 +760,28 @@ class maec_object:
         libobject.set_anyAttributes_({'xsi:type' : 'LibraryObj:LibraryObjectType'})
         
         for key, value in library_attributes.items():
-            if key == 'name':
-                if self.__value_test(value):
-                    libobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'path':
-                if self.__value_test(value):
-                    libobject.set_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'association':
+            if key == 'name' and self.__value_test(value):
+                    libobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'path' and self.__value_test(value):
+                    libobject.set_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'size' and self.__value_test(value):
+                    libobject.set_Size(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            elif key == 'version' and self.__value_test(value):
+                    libobject.set_Version(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'type' and self.__value_test(value):
+                if value == 'static':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Static"))
+                elif value == 'dynamic':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Dynamic"))
+                elif value == 'remote':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Remote"))
+                elif value == 'shared':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Shared"))
+                elif value == 'other':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Other"))
+            elif (key == 'base_address' or key == 'address') and self.__value_test(value):
+                libobject.set_Base_Address(maecbundle.cybox_common_types_1_0.HexBinaryObjectAttributeType(valueOf_=value));
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         
         if libobject.hasContent_():
@@ -658,16 +789,34 @@ class maec_object:
         
         return cybox_object
 
-    def create_win_kernel_hook_object(selfself, hook_attributes):
+    def create_win_kernel_hook_object(self, win_kernel_hook_attributes):
         cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id()) # type_="Hook"
         hookobject = win_kernel_hook_object.WindowsKernelHookObjectType()
         hookobject.set_anyAttributes_({'xsi:type' : 'WinKernelHookObj:WindowsKernelHookObjectType'})
         
-        for key, value in hook_attributes.items():
-            if key == 'function_name':
-                if self.__value_test(value):
-                    hookobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'association':
+        for key, value in win_kernel_hook_attributes.items():
+            if key == 'function_name' and self.__value_test(value):
+                hookobject.set_Hooked_Function(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            if key == 'hooked_module_name' and self.__value_test(value):
+                hookobject.set_Hooked_Module(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            if key == 'hooking_module_name' and self.__value_test(value):
+                hookobject.set_Hooking_Module(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'description' and self.__value_test(value):
+                hookobject.set_Hook_Description(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'address' and self.__value_test(value):
+                hookobject.set_Hooking_Address(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            elif key == 'type' and self.__value_test(value):
+                if value == 'IAT_API':
+                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="IAT_API"))
+                elif value == 'inline':
+                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Inline_Function"))
+                elif value == 'instruction hooking':
+                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Instruction_Hooking"))
+            elif key == 'hooking_signature' and self.__value_test(value):
+                hookobject.set_Digital_Signature_Hooking(value) # TODO: maecbundle.cybox_common_types_1_0.DigitalSignatureInfoType
+            elif key == 'hooked_signature' and self.__value_test(value):
+                hookobject.set_Digital_Signature_Hooked(value) # TODO: maecbundle.cybox_common_types_1_0.DigitalSignatureInfoType
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         
         if hookobject.hasContent_():
@@ -681,19 +830,30 @@ class maec_object:
         addrobject.set_anyAttributes_({'xsi:type' : 'AddressObj:AddressObjectType'})
         
         for key, value in address_attributes.items():
-            if key == 'category':
-                if self.__value_test(value):
-                    addrobject.set_category(value)
-            elif key == 'address_value':
-                if self.__value_test(value):
-                    addrobject.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
+            if key == 'category' and self.__value_test(value):
+                addrobject.set_category(value)
+            elif key == 'ext_category' and self.__value_test(value):
+                addrobject.set_Ext_Category(value)
+            elif key == 'vlan_name' and self.__value_test(value):
+                addrobject.set_VLAN_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'vlan_num' and self.__value_test(value):
+                addrobject.set_VLAN_Num(maecbundle.cybox_common_types_1_0.IntegerObjectAttributeType(datatype='Integer', valueOf_=maec.quote_xml(value)))
+            # TODO: implement Is_Source and Is_Destination for AddressObject
+            #elif key == 'is_source':
+            #    if self.__value_test(value):
+            #        addrobject.set_Is_Source(value?true:false)
+            #elif key == 'is_destination':
+            #    if self.__value_test(value):
+            #        addrobject.set_Is_Destination(value?true:false)
+            elif key == 'address_value' and self.__value_test(value):
+                addrobject.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
             elif key == 'related_objects':
-                related_objects = maecbundle.cybox_core_1_0.RelatedObjectsType()
+                related_objects = maec.cybox.RelatedObjectsType()
                 for related_object in value:
                     related_objects.add_Related_Object(related_object)
                 if related_objects.hasContent_():
                     cybox_object.set_Related_Objects(related_objects)
-            elif key == 'association':
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         
         if addrobject.hasContent_():
