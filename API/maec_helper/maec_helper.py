@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 11/27/2012
+#Last updated 12/6/2012
 
 import maec_bundle_3_0 as maecbundle
 import maec_package_1_0 as maecpackage
@@ -54,8 +54,8 @@ class generator:
         self.dat_id_base = 0
         self.actc_id_base = 0
         self.bhvc_id_base = 0
-        self.effc_id_base = 0
         self.objc_id_base = 0
+        self.indc_id_base = 0
         self.avclass_id_base = 0
         
     #Methods for generating unique ids
@@ -122,14 +122,14 @@ class generator:
     def generate_bhvc_id(self):
         self.bhvc_id_base += 1
         return 'maec-' + self.namespace + '-bhvc-' + str(self.bhvc_id_base)
-        
-    def generate_effc_id(self):
-        self.effc_id_base += 1
-        return 'maec-' + self.namespace + '-effc-' + str(self.effc_id_base)
 
     def generate_objc_id(self):
         self.objc_id_base += 1
         return 'maec-' + self.namespace + '-objc-' + str(self.objc_id_base)
+
+    def generate_indc_id(self):
+        self.indc_id_base += 1
+        return 'maec-' + self.namespace + '-indc-' + str(self.indc_id_base)
 
     def generate_avclass_id(self):
         self.avclass_id_base += 1
@@ -155,8 +155,8 @@ class maec_package:
                                    'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
                                    'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
                                    'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'maec-bundle-schema.xsd',
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
                                 'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
                                 'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
                                 'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
@@ -189,7 +189,7 @@ class maec_package:
     def export_to_file(self, outfilename):
         self.__build__()
         outfile = open(outfilename, 'w')
-        self.package.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
+        self.package.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
 
 
     #Private methods
@@ -200,7 +200,7 @@ class maec_package:
             self.package.set_Malware_Subjects(self.subjects)
 
     #Build the namespace/schemalocation declaration string
-    def __build_samespaces_schemalocations(self):
+    def __build_namespaces_schemalocations(self):
         output_string = '\n '
         schemalocs = []
         first_string = True
@@ -221,31 +221,21 @@ class maec_package:
         return output_string
 
 class maec_subject:
-    def __init__(self, generator, schema_version):
+    def __init__(self, generator, schema_version, malware_instance_object = None):
         self.generator = generator
         #Create the MAEC Subject object
         self.subject = maecpackage.MalwareSubjectType(id=self.generator.generate_sub_id())
+        #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
+        if malware_instance_object is not None:
+            self.subject.set_Malware_Instance_Object_Attributes(malware_instance_object)
         #Instantiate the lists
         self.analyses = maecpackage.AnalysisListType()
         self.findings_bundles = maecpackage.FindingsBundleListType()
-        #Create the namespace and schemalocation declarations
-        self.namespace_prefixes = {'xmlns:maecPackage' : '"http://maec.mitre.org/XMLSchema/maec-package-1"',
-                                   'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
-                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
-                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
-                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
-                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'maec-bundle-schema.xsd',
-                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
-                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
-                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
-
 
     #Public methods
-    #Set the subject_attributes with a CybOX object
-    def set_subject_attributes(self, subject_object):
-        self.subject.set_Subject_Attributes(subject_object)
+    #Set the Malware_Instance_Object_Attributes with a CybOX object
+    def set_malware_instance_object_attributes(self, malware_instance_object):
+        self.subject.set_Malware_Instance_Object_Attributes(malware_instance_object)
 
     #Add an Analysis to the Analyses
     def add_analysis(self, analysis):
@@ -255,24 +245,10 @@ class maec_subject:
     def add_findings_bundle(self, findings_bundle):
         self.findings_bundles.add_Bundle(findings_bundle)
 
-    #Add a namespace to the namespaces list
-    def add_namespace(self, namespace_prefix, namespace):
-        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
-
-    #Add a schemalocation to the schemalocation list
-    def add_schemalocation(self, namespace, schemalocation):
-        self.schemalocations[namespace] = schemalocation
-
     #Get the Malware Subject
     def get_object(self):
         self.__build__()
         return self.subject
-
-    #Export the Malware Subject and its contents to an XML file
-    def export_to_file(self, outfilename):
-        self.__build__()
-        outfile = open(outfilename, 'w')
-        self.subject.export(outfile, 0, namespacedef_=self.__build_samespaces_schemalocations())
     
     #Private methods
 
@@ -283,8 +259,186 @@ class maec_subject:
         if self.findings_bundles.hasContent_():
             self.subject.set_Findings_Bundles(self.findings_bundles)
 
+class maec_bundle:
+    def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
+        self.generator = generator
+        #Create the MAEC Bundle object
+        self.bundle = maecbundle.BundleType(id=self.generator.generate_bnd_id())
+        #Set the bundle schema version
+        self.bundle.set_schema_version(schema_version)
+        #Set the bundle timestamp
+        self.bundle.set_timestamp(datetime.datetime.now().isoformat())
+        #Set whether this Bundle has a defined_subject
+        self.bundle.set_defined_subject(defined_subject)
+        #Set the content_type if it is not none
+        if content_type is not None:
+            self.bundle.set_content_type(content_type)
+        #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
+        if malware_instance_object is not None:
+            self.bundle.set_Malware_Instance_Attributes(malware_instance_object)
+        #Add all of the top-level containers
+        self.actions = maecbundle.ActionListType()
+        self.process_tree = maecbundle.ProcessTreeType()
+        self.behaviors = maecbundle.BehaviorListType()
+        self.objects = maecbundle.ObjectListType()
+        self.candidate_indicators = maecbundle.CandidateIndicatorListType()
+        self.collections = maecbundle.CollectionsType()
+        #Add the collection dictionaries
+        self.action_collections = {}
+        self.object_collections = {}
+        self.behavior_collections = {}
+        self.candidate_indicator_collections = {}
+        #Create the namespace and schemalocation declarations
+        self.namespace_prefixes = {'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
+                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
+                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
+                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
+                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
+        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
+                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
+                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
+                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
+                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
+
+    #Set the Malware Instance Object Attributes
+    def set_malware_instance_object_atttributes(self, malware_instance_object):
+        self.bundle.set_Malware_Instance_Object_Attributes(malware_instance_object)
+
+    #Set the Process Tree, in the top-level <Process_Tree> element
+    def set_process_tree(self, process_tree):
+        self.process_tree = process_tree
+        
+    #Add an Action to an existing collection; if it does not exist, add it to the top-level <Actions> element
+    def add_action(self, action, action_collection_name = None):
+        if action_collection_name is not None:
+            #The collection has already been defined
+            if self.action_collections.has_key(action_collection_name):
+                action_collection = self.action_collections.get(action_collection_name)
+                action_list = action_collection.get_Action_List()
+                action_list.add_Action(action)
+            #The collection has not already been defined
+            else:
+                action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name = action_collection_name)
+                action_list = maecbundle.ActionListType()
+                action_list.add_Action(action)
+                action_collection.set_Action_List(action_list)
+                self.action_collections[action_collection_name] = action_collection
+        elif action_collection_name == None:
+            self.actions.add_Action(action) 
+                                      
+    #Add an Object to an existing collection; if it does not exist, add it to the top-level <Objects> element
+    def add_object(self, object, object_collection_name = None):
+        if object_collection_name is not None:
+            #The collection has already been defined
+            if self.object_collections.has_key(object_collection_name):
+                object_collection = self.object_collections.get(object_collection_name)
+                object_list = object_collection.get_Object_List()
+                object_list.add_Object(object)
+            #The collection has not already been defined
+            else:
+                object_collection = maecbundle.ObjectCollectionType(id=self.generator.generate_objc_id(), name = object_collection_name)
+                object_list = maecbundle.ObjectListType()
+                object_list.add_Object(object)
+                object_collection.set_Object_List(object_list)
+                self.object_collections[object_collection_name] = object_collection
+        elif object_collection_name == None:
+            self.objects.add_Object(object)
+
+    #Add an Behavior to an existing collection; if it does not exist, add it to the top-level <Behaviors> element
+    def add_behavior(self, behavior, behavior_collection_name = None):
+        if behavior_collection_name is not None:
+            #The collection has already been defined
+            if self.behavior_collections.has_key(behavior_collection_name):
+                behavior_collection = self.behavior_collections.get(behavior_collection_name)
+                behavior_list = behavior_collection.get_Behavior_List()
+                behavior_list.add_Behavior(behavior)
+            #The collection has not already been defined
+            else:
+                behavior_collection = maecbundle.BehaviorCollectionType(id=self.generator.generate_bhvc_id(), name = behavior_collection_name)
+                behavior_list = maecbundle.BehaviorListType()
+                behavior_list.add_Behavior(behavior)
+                behavior_collection.set_Behavior_List(behavior_list)
+                self.behavior_collections[behavior_collection_name] = behavior_collection
+        elif behavior_collection_name == None:
+            self.behaviors.add_Behavior(behavior)
+
+    #Add a Candidate Indicator to an existing collection; if it does not exist, add it to the top-level <Candidate_Indicators> element
+    def add_candidate_indicator(self, candidate_indicator, candidate_indicator_collection_name = None):
+        if candidate_indicator_collection_name is not None:
+            #The collection has already been defined
+            if self.candidate_indicator_collections.has_key(candidate_indicator_collection_name):
+                candidate_indicator_collection = self.candidate_indicator_collections.get(candidate_indicator_collection_name)
+                candidate_indicator_list = candidate_indicator_collection.get_Candidate_Indicator_List()
+                candidate_indicator_list.add_Candidate_Indicator(candidate_indicator)
+            #The collection has not already been defined
+            else:
+                candidate_indicator_collection = maecbundle.CandidateIndicatorCollectionType(id=self.generator.generate_indc_id(), name = candidate_indicator_collection_name)
+                candidate_indicator_list = maecbundle.CandidateIndicatorListType()
+                candidate_indicator_list.add_Candidate_Indicator(candidate_indicator)
+                candidate_indicator_collection.set_Candidate_Indicator_List(candidate_indicator_list)
+                self.candidate_indicator_collections[candidate_indicator_collection_name] = candidate_indicator_collection
+        elif candidate_indicator_collection_name == None:
+            self.candidate_indicators.add_Candidate_Indicator(candidate_indicator)
+                                   
+    #Add a namespace to the namespaces list
+    def add_namespace(self, namespace_prefix, namespace):
+        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
+
+    #Add a schemalocation to the schemalocation list
+    def add_schemalocation(self, namespace, schemalocation):
+        self.schemalocations[namespace] = schemalocation
+    
+    #Export the MAEC bundle and its contents to an XML file
+    def export_to_file(self, outfilename):
+        self.__build__()
+        outfile = open(outfilename, 'w')
+        self.bundle.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
+        
+    #Accessor methods
+    def get_object(self):
+        self.__build__()
+        return self.bundle
+
+    #Private methods
+
+    #Build the MAEC bundle by adding all applicable elements
+    def __build__(self):
+        #Add the Behaviors
+        if self.behaviors.hasContent_(): self.bundle.set_Behaviors(self.behaviors)
+        #Add the Actions
+        if self.actions.hasContent_(): self.bundle.set_Actions(self.behaviors)
+        #Add the Objects
+        if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
+        #Add the Process Tree
+        if self.process_tree.hasContent_(): self.bundle.set_Process_Tree(self.process_tree)
+        #Add the Candidate Indicators
+        if self.candidate_indicators.hasContent_(): self.bundle.set_Candidate_Indicators(self.candidate_indicators)
+        #Add the particular Collection types, if applicable
+        if len(self.action_collections) > 0:
+            action_collection_list = maecbundle.ActionCollectionListType()
+            for action_collection in self.action_collections.values():
+                action_collection_list.add_Action_Collection(action_collection)
+            self.collections.set_Action_Collections(action_collection_list)
+        if len(self.object_collections) > 0:
+            object_collection_list = maecbundle.ObjectCollectionListType()
+            for object_collection in self.object_collections.values():
+                object_collection_list.add_Object_Collection(object_collection)
+            self.collections.set_Object_Collections(object_collection_list)
+        if len(self.behavior_collections) > 0:
+            behavior_collection_list = maecbundle.BehaviorCollectionListType()
+            for behavior_collection in self.behavior_collections.values():
+                behavior_collection_list.add_Behavior_Collection(behavior_collection)
+            self.collections.set_Behavior_Collections(behavior_collection_list)
+        if len(self.candidate_indicator_collections) > 0:
+            candidate_indicator_collection_list = maecbundle.CandidateIndicatorCollectionListType()
+            for candidate_indicator_collection in self.candidate_indicator_collections.values():
+                candidate_indicator_collection_list.add_Candidate_Indicator_Collection(candidate_indicator_collection)
+            self.collections.set_Candidate_Indicator_Collections(candidate_indicator_collection_list)
+        #Add the Collections
+        if self.collections.hasContent_(): self.bundle.set_Collections(self.collections)
+
     #Build the namespace/schemalocation declaration string
-    def __build_samespaces_schemalocations(self):
+    def __build_namespaces_schemalocations(self):
         output_string = '\n '
         schemalocs = []
         first_string = True
@@ -303,328 +457,6 @@ class maec_subject:
             else:
                 output_string += (schemalocation_string + '\n')
         return output_string
-
-class maec_bundle:
-    def __init__(self, generator, schema_version, defined_subject, content_type = None, subject_attributes = None):
-        self.generator = generator
-        #Create the MAEC Bundle object
-        self.bundle = maecbundle.BundleType(id=self.generator.generate_bnd_id())
-        #Set the bundle schema version
-        self.bundle.set_schema_version(schema_version)
-        #Set the bundle timestamp
-        self.bundle.set_timestamp(datetime.datetime.now().isoformat())
-        #Set whether this Bundle has a defined_subject
-        self.bundle.set_defined_subject(defined_subject)
-        #Set the content_type if it is not none
-        if content_type is not None:
-            self.bundle.set_content_type(content_type)
-        #Set the subject attributes (a CybOX object) if they are not none
-        if subject_attributes is not None:
-            self.bundle.set_Subject_Attributes(subject_attributes)
-        #Create the top-level objects
-        self.objects = maecbundle.ObjectListType()
-        #Create the MAEC collections object
-        self.collections = maecbundle.CollectionsType()
-        #Create the object collections
-        self.object_collections = maecbundle.ObjectCollectionListType()
-        #Create the action collections
-        self.action_collections = maecbundle.ActionCollectionListType()
-        #Create the analyses
-        self.analyses = maecpackage.AnalysisListType()
-        #Create the object collections
-        self.process_object_collection = maecbundle.ObjectCollectionType(name='Process Objects', id=self.generator.generate_objc_id())
-        self.process_object_collection.set_Description('This collection encompasses the chain of processes spawned by the subject binary.')
-
-        #Create the action collections
-        self.filesystem_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="File System Actions")
-        self.ipc_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="IPC Actions")
-        self.service_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Service Actions")
-        self.process_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Process Actions")
-        self.registry_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Registry Actions")
-        self.network_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Actions")
-        self.memory_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Memory Actions")
-        self.module_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Module Actions")
-        self.system_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Actions")
-        self.internet_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Internet Actions")
-        self.filemapping_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Filemapping Actions")
-        self.thread_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Thread Actions")
-        self.sysobject_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="System Object Actions")
-        self.driver_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Driver Actions")
-        self.user_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="User Actions")
-        self.networkshare_action_collection = maecbundle.ActionCollectionType(id=self.generator.generate_actc_id(), name="Network Share Actions")
-
-    #"Public" methods
-    def add_process_object(self, object):
-        self.process_object_collection.add_Object(object)
-        
-    def add_action(self, action, action_group):
-        if action_group == 'file_system':
-            if self.filesystem_action_collection.get_Action_List() is not None:
-                self.filesystem_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.filesystem_action_collection.set_Action_List(action_list)
-        elif action_group == 'ipc':
-            if self.ipc_action_collection.get_Action_List() is not None:
-                self.ipc_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.ipc_action_collection.set_Action_List(action_list)
-        elif action_group == 'service':
-            if self.service_action_collection.get_Action_List() is not None:
-                self.service_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.service_action_collection.set_Action_List(action_list)
-        elif action_group == 'registry':
-            if self.registry_action_collection.get_Action_List() is not None:
-                self.registry_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.registry_action_collection.set_Action_List(action_list)
-        elif action_group == 'network':
-            if self.network_action_collection.get_Action_List() is not None:
-                self.network_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.network_action_collection.set_Action_List(action_list)
-        elif action_group == 'memory':
-            if self.memory_action_collection.get_Action_List() is not None:
-                self.memory_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.memory_action_collection.set_Action_List(action_list)        
-        elif action_group == 'process':
-            if self.process_action_collection.get_Action_List() is not None:
-                self.process_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.process_action_collection.set_Action_List(action_list)        
-        elif action_group == 'module':
-            if self.module_action_collection.get_Action_List() is not None:
-                self.module_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.module_action_collection.set_Action_List(action_list)            
-        elif action_group == 'system':
-            if self.system_action_collection.get_Action_List() is not None:
-                self.system_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.system_action_collection.set_Action_List(action_list)     
-        elif action_group == 'internet':
-            if self.internet_action_collection.get_Action_List() is not None:
-                self.internet_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.internet_action_collection.set_Action_List(action_list)
-        elif action_group == 'filemapping':
-            if self.filemapping_action_collection.get_Action_List() is not None:
-                self.filemapping_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.filemapping_action_collection.set_Action_List(action_list)
-        elif action_group == 'thread':
-            if self.thread_action_collection.get_Action_List() is not None:
-                self.thread_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.thread_action_collection.set_Action_List(action_list)
-        elif action_group == 'sysobject':
-            if self.sysobject_action_collection.get_Action_List() is not None:
-                self.sysobject_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.sysobject_action_collection.set_Action_List(action_list)
-        elif action_group == 'driver':
-            if self.driver_action_collection.get_Action_List() is not None:
-                self.driver_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.driver_action_collection.set_Action_List(action_list) 
-        elif action_group == 'user':
-            if self.user_action_collection.get_Action_List() is not None:
-                self.user_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.user_action_collection.set_Action_List(action_list)
-        elif action_group == 'share':
-            if self.networkshare_action_collection.get_Action_List() is not None:
-                self.networkshare_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.networkshare_action_collection.set_Action_List(action_list)
-        elif action_group == 'module':
-            if self.module_action_collection.get_Action_List() is not None:
-                self.module_action_collection.get_Action_List().add_Action(action)
-            else:
-                action_list = maecbundle.ActionListType()
-                action_list.add_Action(action)
-                self.module_action_collection.set_Action_List(action_list)                             
-    
-    def add_actions(self, actions, action_group):
-        if action_group == 'file_system':
-            for action in actions:
-                self.filesystem_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'ipc':
-            for action in actions:
-                self.ipc_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'service':
-            for action in actions:
-                self.service_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'registry':
-            for action in actions:
-                self.registry_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'network':
-            for action in actions:
-                self.network_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'memory':
-            for action in actions:
-                self.memory_action_collection.get_Action_List().add_Action(action)           
-        elif action_group == 'process':
-            for action in actions:
-                self.process_action_collection.get_Action_List().add_Action(action)            
-        elif action_group == 'module':
-            for action in actions:
-                self.module_action_collection.get_Action_List().add_Action(action)            
-        elif action_group == 'system':
-            for action in actions:
-                self.system_action_collection.get_Action_List().add_Action(action) 
-        elif action_group == 'internet':
-            for action in actions:
-                self.internet_action_collection.get_Action_List().add_Action(action)
-        elif action_group == 'filemapping':
-            for action in actions:
-                self.filemapping_action_collection.get_Action_List().add_Action(action)
-            
-    def add_object(self, object, action_group = None):
-        if action_group == 'process':
-            if self.process_object_collection.get_Object_List() is not None:
-                self.process_object_collection.get_Object_List().add_Object(object)
-            else:
-                object_list = maecbundle.ObjectListType()
-                object_list.add_Object(object)
-                self.process_object_collection.set_Object_List(object_list)
-        elif action_group == None:
-            self.objects.add_Object(object)
-            
-    def add_objects(self, objects, action_group):        
-        if action_group == 'process':
-            for object in objects:
-                self.process_object_collection.get_Object_List().add_Object(object)            
-                                   
-    #Build the MAEC bundle by adding all applicable elements
-    def build_maecbundle(self):
-        #Add the collections to their respective pools
-        #Add the action collections
-        if self.filesystem_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.filesystem_action_collection)
-        if self.ipc_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.ipc_action_collection)
-        if self.service_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.service_action_collection)
-        if self.registry_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.registry_action_collection)
-        if self.network_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.network_action_collection)
-        if self.memory_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.memory_action_collection)
-        if self.process_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.process_action_collection)
-        if self.module_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.module_action_collection)
-        if self.system_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.system_action_collection)
-        if self.internet_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.internet_action_collection)
-        if self.filemapping_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.filemapping_action_collection)
-        if self.thread_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.thread_action_collection)
-        if self.sysobject_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.sysobject_action_collection)
-        if self.driver_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.driver_action_collection)
-        if self.user_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.user_action_collection)
-        if self.networkshare_action_collection.hasContent_(): self.action_collections.add_Action_Collection(self.networkshare_action_collection)
-        #Add the objects
-        if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
-        #Add the object collections
-        if self.process_object_collection.get_Object_List(): self.object_collections.add_Object_Collection(self.process_object_collection)
-        #Add everything to the collections
-        if self.object_collections.hasContent_() : self.collections.set_Object_Collections(self.object_collections)
-        if self.action_collections.hasContent_() : self.collections.set_Action_Collections(self.action_collections)
-        #Add the collections
-        if self.collections.hasContent_():
-            self.bundle.set_Collections(self.collections)
-    
-    #Export the MAEC bundle and its contents to an XML file
-    def export(self, outfilename):
-        filename = outfilename
-        outfile = open(filename, 'w')
-        print ("Exporting MAEC Bundle to: " + filename)
-        self.bundle.export(outfile, 0, namespacedef_='xmlns:mmdef="http://xml/metadataSharing.xsd"\
-        xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3"\
-        xmlns:cybox="http://cybox.mitre.org/cybox_v1"\
-        xmlns:Common="http://cybox.mitre.org/Common_v1"\
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
-        xmlns:SystemObj="http://cybox.mitre.org/objects#SystemObject"\
-        xmlns:FileObj="http://cybox.mitre.org/objects#FileObject"\
-        xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject"\
-        xmlns:PipeObj="http://cybox.mitre.org/objects#PipeObject"\
-        xmlns:PortObj="http://cybox.mitre.org/objects#PortObject"\
-        xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject"\
-        xmlns:SocketObj="http://cybox.mitre.org/objects#SocketObject"\
-        xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject"\
-        xmlns:MemoryObj="http://cybox.mitre.org/objects#MemoryObject"\
-        xmlns:LibraryObj="http://cybox.mitre.org/objects#LibraryObject"\
-        xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject"\
-        xmlns:URIObj="http://cybox.mitre.org/objects#URIObject"\
-        xmlns:WinMutexObj="http://cybox.mitre.org/objects#WinMutexObject"\
-        xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject"\
-        xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject"\
-        xmlns:WinPipeObj="http://cybox.mitre.org/objects#WinPipeObject"\
-        xmlns:WinDriverObj="http://cybox.mitre.org/objects#WinDriverObject"\
-        xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject"\
-        xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject"\
-        xmlns:WinMailslotObj="http://cybox.mitre.org/objects#WinMailslotObject"\
-        xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject"\
-        xmlns:WinHandleObj="http://cybox.mitre.org/objects#WinHandleObject"\
-        xmlns:WinThreadObj="http://cybox.mitre.org/objects#WinThreadObject"\
-        xmlns:WinTaskObj="http://cybox.mitre.org/objects#WinThreadObject"\
-        xmlns:WinSystemObj="http://cybox.mitre.org/objects#WinSystemObject"\
-        xmlns:WinNetworkShareObj="http://cybox.mitre.org/objects#WinNetworkShareObject"\
-        xmlns:WinUserAccountObj="http://cybox.mitre.org/objects#WinUserAccountObject"\
-        xsi:schemaLocation="http://cybox.mitre.org/Common_v1 http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd\
-        http://cybox.mitre.org/objects#SystemObject http://cybox.mitre.org/XMLSchema/objects/System/System_Object_1.3.xsd\
-        http://cybox.mitre.org/cybox_v1 http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd\
-        http://maec.mitre.org/XMLSchema/maec-bundle-3 http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd\
-        http://cybox.mitre.org/objects#FileObject http://cybox.mitre.org/XMLSchema/objects/File/File_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#ProcessObject http://cybox.mitre.org/XMLSchema/objects/Process/Process_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#SocketObject http://cybox.mitre.org/XMLSchema/objects/Socket/Socket_Object_1.4.xsd\
-        http://cybox.mitre.org/objects#MemoryObject http://cybox.mitre.org/XMLSchema/objects/Memory/Memory_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#LibraryObject http://cybox.mitre.org/XMLSchema/objects/Library/Library_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinMutexObject http://cybox.mitre.org/XMLSchema/objects/Win_Mutex/Win_Mutex_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinServiceObject http://cybox.mitre.org/XMLSchema/objects/Win_Service/Win_Service_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinRegistryKeyObject http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/Win_Registry_Key_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinPipeObject http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/Win_Pipe_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinDriverObject http://cybox.mitre.org/XMLSchema/objects/Win_Driver/Win_Driver_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinFileObject http://cybox.mitre.org/XMLSchema/objects/Win_File/Win_File_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinExecutableFileObject http://cybox.mitre.org/XMLSchema/objects/Win_Executable_File/Win_Executable_File_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinMailslotObject http://cybox.mitre.org/XMLSchema/objects/Win_Mailslot/Win_Mailslot_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinProcessObject http://cybox.mitre.org/XMLSchema/objects/Win_Process/Win_Process_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinHandleObject http://cybox.mitre.org/XMLSchema/objects/Win_Handle/Win_Handle_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinThreadObject http://cybox.mitre.org/XMLSchema/objects/Win_Thread/Win_Thread_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinTaskObject http://cybox.mitre.org/XMLSchema/objects/Win_Task/Win_Task_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinSystemObject http://cybox.mitre.org/XMLSchema/objects/Win_System/Win_System_Object_1.2.xsd\
-        http://cybox.mitre.org/objects#WinNetworkShareObject http://cybox.mitre.org/XMLSchema/objects/Win_Network_Share/Win_Network_Share_Object_1.3.xsd\
-        http://cybox.mitre.org/objects#WinUserAccountObject http://cybox.mitre.org/XMLSchema/objects/Win_User_Account/Win_User_Account_Object_1.3.xsd"')
-        
-    #accessor methods
-    def get_object(self):
-        return self.bundle
 
 class maec_analysis:
     def __init__(self, generator, method = None, type = None):
@@ -677,7 +509,6 @@ class maec_analysis:
     def __build__(self):
         if self.tool_list.hasContent_():
             self.analysis.set_Tools(tool_list)      
-
 
 class maec_action:
     def __init__(self, generator, action_attributes):
@@ -747,40 +578,151 @@ class maec_object:
     def __init__(self, generator):
         self.generator = generator
             
-    def create_socket_object(self, network_attributes):
+    def create_socket_object(self, socket_attributes):
         cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Socket')
         socketobj = socket_object.SocketObjectType()
         socketobj.set_anyAttributes_({'xsi:type' : 'SocketObj:SocketObjectType'})
         remote_address = socket_object.SocketAddressType()
         local_address = socket_object.SocketAddressType()
         
-        for key, value in network_attributes.items():
-            if key == 'socket_type':
+        for key, value in socket_attributes.items():
+            if key == 'address_family' and self.__value_test(value):
+                if value == "unspecified":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_UNSPEC'))
+                elif value == "berkeley" or value == "ipv4":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_INET'))
+                elif value == "ipv6":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_INET6'))
+                elif value == "ipx":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_IPX'))
+                elif value == "netbios":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_NETBIOS'))
+                elif value == "appletalk":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_APPLETALK'))
+                elif value == "irda":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_IRDA'))
+                elif value == "bth":
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_BTH'))
+                elif "af_" in value:
+                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == "domain" and self.__value_test(value):
+                if value == "local":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_LOCAL'))
+                elif value == "unix":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_UNIX'))
+                elif value == "inet" or value == "ipv4" or value == "ip":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_INET'))
+                elif value == "file":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_FILE'))
+                elif value == "ax.25":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_AX25'))
+                elif value == "ipx":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_IPX'))
+                elif value == "ipv6":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_INET6'))
+                elif value == "appletalk":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_APPLETALK'))
+                elif value == "netrom":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETROM'))
+                elif value == "bridge":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BRIDGE'))
+                elif value == "atmpvc":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMPVC'))
+                elif value == "x.25":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_X25'))
+                elif value == "rose":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ROSE'))
+                elif value == "key":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_KEY'))
+                elif value == "security":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_SECURITY'))
+                elif value == "netbeui":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETBEUI'))
+                elif value == "netlink":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETLINK'))
+                elif value == "route":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ROUTE'))
+                elif value == "decnet":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_DECNET'))
+                elif value == "packet":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_PACKET'))
+                elif value == "ash":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ASH'))
+                elif value == "econet":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ECONET'))
+                elif value == "atmsvc":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMSVC'))
+                elif value == "sna":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_SNA'))
+                elif value == "irda":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_IRDA'))
+                elif value == "pppox":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_PPPOX'))
+                elif value == "wanpipe":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_WANPIPE'))
+                elif value == "bluetooth":
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BLUETOOTH'))
+                elif 'pf_' in value:
+                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == 'options':
+                options = socket_object.SocketOptionsType()
+                for op_key, op_value in value.items():
+                    # TODO: populate options
+                    pass
+                socketobj.set_Options(options)
+            elif key == 'protocol' and self.__value_test(value):
+                if value == 'icmp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
+                elif value == 'icmpv6':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMPV6'))
+                elif value == 'igmp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_IGMP'))
+                elif value == 'udp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_TCP'))
+                elif value == 'tcp':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_UDP'))
+                elif value == 'rm':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
+                elif value == 'bluetooth':
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='BTHPROTO_RFCOMM'))
+                elif 'proto_' in value:
+                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == 'type' and self.__value_test(value):
                 if value == 'tcp':
                     socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_STREAM'))
-            elif key == 'remote_port':
-                if self.__value_test(value) and value != '0':
-                    port = socket_object.port_object.PortObjectType()
-                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
+                elif value == 'udp':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_DGRAM'))
+                elif value == 'raw':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RAW'))
+                elif value == 'rdm':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RDM'))
+                elif value == 'congestion control':
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_SEQPACKET'))
+                elif 'sock_' in value:
+                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+            elif key == 'remote_port' and self.__value_test(value):
+                if value != '0':
+                    port = socket_object.port_object_1_3.PortObjectType()
+                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
                     remote_address.set_Port(port)
-            elif key == 'remote_address':
-                if self.__value_test(value) :
-                    ip_address = socket_object.address_object.AddressObjectType(category='ipv4-addr')
-                    ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-                    remote_address.set_IP_Address(ip_address)
-            elif key == 'local_port':
-                if self.__value_test(value) and value != '0':
-                    port = socket_object.port_object.PortObjectType()
-                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
+            elif key == 'remote_address' and self.__value_test(value):
+                ip_address = socket_object.address_object_1_2.AddressObjectType(category='ipv4-addr')
+                ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+                remote_address.set_IP_Address(ip_address)
+            elif key == 'local_port' and self.__value_test(value):
+                if value != '0':
+                    port = socket_object.port_object_1_3.PortObjectType()
+                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
                     local_address.set_Port(port)
-            elif key == 'local_address':
-                if self.__value_test(value):
-                    ip_address = socket_object.address_object.AddressObjectType(category='ipv4-addr')
-                    ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-                    local_address.set_IP_Address(ip_address)
-            elif key == 'islistening':
+            elif key == 'local_address' and self.__value_test(value):
+                ip_address = socket_object.address_object_1_2.AddressObjectType(category='ipv4-addr')
+                ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+                local_address.set_IP_Address(ip_address)
+            elif key == 'is_listening' and self.__value_test(value):
                 socketobj.set_is_listening(value)
-            elif key == 'association':
+            elif key == 'is_blocking' and self.__value_test(value):
+                socketobj.set_is_blocking(value)
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         if remote_address.hasContent_():
             socketobj.set_Remote_Address(remote_address)
@@ -797,8 +739,13 @@ class maec_object:
         portobj = port_object.PortObjectType()
         portobj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
         for key, value in port_attributes.items():
-            if key == 'value':
-                portobj.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
+            if key == 'port_value' and self.__value_test(value):
+                portobj.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maec.quote_xml(value)))
+            elif key == 'protocol' and self.__value_test(value):
+                if value == 'tcp':
+                    portobj.set_Layer4_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='TCP'))
+                elif value == 'udp':
+                    portobj.set_Layer4_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='UDP'))
             elif key == 'association':
                 cybox_object.set_association_type(value)
                 
@@ -813,13 +760,28 @@ class maec_object:
         libobject.set_anyAttributes_({'xsi:type' : 'LibraryObj:LibraryObjectType'})
         
         for key, value in library_attributes.items():
-            if key == 'name':
-                if self.__value_test(value):
-                    libobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'path':
-                if self.__value_test(value):
-                    libobject.set_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'association':
+            if key == 'name' and self.__value_test(value):
+                    libobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'path' and self.__value_test(value):
+                    libobject.set_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'size' and self.__value_test(value):
+                    libobject.set_Size(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            elif key == 'version' and self.__value_test(value):
+                    libobject.set_Version(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'type' and self.__value_test(value):
+                if value == 'static':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Static"))
+                elif value == 'dynamic':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Dynamic"))
+                elif value == 'remote':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Remote"))
+                elif value == 'shared':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Shared"))
+                elif value == 'other':
+                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Other"))
+            elif (key == 'base_address' or key == 'address') and self.__value_test(value):
+                libobject.set_Base_Address(maecbundle.cybox_common_types_1_0.HexBinaryObjectAttributeType(valueOf_=value));
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         
         if libobject.hasContent_():
@@ -827,16 +789,34 @@ class maec_object:
         
         return cybox_object
 
-    def create_win_kernel_hook_object(selfself, hook_attributes):
+    def create_win_kernel_hook_object(self, win_kernel_hook_attributes):
         cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id()) # type_="Hook"
         hookobject = win_kernel_hook_object.WindowsKernelHookObjectType()
         hookobject.set_anyAttributes_({'xsi:type' : 'WinKernelHookObj:WindowsKernelHookObjectType'})
         
-        for key, value in hook_attributes.items():
-            if key == 'function_name':
-                if self.__value_test(value):
-                    hookobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'association':
+        for key, value in win_kernel_hook_attributes.items():
+            if key == 'function_name' and self.__value_test(value):
+                hookobject.set_Hooked_Function(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            if key == 'hooked_module_name' and self.__value_test(value):
+                hookobject.set_Hooked_Module(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            if key == 'hooking_module_name' and self.__value_test(value):
+                hookobject.set_Hooking_Module(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'description' and self.__value_test(value):
+                hookobject.set_Hook_Description(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'address' and self.__value_test(value):
+                hookobject.set_Hooking_Address(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(valueOf_=maec.quote_xml(value)))
+            elif key == 'type' and self.__value_test(value):
+                if value == 'IAT_API':
+                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="IAT_API"))
+                elif value == 'inline':
+                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Inline_Function"))
+                elif value == 'instruction hooking':
+                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Instruction_Hooking"))
+            elif key == 'hooking_signature' and self.__value_test(value):
+                hookobject.set_Digital_Signature_Hooking(value) # TODO: maecbundle.cybox_common_types_1_0.DigitalSignatureInfoType
+            elif key == 'hooked_signature' and self.__value_test(value):
+                hookobject.set_Digital_Signature_Hooked(value) # TODO: maecbundle.cybox_common_types_1_0.DigitalSignatureInfoType
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         
         if hookobject.hasContent_():
@@ -850,19 +830,30 @@ class maec_object:
         addrobject.set_anyAttributes_({'xsi:type' : 'AddressObj:AddressObjectType'})
         
         for key, value in address_attributes.items():
-            if key == 'category':
-                if self.__value_test(value):
-                    addrobject.set_category(value)
-            elif key == 'address_value':
-                if self.__value_test(value):
-                    addrobject.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
+            if key == 'category' and self.__value_test(value):
+                addrobject.set_category(value)
+            elif key == 'ext_category' and self.__value_test(value):
+                addrobject.set_Ext_Category(value)
+            elif key == 'vlan_name' and self.__value_test(value):
+                addrobject.set_VLAN_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
+            elif key == 'vlan_num' and self.__value_test(value):
+                addrobject.set_VLAN_Num(maecbundle.cybox_common_types_1_0.IntegerObjectAttributeType(datatype='Integer', valueOf_=maec.quote_xml(value)))
+            # TODO: implement Is_Source and Is_Destination for AddressObject
+            #elif key == 'is_source':
+            #    if self.__value_test(value):
+            #        addrobject.set_Is_Source(value?true:false)
+            #elif key == 'is_destination':
+            #    if self.__value_test(value):
+            #        addrobject.set_Is_Destination(value?true:false)
+            elif key == 'address_value' and self.__value_test(value):
+                addrobject.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maec.quote_xml(value)))
             elif key == 'related_objects':
-                related_objects = maecbundle.cybox_core_1_0.RelatedObjectsType()
+                related_objects = maec.cybox.RelatedObjectsType()
                 for related_object in value:
                     related_objects.add_Related_Object(related_object)
                 if related_objects.hasContent_():
                     cybox_object.set_Related_Objects(related_objects)
-            elif key == 'association':
+            elif key == 'association' and self.__value_test(value):
                 cybox_object.set_association_type(value)
         
         if addrobject.hasContent_():
