@@ -512,7 +512,7 @@ class maec_action:
         #Create the action type and add basic attributes
         action = maec.ActionType()
         action.set_id(self.generator.generate_act_id())
-        #action.set_action_status('Success')
+        action.set_action_status('Success')
         action_name = maec.cybox.ActionNameType()
         associated_objects = maec.cybox.AssociatedObjectsType()
         for key, value in action_attributes.items():
@@ -886,7 +886,7 @@ class maec_object:
                 continue
             elif key == 'filename':
                 if self.__value_test(value):
-                    proc_object.set_Path(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(value)))
+                    image_info.set_Path(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(value)))
             elif key == 'command_line':
                 if self.__value_test(value):
                     image_info.set_Command_Line(maec.common.StringObjectAttributeType(datatype='String',valueOf_=maec.quote_xml(value)))
