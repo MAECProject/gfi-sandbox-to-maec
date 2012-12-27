@@ -662,7 +662,7 @@ class maec_object:
                     socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_WANPIPE'))
                 elif value == "bluetooth":
                     socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BLUETOOTH'))
-                elif 'pf_' in value:
+                elif 'PF_' in value:
                     socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
             elif key == 'options':
                 options = socket_object.SocketOptionsType()
@@ -685,7 +685,7 @@ class maec_object:
                     socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
                 elif value == 'bluetooth':
                     socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='BTHPROTO_RFCOMM'))
-                elif 'proto_' in value:
+                elif 'PROTO_' in value:
                     socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
             elif key == 'type' and self.__value_test(value):
                 if value == 'tcp':
@@ -698,7 +698,7 @@ class maec_object:
                     socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RDM'))
                 elif value == 'congestion control':
                     socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_SEQPACKET'))
-                elif 'sock_' in value:
+                elif 'SOCK_' in value:
                     socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
             elif key == 'remote_port' and self.__value_test(value):
                 if value != '0':
