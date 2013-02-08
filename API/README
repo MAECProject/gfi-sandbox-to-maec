@@ -1,4 +1,0 @@
-We're in the process of constructing a full-fledged MAEC API. At the moment, our
-initial take on this is the MAEC Helper, which can generate MAEC output based on
-a set of input dictionaries. This also supports generation of a number of CybOX
-objects in this manner.
