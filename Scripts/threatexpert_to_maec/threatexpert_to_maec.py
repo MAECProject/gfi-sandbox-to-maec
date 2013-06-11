@@ -49,10 +49,8 @@ def create_maec(inputfile, outpath, verbose_error_mode, stat_mode):
             for subject in parser.maec_subjects:
                 package.add_malware_subject(subject)
   
-            package_bindings_obj = package.to_obj()
             #Finally, Export the results
-            outfile = open(outpath, 'w')
-            package_bindings_obj.export(outfile, 0, namespacedef_=MAECNamespaceParser(package_bindings_obj).get_namespace_schemalocation_str())
+            package.to_xml_file(outpath)
             
             print "Wrote to " + outpath
             
