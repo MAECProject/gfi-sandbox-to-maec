@@ -19,14 +19,14 @@
 #Generates valid MAEC v2.1/CybOX v1.0 draft content
 
 import threatexpert_parser as teparser
-import maec_2_1 as maec
-import maec_helper as maec_helper
+from maec.package.package import Package
+from maec.utils import MAECNamespaceParser
 import sys
 import os
 import traceback
 
 #Create a MAEC output file from a ThreatExpert input file
-def create_maec(inputfile, outputfile, verbose_error_mode, stat_mode):
+def create_maec(inputfile, outpath, verbose_error_mode, stat_mode):
     stat_actions = 0
 
     if os.path.isfile(inputfile):    
@@ -43,21 +43,18 @@ def create_maec(inputfile, outputfile, verbose_error_mode, stat_mode):
             parser.parse_document()
     
             #Create the MAEC bundle
-            bundle = maec_helper.maec_bundle(parser.generator, 2.1)
+            package = Package(parser.generator.generate_package_id())
             
             #Add the analysis
-            for analysis in parser.maec_analyses:
-                bundle.add_analysis(analysis)
-            
-            #Add all applicable actions to the bundle
-            for key, value in parser.actions.items():
-                for action in value:
-                    bundle.add_action(action, key)
-                    stat_actions += 1
+            for subject in parser.maec_subjects:
+                package.add_malware_subject(subject)
   
-            bundle.build_maec_bundle()
+            package_bindings_obj = package.to_obj()
             #Finally, Export the results
-            bundle.export(outputfile)
+            outfile = open(outpath, 'w')
+            package_bindings_obj.export(outfile, 0, namespacedef_=MAECNamespaceParser(package_bindings_obj).get_namespace_schemalocation_str())
+            
+            print "Wrote to " + outpath
             
             if stat_mode:
                 print '\n---- Statistics ----'
@@ -78,7 +75,7 @@ def usage():
     
 USAGE_TEXT = """
 ThreatExpert XML Output --> MAEC XML Converter Utility
-v0.91 BETA // Supports MAEC v2.1 and CybOX v1.0 draft
+v0.92 BETA // Supports MAEC v4.0 and CybOX v2.0
 
 Usage: python threatexpert_to_maec.py <special arguments> -i <input threatexpert xml output> -o <output maec xml file> 
        OR python threatexpert_to_maec.py <special arguments> -d <directory>

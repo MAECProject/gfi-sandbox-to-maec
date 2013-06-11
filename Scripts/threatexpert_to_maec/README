@@ -1,0 +1,9 @@
+ThreatExpert XML Output --> MAEC XML Converter Utility
+v0.92 BETA // Supports MAEC v4.0 and CybOX v2.0
+
+Usage: python threatexpert_to_maec.py <special arguments> -i <input threatexpert xml output> -o <output maec xml file> 
+       OR python threatexpert_to_maec.py <special arguments> -d <directory>
+
+Special arguments are as follows (all are optional):
+-s : print statistics regarding number of actions converted.
+-v : verbose error mode (prints tracebacks of any errors during execution).
