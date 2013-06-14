@@ -102,13 +102,6 @@ class parser:
             techdetails = subreport.get_technical_details()
             if techdetails is not None:
                 self.__process_technical_details(techdetails)
-
-            #add the action references to the analysis findings           
-            #action_references = maec.Action_References()
-            #for action_id in self.subreport_actions:
-            #    action_reference = maec.cybox.ActionReferenceType(action_id = action_id)
-            #    action_references.add_Action_Reference(action_reference)
-            #analysis.get_analysis_object().set_Findings(maec.AnalysisFindingsType(Actions=action_references))
             
             #Add all applicable actions to the bundle
             self.bundle_obj = Bundle(self.generator.generate_bundle_id(), False)
