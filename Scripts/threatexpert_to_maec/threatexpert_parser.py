@@ -6,6 +6,9 @@
 
 #ThreatExpert main parser class
 #For use in extracting data from XML ThreatExpert output
+import sys
+reload(sys) #UTF-8 parsing "hack" 
+sys.setdefaultencoding("utf-8") #UTF-8 parsing "hack"
 import cybox.utils as utils
 from maec.utils import MAECNamespaceParser
 from maec.bundle.bundle import Bundle
@@ -19,16 +22,12 @@ from cybox.core.object import Object
 from cybox.core.associated_object import AssociatedObject
 from cybox.common.tools import ToolInformation
 
-
-
 import threatexpert as threatexpert
 import traceback
 
 class parser:
     
     def __init__(self):
-        #array for storing actions
-        #self.actions = []
         #the subject of the analysis (typically a PE binary)
         self.analysis_subject_md5 = ''
         self.analysis_subject_sha1 = ''
@@ -102,13 +101,6 @@ class parser:
             techdetails = subreport.get_technical_details()
             if techdetails is not None:
                 self.__process_technical_details(techdetails)
-
-            #add the action references to the analysis findings           
-            #action_references = maec.Action_References()
-            #for action_id in self.subreport_actions:
-            #    action_reference = maec.cybox.ActionReferenceType(action_id = action_id)
-            #    action_references.add_Action_Reference(action_reference)
-            #analysis.get_analysis_object().set_Findings(maec.AnalysisFindingsType(Actions=action_references))
             
             #Add all applicable actions to the bundle
             self.bundle_obj = Bundle(self.generator.generate_bundle_id(), False)
