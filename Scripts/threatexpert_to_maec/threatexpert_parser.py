@@ -102,6 +102,13 @@ class parser:
             techdetails = subreport.get_technical_details()
             if techdetails is not None:
                 self.__process_technical_details(techdetails)
+
+            #add the action references to the analysis findings           
+            #action_references = maec.Action_References()
+            #for action_id in self.subreport_actions:
+            #    action_reference = maec.cybox.ActionReferenceType(action_id = action_id)
+            #    action_references.add_Action_Reference(action_reference)
+            #analysis.get_analysis_object().set_Findings(maec.AnalysisFindingsType(Actions=action_references))
             
             #Add all applicable actions to the bundle
             self.bundle_obj = Bundle(self.generator.generate_bundle_id(), False)
@@ -114,9 +121,10 @@ class parser:
             for alias in av_aliases:
                 self.bundle_obj.add_av_classification(AVClassification.from_dict(alias))
             
-            flag_list = submission_summary.get_flag_collection().get_flag()
-            for flag in flag_list:
-                self.bundle_obj.add_behavior(Behavior(self.generator.generate_behavior_id(), flag.description))
+            if submission_summary.get_flag_collection() is not None:
+                flag_list = submission_summary.get_flag_collection().get_flag()
+                for flag in flag_list:
+                    self.bundle_obj.add_behavior(Behavior(self.generator.generate_behavior_id(), flag.description))
             
             malware_subject.add_findings_bundle(self.bundle_obj)
             
@@ -328,17 +336,12 @@ class parser:
                 # TODO: attach aliases to files that have them
                 #associated_object_dict['domain-specific_object_attributes'] = self.__get_av_aliases(file_object)
 
-                for filename in filenames.get_filename():
-                    split_filename = filename.split('\\')
-                    actual_filename = split_filename[len(split_filename)-1]
-                    filepath = filename.rstrip(actual_filename)
-                    
+                for filename in filenames.get_filename():                    
                     if 'sample #1]' in filename:
                         associated_object_dict['idref'] = self.subject_id_list[0]
                     else:
                         file_attributes['xsi:type'] = "FileObjectType"
-                        file_attributes['file_name'] = { 'value' : actual_filename, 'force_datatype' : True }
-                        file_attributes['file_path'] = { 'value' : filepath, 'fully_qualified' : False }
+                        file_attributes['file_path'] = { 'value' : filename, 'fully_qualified' : False }
                         
                         if type == 'file':
                             file_attributes['type'] = 'File'
@@ -427,7 +430,7 @@ class parser:
                 process_attributes['image_info'] = {}
                 if process.get_process_filename() == '[file and pathname of the sample #1]':
                     if self.analysis_subject_path is not None:
-                        process_attributes['image_info']['path_name'] = { 'value' : self.analysis_subject_path + '\\' + self.analysis_subject_name, 'force_datatype' : True }
+                        process_attributes['image_info']['path'] = { 'value' : self.analysis_subject_path + '\\' + self.analysis_subject_name, 'force_datatype' : True }
                         process_attributes['image_info']['file_name'] = { 'value' : self.analysis_subject_name, 'force_datatype' : True }
                     else:
                         # HACK: we need to refer to the unnamed malware analysis subject,
@@ -437,7 +440,7 @@ class parser:
                         second_associated_object_dict['association_type'] = {'value' : 'input', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
                         
                 else:
-                    process_attributes['image_info']['file_name'] = { 'value' : process.get_process_filename() }
+                    process_attributes['image_info']['path'] = { 'value' : process.get_process_filename() }
                     
                 associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
                 associated_object_dict['properties'] = process_attributes
@@ -489,7 +492,7 @@ class parser:
             
             process_attributes['xsi:type'] = 'WindowsProcessObjectType'
             process_attributes['name'] = mempage.get_process_name()
-            process_attributes['image_info'] = {'file_name' : { 'value' : mempage.get_process_filename() } }
+            process_attributes['image_info'] = {'path' : { 'value' : mempage.get_process_filename() } }
             first_associated_object_dict['properties'] = process_attributes
             first_associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
 
@@ -542,7 +545,7 @@ class parser:
                     service_attributes['xsi:type'] = 'WindowsServiceObjectType'
                     service_attributes['name'] = service.get_service_name()
                     #service_attributes['display_name'] = service.get_display_name()
-                    service_attributes['image_info'] = {'file_name' : service.get_service_filename() }
+                    service_attributes['image_info'] = {'path' : service.get_service_filename() }
                     service_attributes['status'] = service.get_status()
                     
                     associated_object_dict['properties'] = service_attributes
