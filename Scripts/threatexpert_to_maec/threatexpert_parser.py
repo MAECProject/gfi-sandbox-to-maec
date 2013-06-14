@@ -113,9 +113,10 @@ class parser:
             #Add all applicable actions to the bundle
             self.bundle_obj = Bundle(self.generator.generate_bundle_id(), False)
             for key, value in self.actions.items():
-                #self.bundle_obj.add_named_action_collection(key, self.generator.generate_action_collection_id())
+                if len(value) > 0:
+                    self.bundle_obj.add_named_action_collection(key, self.generator.generate_action_collection_id())
                 for action in value:
-                    self.bundle_obj.add_action(action, None)
+                    self.bundle_obj.add_action(action, key)
                     
             for alias in av_aliases:
                 self.bundle_obj.add_av_classification(AVClassification.from_dict(alias))
@@ -237,17 +238,17 @@ class parser:
     #Create and instantiate the keys in the action dictionary
     def __setup_action_dictionary(self):
         actions = {}
-        actions['file_system'] = []
-        actions['ipc'] = []
-        actions['service'] = []
-        actions['registry'] = []
-        actions['gui'] = []
-        actions['network'] = []
-        actions['memory'] = []
-        actions['process'] = []
-        actions['module'] = []
-        actions['system'] = []
-        actions['internet'] = []
+        actions['File Actions'] = []
+        actions['IPC Actions'] = []
+        actions['Service Actions'] = []
+        actions['Registry Actions'] = []
+        actions['Network Actions'] = []
+        actions['Memory Actions'] = []
+        actions['Process Actions'] = []
+        actions['Module Actions'] = []
+        actions['System Actions'] = []
+        actions['Internet Actions'] = []
+        
         self.actions = actions
 
     #Setup both dictionaries
@@ -344,7 +345,7 @@ class parser:
                     else:
                         file_attributes['xsi:type'] = "FileObjectType"
                         file_attributes['file_name'] = { 'value' : actual_filename, 'force_datatype' : True }
-                        file_attributes['file_path'] = { 'value' : filepath, 'fully_qualified' : True }
+                        file_attributes['file_path'] = { 'value' : filepath, 'fully_qualified' : False }
                         
                         if type == 'file':
                             file_attributes['type'] = 'File'
@@ -363,7 +364,7 @@ class parser:
                     action_attributes['tool_id'] = self.tool_id
                     action_attributes['associated_objects'] = [associated_object_dict]
                     fs_action = MalwareAction.from_dict(action_attributes)
-                    self.actions.get('file_system').append(fs_action)
+                    self.actions.get('File Actions').append(fs_action)
                     self.subreport_actions.append(fs_action.id)
 
     def __process_filenames_notes_type(self, filenames_notes, type):
@@ -372,12 +373,8 @@ class parser:
             for filename in files_collection.get_filename():
                 file_attributes = {}
                 associated_object_dict = {}
-                split_filename = filename.split('\\')
-                actual_filename = split_filename[len(split_filename)-1]
-                filepath = filename.rstrip(actual_filename)
                 file_attributes['xsi:type'] = "FileObjectType"
-                file_attributes['file_name'] = actual_filename
-                file_attributes['file_path'] = { 'value' : filepath, 'fully_qualified' : True }
+                file_attributes['file_path'] = { 'value' : filename, 'fully_qualified' : False }
                 file_attributes['type'] = 'File'
                 
                 associated_object_dict['properties'] = file_attributes
@@ -392,7 +389,7 @@ class parser:
                 action_attributes['tool_id'] = self.tool_id
                 action_attributes['associated_objects'] = [associated_object_dict]
                 fs_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('file_system').append(fs_action)
+                self.actions.get('File Actions').append(fs_action)
                 self.subreport_actions.append(fs_action.id)
 
     def __process_dirnames_notes_type(self, dirnames_notes, type):
@@ -417,7 +414,7 @@ class parser:
                 action_attributes['tool_id'] = self.tool_id
                 action_attributes['associated_objects'] = [associated_object_dict]
                 fs_action = self.maec_action.create_action(action_attributes)
-                self.actions.get('file_system').append(fs_action)
+                self.actions.get('File Actions').append(fs_action)
                 self.subreport_actions.append(fs_action.id)
 
     def __process_added_processes_type(self, added_processes):
@@ -462,7 +459,7 @@ class parser:
                     action_attributes['associated_objects'].append(second_associated_object_dict)
                 action_attributes['tool_id'] = self.tool_id
                 process_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('process').append(process_action)
+                self.actions.get('Process Actions').append(process_action)
                 self.subreport_actions.append(process_action.id)
 
     def __process_added_hidden_processes_type(self, added_hidden_processes):
@@ -487,7 +484,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 process_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('process').append(process_action)
+                self.actions.get('Process Actions').append(process_action)
                 self.subreport_actions.append(process_action.id)
                 
     def __process_injected_mempages_type(self, injected_mempages):
@@ -517,7 +514,7 @@ class parser:
 
             action_attributes['tool_id'] = self.tool_id #static
             memory_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('memory').append(memory_action)
+            self.actions.get('Memory Actions').append(memory_action)
             self.subreport_actions.append(memory_action.id)
 
     #Revisit
@@ -539,7 +536,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 module_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('module').append(module_action)
+                self.actions.get('Module Actions').append(module_action)
                 self.subreport_actions.append(module_action.id)
 
     def __process_added_services_type(self, added_services):
@@ -566,7 +563,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 service_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('service').append(service_action)
+                self.actions.get('Service Actions').append(service_action)
                 self.subreport_actions.append(service_action.id)
 
     def __process_modified_services_type(self, modified_services):
@@ -592,7 +589,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 service_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('service').append(service_action)
+                self.actions.get('Service Actions').append(service_action)
                 self.subreport_actions.append(service_action.id)
 
     #def __process_added_drivers_type(self, added_drivers): #stub
@@ -617,7 +614,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 hook_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('system').append(hook_action)
+                self.actions.get('System Actions').append(hook_action)
                 self.subreport_actions.append(hook_action.id)
     
     def __process_regkeys_type(self, regkeys, type):
@@ -646,7 +643,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             reg_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('registry').append(reg_action)
+            self.actions.get('Registry Actions').append(reg_action)
             self.subreport_actions.append(reg_action.id)
 
     def __process_regvalues_structures_type(self, regvalues, type):
@@ -692,7 +689,7 @@ class parser:
                     action_attributes['associated_objects'] = [associated_object_dict]
                     action_attributes['tool_id'] = self.tool_id
                     reg_action = MalwareAction.from_dict(action_attributes)
-                    self.actions.get('registry').append(reg_action)
+                    self.actions.get('Registry Actions').append(reg_action)
                     self.subreport_actions.append(reg_action.id)
 
     def __process_mutexes_type(self, mutexes):
@@ -707,11 +704,11 @@ class parser:
             
             #Generate the MAEC action
             action_attributes = {}
-            action_attributes['name'] = {'value' : 'create mutex', 'xsi:type' : 'maecVocabs:MutexActionNameVocab-1.0'}
+            action_attributes['name'] = {'value' : 'create mutex', 'xsi:type' : 'maecVocabs:SynchronizationActionNameVocab-1.0'}
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             mutex_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('ipc').append(mutex_action)
+            self.actions.get('IPC Actions').append(mutex_action)
             self.subreport_actions.append(mutex_action.id)
 
     def __process_open_ports_type(self, openports):
@@ -733,7 +730,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 port_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('network').append(port_action)
+                self.actions.get('Network Actions').append(port_action)
                 self.subreport_actions.append(port_action.id)
 
     def __process_gethostbyname_api_type(self, hosts):
@@ -753,7 +750,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             host_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('internet').append(host_action)
+            self.actions.get('Internet Actions').append(host_action)
             self.subreport_actions.append(host_action.id)
 
     def __process_connect_ip_api_type(self, connect_ips):
@@ -782,7 +779,7 @@ class parser:
             action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
             action_attributes['tool_id'] = self.tool_id #static
             connect_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('internet').append(connect_action)
+            self.actions.get('Internet Actions').append(connect_action)
             self.subreport_actions.append(connect_action.id)
     
     def __process_internetconnect_api_type(self, internetconnects):
@@ -810,7 +807,7 @@ class parser:
             action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
             action_attributes['tool_id'] = self.tool_id #static
             internet_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('internet').append(internet_action)
+            self.actions.get('Internet Actions').append(internet_action)
             self.subreport_actions.append(internet_action.id)
 
     def __process_getrequests_type(self, requests, internetconnects):
@@ -838,7 +835,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id #static
                 internet_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('internet').append(internet_action)
+                self.actions.get('Internet Actions').append(internet_action)
                 self.subreport_actions.append(internet_action.id)
         
 
@@ -862,7 +859,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             url_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('internet').append(url_action)
+            self.actions.get('Internet Actions').append(url_action)
             self.subreport_actions.append(url_action.id)
 
     def __process_urldownloadtofile_api_type(self, urldownloadtofile):
@@ -875,11 +872,8 @@ class parser:
                 url_attributes = {}
                 url_string = url.get_url()
                 filename = url.get_filename()
-                split_filename = filename.split('\\')
-                actual_filename = split_filename[len(split_filename)-1]
                 file_attributes['xsi:type'] = 'FileObjectType'
-                file_attributes['file_name'] = { 'value' : actual_filename, 'force_datatype' : True }
-                file_attributes['file_path'] = { 'value' : filename.rstrip(actual_filename), 'force_datatype' : True }
+                file_attributes['file_path'] = { 'value' : filename, 'force_datatype' : True }
                 
                 first_associated_object_dict['properties'] = file_attributes
                 first_associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
@@ -897,7 +891,7 @@ class parser:
                 action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 url_file_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('internet').append(url_file_action)
+                self.actions.get('Internet Actions').append(url_file_action)
                 self.subreport_actions.append(url_file_action.id)
 
     def __process_setwindowshook_api_type(self, windowshooks):
@@ -917,7 +911,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             module_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('system').append(module_action) #TODO: check if this is correct
+            self.actions.get('System Actions').append(module_action) #TODO: check if this is correct
             self.subreport_actions.append(module_action.id)'''
         
 
@@ -939,7 +933,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             connect_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('internet').append(connect_action)
+            self.actions.get('Internet Actions').append(connect_action)
             self.subreport_actions.append(connect_action.get_id())
         return
     
@@ -957,7 +951,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             process_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('process').append(process_action)
+            self.actions.get('Process Actions').append(process_action)
             self.subreport_actions.append(process_action.id)
     
     def __get_av_aliases(self, object):
