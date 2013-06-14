@@ -248,7 +248,6 @@ class parser:
         actions['Process Actions'] = []
         actions['Module Actions'] = []
         actions['System Actions'] = []
-        actions['Internet Actions'] = []
         
         self.actions = actions
 
@@ -746,7 +745,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             host_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('Internet Actions').append(host_action)
+            self.actions.get('Network Actions').append(host_action)
             self.subreport_actions.append(host_action.id)
 
     def __process_connect_ip_api_type(self, connect_ips):
@@ -775,7 +774,7 @@ class parser:
             action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
             action_attributes['tool_id'] = self.tool_id #static
             connect_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('Internet Actions').append(connect_action)
+            self.actions.get('Network Actions').append(connect_action)
             self.subreport_actions.append(connect_action.id)
     
     def __process_internetconnect_api_type(self, internetconnects):
@@ -803,7 +802,7 @@ class parser:
             action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
             action_attributes['tool_id'] = self.tool_id #static
             internet_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('Internet Actions').append(internet_action)
+            self.actions.get('Network Actions').append(internet_action)
             self.subreport_actions.append(internet_action.id)
 
     def __process_getrequests_type(self, requests, internetconnects):
@@ -831,7 +830,7 @@ class parser:
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id #static
                 internet_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('Internet Actions').append(internet_action)
+                self.actions.get('Network Actions').append(internet_action)
                 self.subreport_actions.append(internet_action.id)
         
 
@@ -855,7 +854,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             url_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('Internet Actions').append(url_action)
+            self.actions.get('Network Actions').append(url_action)
             self.subreport_actions.append(url_action.id)
 
     def __process_urldownloadtofile_api_type(self, urldownloadtofile):
@@ -887,7 +886,7 @@ class parser:
                 action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 url_file_action = MalwareAction.from_dict(action_attributes)
-                self.actions.get('Internet Actions').append(url_file_action)
+                self.actions.get('Network Actions').append(url_file_action)
                 self.subreport_actions.append(url_file_action.id)
 
     def __process_setwindowshook_api_type(self, windowshooks):
@@ -929,7 +928,7 @@ class parser:
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
             connect_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('Internet Actions').append(connect_action)
+            self.actions.get('Network Actions').append(connect_action)
             self.subreport_actions.append(connect_action.get_id())
         return
     
