@@ -276,8 +276,8 @@ class parser:
         #if techdetails.get_added_modules() is not None: self.__process_added_modules_type(techdetails.get_added_modules())
         if techdetails.get_added_services() is not None: self.__process_added_services_type(techdetails.get_added_services())
         if techdetails.get_modified_services() is not None: self.__process_modified_services_type(techdetails.get_modified_services())
-        #if techdetails.get_added_drivers() is not None: self.__process_added_drivers_type(techdetails.get_added_drivers()) #deprecated?
-        if techdetails.get_added_syscallhooks() is not None: self.__process_added_syscallhooks_type(techdetails.get_added_syscallhooks()) #stub
+        if techdetails.get_added_drivers() is not None: self.__process_added_drivers_type(techdetails.get_added_drivers())
+        if techdetails.get_added_syscallhooks() is not None: self.__process_added_syscallhooks_type(techdetails.get_added_syscallhooks())
         #Revisit - CybOX does not currently support IRP hooks
         #if techdetails.get_irp_hooks() is not None: self.__process_irp_hooks(techdetails.get_irp_hooks())
         if techdetails.get_added_regkeys() is not None: self.__process_regkeys_type(techdetails.get_added_regkeys(), 'create')
@@ -543,7 +543,7 @@ class parser:
                 try:
                     service_attributes['xsi:type'] = 'WindowsServiceObjectType'
                     service_attributes['name'] = service.get_service_name()
-                    #service_attributes['display_name'] = service.get_display_name()
+                    service_attributes['display_name'] = service.get_display_name()
                     service_attributes['image_info'] = {'path' : service.get_service_filename() }
                     service_attributes['status'] = service.get_status()
                     
@@ -587,9 +587,25 @@ class parser:
                 self.actions.get('Service Actions').append(service_action)
                 self.subreport_actions.append(service_action.id)
 
-    #def __process_added_drivers_type(self, added_drivers): #stub
-        #print "added drivers " + added_drivers
-        #return
+    def __process_added_drivers_type(self, added_drivers): #stub
+        if added_drivers.get_added_drivers_collection() is not None:
+            for added_driver in added_drivers.get_added_drivers_collection().get_added_driver():
+                associated_object_dict = {}
+                driver_attributes = {}
+                driver_attributes['xsi:type'] = 'WindowsDriverObjectType'
+                driver_attributes['driver_name'] = added_driver.driver_name
+                
+                associated_object_dict['properties'] = driver_attributes
+                associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
+                
+                action_attributes = {}
+                action_attributes['name'] = {'value' : 'load driver', 'xsi:type': 'maecVocabs:DeviceDriverActionNameEnum-1.0' }
+                action_attributes['associated_objects'] = [associated_object_dict]
+                action_attributes['tool_id'] = self.tool_id
+                hook_action = MalwareAction.from_dict(action_attributes)
+                self.actions.get('System Actions').append(hook_action)
+                self.subreport_actions.append(hook_action.id)
+        return
     
     def __process_added_syscallhooks_type(self, added_syscallhooks):
         if added_syscallhooks.get_added_syscallhooks_collection() is not None:
@@ -601,7 +617,7 @@ class parser:
                 hook_attributes['hooked_function'] = added_syscallhook.syscall
                 hook_attributes['hooking_module'] = added_syscallhook.driver_name
                 
-                associated_object_dict['properties'] = driver_attributes
+                associated_object_dict['properties'] = hook_attributes
                 associated_object_dict['association_type'] = {'value' : 'input', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
                 
                 action_attributes = {}
