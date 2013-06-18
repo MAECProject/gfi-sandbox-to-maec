@@ -1,11 +1,16 @@
-#Copyright (c) 2012, The MITRE Corporation
+#Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
 #ThreatExpert Converter Script
+
 #Ivan Kirillov//ikirillov@mitre.org
+#Updated by Andrew Sillers//apsillers@mitre.org
 
 #ThreatExpert main parser class
 #For use in extracting data from XML ThreatExpert output
+import sys
+reload(sys) #UTF-8 parsing "hack" 
+sys.setdefaultencoding("utf-8") #UTF-8 parsing "hack"
 import cybox.utils as utils
 from maec.utils import MAECNamespaceParser
 from maec.bundle.bundle import Bundle
@@ -19,16 +24,12 @@ from cybox.core.object import Object
 from cybox.core.associated_object import AssociatedObject
 from cybox.common.tools import ToolInformation
 
-
-
 import threatexpert as threatexpert
 import traceback
 
 class parser:
     
     def __init__(self):
-        #array for storing actions
-        #self.actions = []
         #the subject of the analysis (typically a PE binary)
         self.analysis_subject_md5 = ''
         self.analysis_subject_sha1 = ''
@@ -66,7 +67,6 @@ class parser:
            print('\nError: %s\n' % str(err))
            return 0
        
-
            
     #Parse the XML document
     #Extract processes, actions, and information about the analysis subject
@@ -102,13 +102,6 @@ class parser:
             techdetails = subreport.get_technical_details()
             if techdetails is not None:
                 self.__process_technical_details(techdetails)
-
-            #add the action references to the analysis findings           
-            #action_references = maec.Action_References()
-            #for action_id in self.subreport_actions:
-            #    action_reference = maec.cybox.ActionReferenceType(action_id = action_id)
-            #    action_references.add_Action_Reference(action_reference)
-            #analysis.get_analysis_object().set_Findings(maec.AnalysisFindingsType(Actions=action_references))
             
             #Add all applicable actions to the bundle
             self.bundle_obj = Bundle(self.generator.generate_bundle_id(), False)
@@ -127,16 +120,13 @@ class parser:
                     self.bundle_obj.add_behavior(Behavior(self.generator.generate_behavior_id(), flag.description))
             
             malware_subject.add_findings_bundle(self.bundle_obj)
-            
             malware_subject.analyses[0].set_findings_bundle(self.bundle_obj.id)
-            
             self.maec_subjects.append(malware_subject)
             
            
 
     # Create an analysis subject object, used in maec_helper.maec_analysis
     def __create_malware_subject_object(self, analysis_subject, general_info, analysis_subjects, id_map):
-        # TODO: get file info
         #first, extract the info from the object
         md5 = None
         sha1 = None
@@ -504,7 +494,6 @@ class parser:
             #Next, create the action (that operated on the object)
             action_attributes = {}
             action_attributes['name'] = {'value' : 'write to process memory', 'xsi:type' : 'maecVocabs:ProcessMemoryActionNameVocab-1.0'}
-            #action_attributes['undefined_name'] = 'Inject Memory Page'
             action_attributes['associated_objects'] = [first_associated_object_dict, second_associated_object_dict]
 
             action_attributes['tool_id'] = self.tool_id #static
