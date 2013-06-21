@@ -603,7 +603,7 @@ class parser:
                 driver_attributes = {}
                 driver_attributes['xsi:type'] = 'WindowsDriverObjectType'
                 driver_attributes['driver_name'] = added_driver.driver_name
-                driver_attributes['custom_properties'] = [{'name' : 'Driver_File_Name',
+                driver_attributes['custom_properties'] = [{'name' : 'Driver_File_Path',
                                                            'value' : added_driver.driver_filename }]
                 
                 associated_object_dict['properties'] = driver_attributes
@@ -611,7 +611,7 @@ class parser:
                 
                 action_attributes = {}
                 action_attributes['id'] = self.generator.generate_malware_action_id()
-                action_attributes['name'] = {'value' : 'load driver', 'xsi:type': 'maecVocabs:DeviceDriverActionName-1.0' }
+                action_attributes['name'] = {'value' : 'load driver', 'xsi:type': 'maecVocabs:DeviceDriverActionNameVocab-1.0' }
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 hook_action = MalwareAction.from_dict(action_attributes)
