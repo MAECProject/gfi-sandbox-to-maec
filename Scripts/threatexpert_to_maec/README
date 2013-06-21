@@ -46,9 +46,7 @@ There are three main command line parameters for this script:
 
 -o: the path to the output MAEC XML file
 
-There are two additional, optional parameters that may be specified before the main paramters:
-
--s: print statistics regarding the number of actions extracted
+There is an additional, optional parameter that may be specified before the main parameters:
 
 -v: print verbose error output (tracebacks)
 
