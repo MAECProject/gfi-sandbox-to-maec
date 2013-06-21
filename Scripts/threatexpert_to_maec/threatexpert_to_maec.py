@@ -79,13 +79,11 @@ Usage: python threatexpert_to_maec.py <special arguments> -i <input threatexpert
        OR python threatexpert_to_maec.py <special arguments> -d <directory>
 
 Special arguments are as follows (all are optional):
--s : print statistics regarding number of actions converted.
 -v : verbose error mode (prints tracebacks of any errors during execution).
 
 """    
 def main():
     verbose_error_mode = 0
-    stat_mode = 0
     infilename = ''
     outfilename = ''
     directoryname = ''
@@ -106,9 +104,7 @@ def main():
             outfilename = args[i+1]
         elif args[i] == '-d':
             directoryname = args[i+1]
-        elif args[i] == '-s':
-            stat_mode = 1
-    
+
     if directoryname != '':
         for filename in os.listdir(directoryname):
             if '.xml' not in filename:
