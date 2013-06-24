@@ -929,7 +929,7 @@ class parser:
                 if self.analysis_subject_path is not None:
                     hook_attributes['hooked_module'] = self.analysis_subject_path
                 else:
-                    associated_object_dict['related_objects'] = [{'idref' : self.subject_id_list[0], 'relationship' : {'value' : 'Hooked_In'}}]
+                    associated_object_dict['related_objects'] = [{'idref' : self.subject_id_list[0], 'relationship' : {'value' : 'Hooked_In_File'}}]
             else:
                 hook_attributes['hooked_module'] = windowshook.module_filename
             hook_attributes['hooked_function'] = windowshook.export
