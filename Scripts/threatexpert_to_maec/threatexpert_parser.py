@@ -670,26 +670,26 @@ class parser:
                 regkey_attributes = {}
                 associated_object_dict = { 'id' : self.generator.generate_object_id() }
                 split_regkey = regkey.split('\\')
-                regkey_attributes['hive'] = split_regkey[0]
+                regkey_attributes['hive'] = split_regkey[0].lstrip()
                 actual_key = ''
                 for i in range(1, len(split_regkey)):
                     actual_key += (split_regkey[i] + '\\')
-                actual_key = actual_key.rstrip('\\')
+                actual_key = actual_key.rstrip('\\').lstrip().rstrip()
                 regkey_attributes['xsi:type'] = "WindowsRegistryKeyObjectType"
                 regkey_attributes['key'] = actual_key
                 regkey_attributes['type'] = 'Key/Key Group'
                 regvalues_collection = regvalue.get_regvalues_collection()
                 value_list = []
                 for regvalue in regvalues_collection.get_regvalue():
-                    data =regvalue.get_contents()
+                    data = regvalue.get_contents()
                     if data is not None and data.startswith("\"") and data.endswith("\""):
-                        data = data[1:-1]  # strip quotes
+                        data = data[1:-1]  # strip quotes and whitespace
                         
                     if data == "":
-                        regkey_attributes['values'] = [{ 'name' : regvalue.get_value() }]
-                    else:
-                        regkey_attributes['values'] = [{ 'name' : regvalue.get_value(),
-                                                         'data' : data }]
+                        regkey_attributes['values'] = [{ 'name' : regvalue.get_value().lstrip() }]
+                    elif data is not None:
+                        regkey_attributes['values'] = [{ 'name' : regvalue.get_value().lstrip(),
+                                                         'data' : data.lstrip().rstrip() }]
                 
                     associated_object_dict['properties'] = regkey_attributes
                     associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
