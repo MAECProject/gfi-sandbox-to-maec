@@ -1,8 +1,7 @@
-#Copyright (c) 2012, The MITRE Corporation
-#All rights reserved.
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See TERMS.txt for complete terms.
 
 #ThreatExpert Converter Script
-#Ivan Kirillov//ikirillov@mitre.org
 
 #ThreatExpert main parser class
 #For use in extracting data from XML ThreatExpert output
@@ -522,6 +521,7 @@ class parser:
                 module_attributes['xsi:type'] = 'LibraryObjectType'
                 module_attributes['name'] = module.get_module_name()
                 module_attributes['path'] = module.get_module_filename()
+                module_attributes['type'] = 'Dynamic'
                 associated_object_dict['properties'] = module_attributes
                 associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
                 
