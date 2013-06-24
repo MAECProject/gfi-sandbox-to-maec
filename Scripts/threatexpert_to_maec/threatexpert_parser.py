@@ -627,7 +627,7 @@ class parser:
                 
                 action_attributes = {}
                 action_attributes['id'] = self.generator.generate_malware_action_id()
-                action_attributes['name'] = {'value' : 'add system call hook', 'xsi:type': 'maecVocabs:HookingActionNameEnum-1.0' }
+                action_attributes['name'] = {'value' : 'add system call hook', 'xsi:type': 'maecVocabs:HookingActionNameVocab-1.0' }
                 action_attributes['associated_objects'] = [associated_object_dict]
                 action_attributes['tool_id'] = self.tool_id
                 hook_action = MalwareAction.from_dict(action_attributes)
@@ -922,26 +922,31 @@ class parser:
                 self.subreport_actions.append(url_file_action.id)
 
     def __process_setwindowshook_api_type(self, windowshooks):
-        # TODO: not complete
-        '''for windowshook in windowshooks:
-            module_attributes = {}
+        windows_hooks_collection = windowshooks.get_setwindowshook_collection()
+        for windowshook in windows_hooks_collection.get_setwindowshook():
+            hook_attributes = {}
             associated_object_dict = { 'id' : self.generator.generate_object_id() }
-            module_attributes['xsi:type'] = 'LibraryObjectType'
-            module_attributes['name'] = windowshook.exports #TODO: use exports correctly
-            module_attributes['file_name'] = windowshook.module_filename
-            associated_object_dict['properties'] = module_attributes
+            hook_attributes['xsi:type'] = 'WindowsKernelHookObjectType'
+            if windowshook.module_filename == '[file and pathname of the sample #1]':
+                if self.analysis_subject_path is not None:
+                    hook_attributes['hooked_module'] = self.analysis_subject_path
+                else:
+                    associated_object_dict['related_objects'] = [{'idref' : self.subject_id_list[0], 'relationship' : {'value' : 'Hooked_In'}}]
+            else:
+                hook_attributes['hooked_module'] = windowshook.module_filename
+            hook_attributes['hooked_function'] = windowshook.export
+                
+            associated_object_dict['properties'] = hook_attributes
             associated_object_dict['association_type'] = {'value' : 'input', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
-            
-            #Generate the MAEC action
+                
             action_attributes = {}
             action_attributes['id'] = self.generator.generate_malware_action_id()
-            action_attributes['undefined_name'] = {'value' : 'load library', 'xsi:type' : 'maecVocabs:LibraryActionNameVocab-1.0'} 
+            action_attributes['name'] = {'value' : 'add windows hook', 'xsi:type': 'maecVocabs:HookingActionNameVocab-1.0' }
             action_attributes['associated_objects'] = [associated_object_dict]
             action_attributes['tool_id'] = self.tool_id
-            module_action = MalwareAction.from_dict(action_attributes)
-            self.actions.get('System Actions').append(module_action) #TODO: check if this is correct
-            self.subreport_actions.append(module_action.id)'''
-        
+            hook_action = MalwareAction.from_dict(action_attributes)
+            self.actions.get('System Actions').append(hook_action)
+            self.subreport_actions.append(hook_action.id)
 
         return
     
