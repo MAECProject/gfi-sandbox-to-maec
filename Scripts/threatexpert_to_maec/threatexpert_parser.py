@@ -570,7 +570,7 @@ class parser:
                 try:
                     service_attributes['xsi:type'] = 'WindowsServiceObjectType'
                     service_attributes['name'] = service.get_service_name()
-                    #service_attributes['display_name'] = service.get_display_name()
+                    service_attributes['display_name'] = service.get_display_name()
                     service_attributes['image_info'] = {'file_name' : service.get_service_filename() }
                     service_attributes['status'] = service.get_status()
                 except AttributeError:
