@@ -124,7 +124,6 @@ class parser:
             
             self.maec_subjects.append(malware_subject)
             
-           
 
     # Create an analysis subject object, used in maec_helper.maec_analysis
     def __create_malware_subject_object(self, analysis_subject, general_info, analysis_subjects, id_map):
@@ -610,8 +609,7 @@ class parser:
                 hook_action = MalwareAction.from_dict(action_attributes)
                 self.actions.get('Driver Actions').append(hook_action)
                 self.subreport_actions.append(hook_action.id)
-        return
-    
+
     def __process_added_syscallhooks_type(self, added_syscallhooks):
         if added_syscallhooks.get_added_syscallhooks_collection() is not None:
             added_syscallhooks_collection = added_syscallhooks.get_added_syscallhooks_collection()
@@ -947,8 +945,6 @@ class parser:
             hook_action = MalwareAction.from_dict(action_attributes)
             self.actions.get('System Actions').append(hook_action)
             self.subreport_actions.append(hook_action.id)
-
-        return
     
     def __process_wnetaddconnection_api_type(self, wnetaddconnections):
         for wnetaddconnection in wnetaddconnections:
@@ -970,7 +966,6 @@ class parser:
             connect_action = MalwareAction.from_dict(action_attributes)
             self.actions.get('Network Actions').append(connect_action)
             self.subreport_actions.append(connect_action.get_id())
-        return
     
     def __process_procnames_to_terminate_type(self, procnames):
         for procname in procnames.get_procname():
