@@ -986,8 +986,6 @@ class parser:
             self.subreport_actions.append(process_action.id)
     
     def __get_av_aliases(self, object):
-        
-        #av_classification_objects = maec.Classifications()
         av_classification_objects = [] 
 
         #Go through each type of av_alias and add it (if existing)
