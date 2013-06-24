@@ -106,7 +106,7 @@ def main():
                 pass
             else:
                 outfilename = filename.rstrip('.xml') + '_maec.xml'
-                create_maec(os.path.join(directoryname, filename), outfilename, verbose_error_mode, stat_mode)
+                create_maec(os.path.join(directoryname, filename), outfilename, verbose_error_mode)
     #Basic input file checking
     elif infilename != '' and outfilename != '':
         create_maec(infilename, outfilename, verbose_error_mode)
