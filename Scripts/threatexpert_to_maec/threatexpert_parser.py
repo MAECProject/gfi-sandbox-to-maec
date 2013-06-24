@@ -692,7 +692,10 @@ class parser:
                                                          'data' : data.lstrip().rstrip() }]
                 
                     associated_object_dict['properties'] = regkey_attributes
-                    associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
+                    if type == 'create':
+                        associated_object_dict['association_type'] = {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
+                    else:
+                        associated_object_dict['association_type'] = {'value' : 'input', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
                     
                     #Generate the MAEC action
                     action_attributes = {}
