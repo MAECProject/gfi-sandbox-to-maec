@@ -20,7 +20,6 @@
 
 import threatexpert_parser as teparser
 from maec.package.package import Package
-from maec.utils import MAECNamespaceParser
 import sys
 import os
 import traceback
