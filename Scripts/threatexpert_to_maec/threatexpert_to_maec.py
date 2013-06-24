@@ -26,7 +26,7 @@ import os
 import traceback
 
 #Create a MAEC output file from a ThreatExpert input file
-def create_maec(inputfile, outpath, verbose_error_mode, stat_mode):
+def create_maec(inputfile, outpath, verbose_error_mode):
     stat_actions = 0
 
     if os.path.isfile(inputfile):    
@@ -54,10 +54,6 @@ def create_maec(inputfile, outpath, verbose_error_mode, stat_mode):
             
             print "Wrote to " + outpath
             
-            if stat_mode:
-                print '\n---- Statistics ----'
-                print str(stat_actions) + ' actions converted'
-                #print str(converter.stat_behaviors) + ' behaviors extracted'
         except Exception, err:
            print('\nError: %s\n' % str(err))
            if verbose_error_mode:
@@ -114,7 +110,7 @@ def main():
                 create_maec(os.path.join(directoryname, filename), outfilename, verbose_error_mode, stat_mode)
     #Basic input file checking
     elif infilename != '' and outfilename != '':
-        create_maec(infilename, outfilename, verbose_error_mode, stat_mode)
+        create_maec(infilename, outfilename, verbose_error_mode)
         
 if __name__ == "__main__":
     main()    
