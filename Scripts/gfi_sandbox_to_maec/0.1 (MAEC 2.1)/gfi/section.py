@@ -1,26 +1,33 @@
 #GFI Sandbox Base Section Handler
-#v0.1
+#v0.2
 
 class section_handler(object):
 
-    def __init__(self, initiator_id, tool_id):
-        self.initiator_id = initiator_id
-        self.tool_id = tool_id
+    def __init__(self):
         self.action_mappings = {}
     
     def handle_common_action_attributes(self, object, action_attributes, action_mappings):
-        action_attributes['initiator_id'] = self.initiator_id
-        #action_attributes['tool_id'] = self.tool_id
         #Set the properties from the action dictionary
-        action_attributes['action_type'] = action_mappings.get('action_type')
-        action_attributes[action_mappings.get('action_name_type')] = action_mappings.get('action_name')
+        action_attributes['name'] = action_mappings.get('action_name')
         #Set the primary object that the action operated on
-        action_attributes['object'] = object
+        if isinstance(object, list):
+            temp_list = []
+            for obj in object:
+                if len(obj['properties'].keys()) > 1:
+                    temp_list.append(obj)
+            action_attributes['associated_objects'] = temp_list
+        else:
+            if len(object['properties'].keys()) > 1:
+                action_attributes['associated_objects'] = [object]
+
 
     def handle_common_object_attributes(self, object_attributes, action_mappings):
         #Set the properties from the mappings dictionary
-        object_attributes['type'] = action_mappings.get('object_type')
-        object_attributes['association'] = action_mappings.get('object_association')
+        object_attributes['properties'] = {}
+        object_attributes['properties']['xsi:type'] = action_mappings.get('xsi:type')
+        object_attributes['association_type'] = {}
+        object_attributes['association_type']['value'] = action_mappings.get('object_association')
+        object_attributes['association_type']['xsi:type'] = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'
 
     def get_action_mappings(self):
         return self.action_mappings
