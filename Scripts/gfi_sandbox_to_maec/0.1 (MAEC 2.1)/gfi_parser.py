@@ -1,10 +1,24 @@
 #GFI Sandbox -> MAEC Translator
 #GFI Parser
-#v0.1
-
-import gfi_sandbox
-import maec_helper
+#v0.2
+import inspect
 import traceback
+import sys
+import gfi_sandbox
+from maec.utils import MAECNamespaceParser
+from maec.bundle.bundle import Bundle
+from maec.bundle.bundle_reference import BundleReference
+from maec.bundle.action_reference_list import ActionReferenceList, ActionReference
+from maec.bundle.malware_action import MalwareAction
+from maec.bundle.av_classification import AVClassification, AVClassifications
+from maec.bundle.process_tree import ProcessTree, ProcessTreeNode
+from maec.package.package import Package
+from maec.package.analysis import Analysis, DynamicAnalysisMetadata
+from maec.package.malware_subject import MalwareSubject
+from maec.id_generator import Generator
+from cybox.core.object import Object
+from cybox.core.associated_object import AssociatedObject
+from cybox.common import ToolInformation, StructuredText
 import gfi.filesystem_section
 import gfi.registry_section
 import gfi.process_section
@@ -18,17 +32,21 @@ import gfi.user_section
 import gfi.share_section
 import gfi.module_section
 import gfi.networkoperation_section
+import gfi.networkpacket_section
+import gfi.mapped_modules
 
 class parser:
     def __init__(self):
-        self.analysis = None
-        self.generator = None
-        self.maec_object = None
-        self.maec_action = None
-        self.maec_analysis = None
-        self.actions = None
-        self.tool_id = None
-        self.__setup_dictionaries()
+        #Setup the generator
+        self.generator = Generator('gfi_sandbox_to_maec')
+        #Setup the MAEC components
+        self.tool_id = self.generator.generate_tool_id()
+        self.maec_package = Package(self.generator.generate_package_id())
+        self.malware_subject = MalwareSubject(self.generator.generate_malware_subject_id())
+        self.bundle = Bundle(self.generator.generate_bundle_id(), False, 4.0, "dynamic analysis tool output")
+        self.scanner_bundle = Bundle(self.generator.generate_bundle_id(), False, 4.0, "static analysis tool output")
+        self.process_tree = ProcessTree()
+        self.__setup_components()
 
     #Open and read-in the GFI Sandbox output file
     #This assumes that we're dealing with an XML file
@@ -45,418 +63,208 @@ class parser:
     
     #Parse the GFI XML document
     def parse_document(self):
-        #Setup the generator
-        self.generator = maec_helper.generator('gfi_sandbox_to_maec')
-        #Setup the object class
-        self.maec_object = maec_helper.maec_object(self.generator)
-        #Setup the action class
-        self.maec_action = maec_helper.maec_action(self.generator)
         #Get the processes captured in the analysis
         processes = self.analysis.get_processes()
         calltree = self.analysis.get_calltree()
         running_processes = self.analysis.get_running_processes()
         #Handle the analysis information
         self.__handle_analysis()
+        #Add the Malware Instance Object Attributes to the Subject
+        self.__add_malware_instance_object_attributes()
         #Handle each process and create the corresponding MAEC entities
         for process in processes.get_process():
             try:
-                self.__handle_process(process)
+                monitor_reason = process.get_monitor_reason()
+                parent_pid = str(process.get_parent_pid())
+                if monitor_reason == 'AnalysisTarget':
+                    self.process_tree.set_root_process(self.__handle_process(process))
+                    #Handle the scanner (AV Classification) section, just for the malware instance for now
+                    self.__handle_scanner_section(process.get_scanner_section())
+                elif parent_pid is not '0' and monitor_reason == 'CreatedProcess':
+                    self.process_tree.root_process.add_spawned_process(self.__handle_process(process), parent_pid)
+                elif parent_pid is not '0' and monitor_reason == 'InjectedThread':
+                    self.process_tree.root_process.add_injected_process(self.__handle_process(process), parent_pid)
+                elif parent_pid is not '0':
+                    self.process_tree.root_process.add_spawned_process(self.__handle_process(process), parent_pid)
             except Exception, err:
                 print('\nError: %s\n' % str(err))
                 traceback.print_exc()
         return
     
     #"Private" methods
-    def __setup_dictionaries(self):
-        #setup the actions
-        actions = {}
-        actions['file_system'] = []
-        actions['ipc'] = []
-        actions['service'] = []
-        actions['registry'] = []
-        actions['gui'] = []
-        actions['network'] = []
-        actions['memory'] = []
-        actions['process'] = []
-        actions['module'] = []
-        actions['system'] = []
-        actions['internet'] = []
-        actions['filemapping'] = []
-        actions['thread'] = []
-        actions['sysobject'] = []
-        actions['driver'] = []
-        actions['user'] = []
-        actions['share'] = []
-        actions['module'] = []
-        self.actions = actions
-        
-        #setup the objects
-        objects = {}
-        objects['process'] = []
-        self.objects = objects
-        
+    def __setup_components(self):
+        #Build the MAEC Components
+        self.maec_package.add_malware_subject(self.malware_subject)
+        self.malware_subject.add_findings_bundle(self.bundle)
+        self.bundle.set_process_tree(self.process_tree)
+        #Setup the Action Collections
+        self.bundle.add_named_action_collection("File System Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Service Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Registry Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("GUI Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Network Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Process Memory Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Process Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Module Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("System Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Internet Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Filemapping Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Thread Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Synchronization Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Driver Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("User Actions", self.generator.generate_action_collection_id())
+        self.bundle.add_named_action_collection("Network Share Actions", self.generator.generate_action_collection_id())
+
     #Handle a GFI process object
     #Extract applicable elements and process them
     def __handle_process(self, process):
-        #First, create the process object
-        process_object = self.__create_process_object(process)
-        self.objects.get('process').append(process_object)
-        process_object_id = process_object.get_id()
+        action_id_list = []
+        #First, create the process tree node object
+        process_tree_node = self.__create_process_tree_node_object(process)
         #Next, handle all of the included actions
-        self.__handle_stored_modified_files(process.get_stored_modified_files(), process_object_id)
-        self.__handle_mapped_modules(process.get_mapped_modules(), process_object_id)
-        self.__handle_filesystem_section(process.get_filesystem_section(), process_object_id)
-        self.__handle_registry_section(process.get_registry_section(), process_object_id)
-        self.__handle_process_section(process.get_process_section(), process_object_id)
-        self.__handle_virtualmemory_section(process.get_virtualmemory_section(), process_object_id)
-        self.__handle_filemapping_section(process.get_filemapping_section(), process_object_id)
-        self.__handle_thread_section(process.get_thread_section(), process_object_id)
-        self.__handle_sysobject_section(process.get_sysobject_section(), process_object_id)
-        self.__handle_system_section(process.get_system_section(), process_object_id)
-        self.__handle_service_section(process.get_service_section(), process_object_id)
-        self.__handle_user_section(process.get_user_section(), process_object_id)
-        self.__handle_share_section(process.get_share_section(), process_object_id)
-        self.__handle_module_section(process.get_module_section(), process_object_id)
-        self.__handle_networkpacket_section(process.get_networkpacket_section(), process_object_id)
-        self.__handle_networkoperation_section(process.get_networkoperation_section(), process_object_id)
-        self.__handle_checkpoint_section(process.get_checkpoint_section(), process_object_id)
-        self.__handle_com_section(process.get_com_section(), process_object_id)
-        self.__handle_error_section(process.get_error_section(), process_object_id)
-        self.__handle_connection_section(process.get_connection_section(), process_object_id)
-    
+        #self.__handle_stored_modified_files(process.get_stored_modified_files(), process_tree_node)
+        #self.__handle_mapped_modules(process.get_mapped_modules(), process_tree_node)
+        self.__handle_gfi_sandbox_section(process.get_filesystem_section(), gfi.filesystem_section.filesystem_section_handler(), 
+                                          process_tree_node, 'File System Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_registry_section(), gfi.registry_section.registry_section_handler(),
+                                          process_tree_node, 'Registry Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_process_section(), gfi.process_section.process_section_handler(),
+                                          process_tree_node, 'Process Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_virtualmemory_section(), gfi.virtualmemory_section.virtualmemory_section_handler(),
+                                          process_tree_node, 'Process Memory Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_mapped_modules(), gfi.mapped_modules.mapped_modules_handler(),
+                                          process_tree_node, 'Process Memory Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_filemapping_section(), gfi.filemapping_section.filemapping_section_handler(self.generator),
+                                          process_tree_node, 'Filemapping Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_thread_section(), gfi.thread_section.thread_section_handler(self.generator),
+                                          process_tree_node, 'Thread Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_sysobject_section(), gfi.sysobject_section.sysobject_section_handler(),
+                                          process_tree_node, 'Synchronization Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_system_section(), gfi.system_section.system_section_handler(),
+                                          process_tree_node, 'System Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_service_section(), gfi.service_section.service_section_handler(self.generator),
+                                          process_tree_node, 'Service Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_user_section(), gfi.user_section.user_section_handler(),
+                                          process_tree_node, 'User Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_share_section(), gfi.share_section.share_section_handler(),
+                                          process_tree_node, 'Network Share Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_module_section(), gfi.module_section.module_section_handler(self.generator),
+                                          process_tree_node, 'Module Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_networkpacket_section(), gfi.networkpacket_section.networkpacket_section_handler(),
+                                          process_tree_node, 'Network Actions', action_id_list)
+        self.__handle_gfi_sandbox_section(process.get_networkoperation_section(), gfi.networkoperation_section.networkoperation_section_handler(self.generator),
+                                          process_tree_node, 'Network Actions', action_id_list)
+        #self.__handle_gfi_sandbox_section(process.get_checkpoint_section(), process_tree_node)
+        #self.__handle_gfi_sandbox_section(process.get_com_section(), process_tree_node)
+        #self.__handle_gfi_sandbox_section(process.get_error_section(), process_tree_node)
+        #self.__handle_gfi_sandbox_section(process.get_connection_section(), process_tree_node)
+        #Construct the list of Initiated Actions
+        process_tree_node.initiated_actions = ActionReferenceList.from_list(action_id_list)
+        return process_tree_node
+
     #Create and add the process object to the MAEC object list
-    def __create_process_object(self, process):
+    def __create_process_tree_node_object(self, process):
         process_attributes = {}
-        process_attributes['filename'] = process.get_filename()
-        if process.get_commandline() != None: process_attributes['cmd_line'] = process.get_commandline()
+        process_attributes['id'] = self.generator.generate_process_tree_node_id()
+        process_attributes['image_info'] = {}
+        process_attributes['image_info']['file_name'] = process.get_filename()
+        if process.get_commandline() != None: process_attributes['image_info']['command_line'] = process.get_commandline()
         if process.get_pid() != None: process_attributes['pid'] = process.get_pid()
-        if process.get_parent_pid() != None: process_attributes['parentpid'] = process.get_parent_pid()
+        if process.get_parent_pid() != None: process_attributes['parent_pid'] = process.get_parent_pid()
         if process.get_username() != None: process_attributes['username'] = process.get_username()
-        if process.get_start_time() != None: process_attributes['start_time'] = self.__normalize_datetime(process.get_start_time())
+        if process.get_start_time() != None: process_attributes['creation_time'] = self.__normalize_datetime(process.get_start_time())
         #Handle any AV classifications that were reported
-        av_classifications = self.__handle_scanner_section(process.get_scanner_section())
-        if av_classifications is not None:
-            process_attributes['av_classifications'] = av_classifications
+        #av_classifications = self.__handle_scanner_section(process.get_scanner_section())
+        #if av_classifications is not None:
+        #    process_attributes['av_classifications'] = av_classifications
         #Create the object
-        process_object = self.maec_object.create_process_object(process_attributes)
-        return process_object
+        return ProcessTreeNode.from_dict(process_attributes)
     
     #Process the analysis metadata and create the corresponding MAEC analysis object
     def __handle_analysis(self):
         #Get the required attributes
         version = self.analysis.get_version()
-        filename = self.analysis.get_filename()
         time = self.analysis.get_time()
         commandline = self.analysis.get_commandline()
-        analysis_subject_object = self.__create_analysis_subject()
-        #Create the maec analysis object
-        analysis = maec_helper.maec_analysis(self.generator, None, 'GFI Sandbox', 'GFI Software', version)
-        analysis.set_analysis_subject(analysis_subject_object, commandline)
-        self.maec_analysis = analysis.get_analysis_object()
-        self.tool_id = analysis.get_tool_id()
-        return
+        #Create the MAEC Analysis Object
+        analysis = Analysis(self.generator.generate_analysis_id(), "dynamic", "triage", BundleReference.from_dict({'bundle_idref': self.bundle.id}))
+        analysis.summary = StructuredText("GFI Sandbox dynamic analysis of the malware instance object.")
+        analysis.start_datetime = self.__normalize_datetime(time)
+        if commandline:
+            analysis.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_dict({"command_line" : commandline})
+        analysis.add_tool(ToolInformation.from_dict({"id": self.tool_id,
+                                                     "name": "GFI Sandbox",
+                                                     "version": version,
+                                                     "vendor": "http://www.threattracksecurity.com/"}))
+        self.malware_subject.add_analysis(analysis)
     
-    def __create_analysis_subject(self):
-        object_attributes = {}
-        object_attributes['filename'] = self.analysis.get_filename()
-        if self.analysis.get_md5() != None: object_attributes['md5'] = self.analysis.get_md5()
-        if self.analysis.get_sha1() != None: object_attributes['sha1'] = self.analysis.get_sha1()
-        return self.maec_object.create_file_system_object(object_attributes)
+    #Add the Malware Instance Object Attributes to the Malware Subject
+    def __add_malware_instance_object_attributes(self):
+        md5 = self.analysis.get_md5()
+        sha1 = self.analysis.get_sha1()
+        filename = self.analysis.get_filename()
+        hashes_list = [{"type": "MD5", "simple_hash_value": md5},
+                      {"type": "SHA1", "simple_hash_value": sha1}]
+        object_dict = {"id": self.generator.generate_object_id(),
+                       "properties": {"xsi:type":"FileObjectType",
+                                      "file_name": filename,
+                                      "hashes": hashes_list}
+                        }
+        self.malware_subject.set_malware_instance_object_attributes(Object.from_dict(object_dict))
     
-    def __handle_stored_modified_files(self, stored_modified_files, process_object_id):
+    def __handle_stored_modified_files(self, stored_modified_files, process_tree_node):
         if stored_modified_files != None:
             pass
         return
 
-    def __handle_mapped_modules(self, mapped_modules, process_object_id):
+    def __handle_mapped_modules(self, mapped_modules, process_tree_node):
         if mapped_modules != None:
             pass
         return
     
-    def __handle_filesystem_section(self, filesystem_section, process_object_id):
-        if filesystem_section != None:
-            fs_section = gfi.filesystem_section.filesystem_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for fs_action in filesystem_section.get_create_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_create_namedpipe():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_create_mailslot():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_open_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_read_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_write_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_copy_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_move_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_delete_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_find_file():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_get_file_attributes():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-            for fs_action in filesystem_section.get_set_file_attributes():
-                self.actions.get('file_system').append(self.__handle_action(fs_section, fs_action))
-    
-    def __handle_registry_section(self, registry_section, process_object_id):
-        if registry_section != None:
-            reg_section = gfi.registry_section.registry_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for reg_action in registry_section.get_open_key():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_create_key():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_delete_key():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_enum_keys():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_set_value():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_delete_value():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_query_key_info():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_query_value():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-            for reg_action in registry_section.get_enum_values():
-                self.actions.get('registry').append(self.__handle_action(reg_section, reg_action))
-    
-    def __handle_process_section(self, process_section, process_object_id):
-        if process_section != None:
-            proc_section = gfi.process_section.process_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for proc_action in process_section.get_create_process():
-                self.actions.get('process').append(self.__handle_action(proc_section, proc_action))
-            for proc_action in process_section.get_create_process_as_user():
-                self.actions.get('process').append(self.__handle_action(proc_section, proc_action))
-            for proc_action in process_section.get_open_process():
-                self.actions.get('process').append(self.__handle_action(proc_section, proc_action))
-            for proc_action in process_section.get_kill_process():
-                self.actions.get('process').append(self.__handle_action(proc_section, proc_action))
-            for proc_action in process_section.get_enumerate_processes():
-                self.actions.get('process').append(self.__handle_action(proc_section, proc_action))
-            for proc_action in process_section.get_impersonate_process():
-                self.actions.get('process').append(self.__handle_action(proc_section, proc_action)) 
-    
-    def __handle_virtualmemory_section(self, virtualmemory_section, process_object_id):
-        if virtualmemory_section != None:
-            vmem_section = gfi.virtualmemory_section.virtualmemory_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for vmem_action in virtualmemory_section.get_alloc_memory():
-                self.actions.get('memory').append(self.__handle_action(vmem_section, vmem_action))
-            for vmem_action in virtualmemory_section.get_free_memory():
-                self.actions.get('memory').append(self.__handle_action(vmem_section, vmem_action))
-            for vmem_action in virtualmemory_section.get_read_memory():
-                self.actions.get('memory').append(self.__handle_action(vmem_section, vmem_action))
-            for vmem_action in virtualmemory_section.get_write_memory():
-                self.actions.get('memory').append(self.__handle_action(vmem_section, vmem_action))
-            for vmem_action in virtualmemory_section.get_query_memory():
-                self.actions.get('memory').append(self.__handle_action(vmem_section, vmem_action))
-    
-    def __handle_filemapping_section(self, filemapping_section, process_object_id):
-        if filemapping_section != None:
-            filemap_section = gfi.filemapping_section.filemapping_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for filemap_action in filemapping_section.get_create_file_mapping():
-                self.actions.get('filemapping').append(self.__handle_action(filemap_section, filemap_action))
-            for filemap_action in filemapping_section.get_open_file_mapping():
-                self.actions.get('filemapping').append(self.__handle_action(filemap_section, filemap_action))
-            for filemap_action in filemapping_section.get_map_view_of_file():
-                self.actions.get('filemapping').append(self.__handle_action(filemap_section, filemap_action))
-    
-    def __handle_thread_section(self, thread_section, process_object_id):
-        if thread_section != None:
-            thrd_section = gfi.thread_section.thread_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for thrd_action in thread_section.get_create_thread():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            for thrd_action in thread_section.get_kill_thread():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            for thrd_action in thread_section.get_get_thread_context():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            for thrd_action in thread_section.get_queue_user_apc():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            for thrd_action in thread_section.get_enumerate_threads():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            for thrd_action in thread_section.get_impersonate_thread():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            for thrd_action in thread_section.get_revert_thread_to_self():
-                self.actions.get('thread').append(self.__handle_action(thrd_section, thrd_action))
-            #for thrd_action in thread_section.get_hide_from_debugger(): #TODO - support this as a behavior?
-                #pass
-    
-    def __handle_sysobject_section(self, sysobject_section, process_object_id):
-        if sysobject_section != None:
-           sysobj_section = gfi.sysobject_section.sysobject_section_handler(self.maec_object, process_object_id, self.tool_id)
-           for sysobj_action in sysobject_section.get_create_mutex():
-               self.actions.get('sysobject').append(self.__handle_action(sysobj_section, sysobj_action))
-           for sysobj_action in sysobject_section.get_open_mutex():
-               self.actions.get('sysobject').append(self.__handle_action(sysobj_section, sysobj_action))
-           for sysobj_action in sysobject_section.get_add_scheduled_task():
-               self.actions.get('sysobject').append(self.__handle_action(sysobj_section, sysobj_action))
-    
-    def __handle_system_section(self, system_section, process_object_id):
-        if system_section != None:
-            sys_section = gfi.system_section.system_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for sys_action in system_section.get_shutdown_system():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_sleep():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_get_computer_name():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_get_system_time():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_get_local_time():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_set_system_time():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_enumerate_handles():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_enumerate_system_modules():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            #for sys_action in system_section.get_check_for_debugger(): #TODO - Classify this as a behavior?
-                #self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            #for sys_action in system_section.get_check_for_kernel_debugger(): #TODO - Classify this as a behavior?
-                #self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_get_global_flags():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            for sys_action in system_section.get_set_global_flags():
-                self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-            #for sys_action in system_section.get_debug_control():
-                #self.actions.get('system').append(self.__handle_action(sys_section, sys_action))
-        
-    def __handle_service_section(self, service_section, process_object_id):
-        if service_section != None:
-            serv_section = gfi.service_section.service_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for serv_action in service_section.get_enumerate_services():
-                self.actions.get('service').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_open_service():
-                self.actions.get('service').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_create_service():
-                self.actions.get('service').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_remove_service():
-                self.actions.get('service').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_start_service():
-                self.actions.get('service').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_config_service():
-                self.actions.get('service').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_control_driver():
-                self.actions.get('driver').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_load_driver():
-                self.actions.get('driver').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_unload_driver():
-                self.actions.get('driver').append(self.__handle_action(serv_section, serv_action))
-            for serv_action in service_section.get_load_and_call_driver():
-                self.actions.get('driver').append(self.__handle_action(serv_section, serv_action))
-
-    def __handle_user_section(self, user_section, process_object_id):
-        if user_section != None:
-            usr_section = gfi.user_section.user_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for usr_action in user_section.get_logon_as_user():
-                self.actions.get('user').append(self.__handle_action(usr_section, usr_action))
-            for usr_action in user_section.get_add_user():
-                self.actions.get('user').append(self.__handle_action(usr_section, usr_action))
-            for usr_action in user_section.get_remove_user():
-                self.actions.get('user').append(self.__handle_action(usr_section, usr_action))
-            for usr_action in user_section.get_enumerate_users():
-                self.actions.get('user').append(self.__handle_action(usr_section, usr_action))
-            for usr_action in user_section.get_get_username():
-                self.actions.get('user').append(self.__handle_action(usr_section, usr_action))
-            for usr_action in user_section.get_get_user_info():
-                self.actions.get('user').append(self.__handle_action(usr_section, usr_action))
-
-    def __handle_share_section(self, share_section, process_object_id):
-        if share_section != None:
-            shr_section = gfi.share_section.share_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for shr_action in share_section.get_add_share():
-                self.actions.get('share').append(self.__handle_action(shr_section, shr_action))
-            for shr_action in share_section.get_remove_share():
-                self.actions.get('share').append(self.__handle_action(shr_section, shr_action))
-            for shr_action in share_section.get_enumerate_shares():
-                self.actions.get('share').append(self.__handle_action(shr_section, shr_action))
-            for shr_action in share_section.get_connect_to_share():
-                self.actions.get('share').append(self.__handle_action(shr_section, shr_action))
-            for shr_action in share_section.get_disconnect_from_share():
-                self.actions.get('share').append(self.__handle_action(shr_section, shr_action))
-
-    def __handle_module_section(self, module_section, process_object_id):
-        if module_section != None:
-            mod_section = gfi.module_section.module_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for mod_action in module_section.get_mapping_module():
-                self.actions.get('module').append(self.__handle_action(mod_section, mod_action))
-            #for mod_action in module_section.get_module_mapped():
-                #self.actions.get('module').append(self.__handle_action(mod_section, mod_action)) #TODO - determine how this differs from the previous action
-            for mod_action in module_section.get_load_module():
-                self.actions.get('module').append(self.__handle_action(mod_section, mod_action))
-            for mod_action in module_section.get_unload_module():
-                self.actions.get('module').append(self.__handle_action(mod_section, mod_action))
-            for mod_action in module_section.get_enumerate_dlls():
-                self.actions.get('module').append(self.__handle_action(mod_section, mod_action))
-            for mod_action in module_section.get_get_proc_address():
-                self.actions.get('module').append(self.__handle_action(mod_section, mod_action))
-            for mod_action in module_section.get_install_winhook_proc():
-                self.actions.get('module').append(self.__handle_action(mod_section, mod_action))
-
-    #TODO - populate this section after the CybOX network connection object is created
-    def __handle_networkpacket_section(self, networkpacket_section, process_object_id):
-        if networkpacket_section != None:
-            pass
-        return
-
-    def __handle_networkoperation_section(self, networkoperation_section, process_object_id):
-        if networkoperation_section != None:
-            netop_section = gfi.networkoperation_section.networkoperation_section_handler(self.maec_object, process_object_id, self.tool_id)
-            for netop_action in networkoperation_section.get_icmp_request():
-                self.actions.get('network').append(self.__handle_action(netop_section, netop_action))
-            for netop_action in networkoperation_section.get_dns_request_by_addr():
-                self.actions.get('network').append(self.__handle_action(netop_section, netop_action))
-            for netop_action in networkoperation_section.get_dns_request_by_name():
-                self.actions.get('network').append(self.__handle_action(netop_section, netop_action))
-    
-    #TODO - determine what this signifies?
-    def __handle_checkpoint_section(self, checkpoint_section, process_object_id):
-        if checkpoint_section != None:
-            pass
-        return
-
-    #TODO - populate this section after the CybOX COM object is created
-    def __handle_com_section(self, com_section, process_object_id):
-        if com_section != None:
-            pass
-        return
-    
-    #TODO - add support in MAEC for errors (as part of the Analysis_Object?)
-    def __handle_error_section(self, error_section, process_object_id):
-        if error_section != None:
-            pass
-        return
-    
-    #TODO - populate this section after the CybOX connection & layer 7 objects are added
-    def __handle_connection_section(self, connection_section, process_object_id):
-        if connection_section != None:
-            pass
-        return
+    def __handle_gfi_sandbox_section(self, section, section_handler, process_tree_node, action_collection_name, action_id_list):
+        if section:
+            for name, method in inspect.getmembers(section, inspect.ismethod):
+                if name.find('get_') == 0 and name[4:] in section_handler.action_mappings.keys():
+                    for sandbox_action in getattr(section, name)():
+                        maec_action = self.__handle_action(section_handler, sandbox_action)
+                        self.bundle.add_action(maec_action, action_collection_name)
+                        action_id_list.append({'action_id':maec_action.id})
     
     #Special method for handling AV classifications reported for the process
     def __handle_scanner_section(self, scanner_section):
-        if scanner_section != None and scanner_section.hasContent_():
-            av_classifications = []
+        if scanner_section and scanner_section.hasContent_():
             for scanner in scanner_section.get_scanner():
                 av_classification = {}
-                av_classification['company'] = scanner.get_name()
-                av_classification['application_version'] = scanner.get_application_version()
-                av_classification['signature_version'] = scanner.get_signature_file_version()
+                av_classification['vendor'] = scanner.get_name()
+                av_classification['engine_version'] = scanner.get_application_version()
+                av_classification['definition_version'] = scanner.get_signature_file_version()
                 try:
-                    av_classification['classification'] = scanner.get_additional_info().rstrip()
+                    av_classification['classification_name'] = scanner.get_additional_info().rstrip().strip('"')
                 except AttributeError:
                     pass
-                av_classifications.append(av_classification)
-            return self.maec_object.create_av_classifications(av_classifications)
-        else:
-            return None
+                self.scanner_bundle.add_av_classification(AVClassification.from_dict(av_classification))
+            #Add the corresponding Analysis to the Subject
+            scanner_analysis = Analysis(self.generator.generate_analysis_id(), "static", "triage", BundleReference.from_dict({"bundle_idref": self.scanner_bundle.id}))
+            scanner_analysis.summary = StructuredText("GFI Sandbox AV scanner results for the malware instance object.")
+            scanner_analysis.add_tool(ToolInformation.from_dict({"idref": self.tool_id}))
+            self.malware_subject.add_analysis(scanner_analysis)
+            self.malware_subject.add_findings_bundle(self.scanner_bundle)
+
 
     #Handle a single GFI action and convert it to its MAEC representation
     def __handle_action(self, section, action):
-        object_attributes = {}
-        action_attributes = {}
+        object_attributes = {'id':self.generator.generate_object_id()}
+        action_attributes = {'id':self.generator.generate_malware_action_id()}
+        #Handle the Action Status
+        try:
+            status = action.get_result()
+            if status:
+                action_attributes['action_status'] = 'Fail'
+            else:
+                action_attributes['action_status'] = 'Success'
+        except AttributeError:
+             pass
         #Get the name of the action
         action_name = action.__class__.__name__
         #Get the mapping dictionary for the action
@@ -469,8 +277,7 @@ class parser:
         section.handle_common_action_attributes(object, action_attributes, action_mappings)
         #Populate the action attributes
         section.handle_action_attributes(action, object, action_attributes, action_mappings)
-        action = self.maec_action.create_action(action_attributes)
-        return action
+        return MalwareAction.from_dict(action_attributes)
 
     #Return a normalized (ISO8601 compatible) datetime string
     def __normalize_datetime(self, datetime):

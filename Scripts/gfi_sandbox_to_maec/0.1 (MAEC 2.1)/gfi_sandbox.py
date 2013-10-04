@@ -2120,7 +2120,10 @@ class mapped_modules(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, mapped_module=None):
-        self.mapped_module = mapped_module
+        if mapped_module:
+            self.mapped_module = mapped_module
+        else:
+            self.mapped_module = []
     def factory(*args_, **kwargs_):
         if mapped_modules.subclass:
             return mapped_modules.subclass(*args_, **kwargs_)
@@ -2145,7 +2148,8 @@ class mapped_modules(GeneratedsSuper):
         pass
     def exportChildren(self, outfile, level, namespace_='', name_='mapped_modules', fromsubclass_=False):
         if self.mapped_module is not None:
-            self.mapped_module.export(outfile, level, namespace_, name_='mapped_module', )
+            for mapped_module_ in self.mapped_module:
+                mapped_module_.export(outfile, level, namespace_, name_='mapped_module', )
     def hasContent_(self):
         if (
             self.mapped_module is not None
@@ -2178,7 +2182,7 @@ class mapped_modules(GeneratedsSuper):
         if nodeName_ == 'mapped_module':
             obj_ = mapped_module.factory()
             obj_.build(child_)
-            self.set_mapped_module(obj_)
+            self.mapped_module.append(obj_)
 # end class mapped_modules
 
 
@@ -23851,11 +23855,11 @@ class networkpacket_section(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, connect_to_computer=None, disconnect_from_computer=None, packet_data=None, listen_for_connection=None, ping=None):
-        self.connect_to_computer = connect_to_computer
-        self.disconnect_from_computer = disconnect_from_computer
-        self.packet_data = packet_data
-        self.listen_for_connection = listen_for_connection
-        self.ping = ping
+        self.connect_to_computer = []
+        self.disconnect_from_computer = []
+        self.packet_data = []
+        self.listen_for_connection = []
+        self.ping = []
     def factory(*args_, **kwargs_):
         if networkpacket_section.subclass:
             return networkpacket_section.subclass(*args_, **kwargs_)
@@ -23957,23 +23961,23 @@ class networkpacket_section(GeneratedsSuper):
         if nodeName_ == 'connect_to_computer':
             obj_ = connect_to_computer.factory()
             obj_.build(child_)
-            self.set_connect_to_computer(obj_)
+            self.connect_to_computer.append(obj_)
         elif nodeName_ == 'disconnect_from_computer':
             obj_ = disconnect_from_computer.factory()
             obj_.build(child_)
-            self.set_disconnect_from_computer(obj_)
+            self.disconnect_from_computer.append(obj_)
         elif nodeName_ == 'packet_data':
             obj_ = packet_data.factory()
             obj_.build(child_)
-            self.set_packet_data(obj_)
+            self.packet_data.append(obj_)
         elif nodeName_ == 'listen_for_connection':
             obj_ = listen_for_connection.factory()
             obj_.build(child_)
-            self.set_listen_for_connection(obj_)
+            self.listen_for_connection.append(obj_)
         elif nodeName_ == 'ping':
             obj_ = ping.factory()
             obj_.build(child_)
-            self.set_ping(obj_)
+            self.ping.append(obj_)
 # end class networkpacket_section
 
 
