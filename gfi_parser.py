@@ -212,16 +212,6 @@ class parser:
                         }
         self.malware_subject.set_malware_instance_object_attributes(Object.from_dict(object_dict))
     
-    def __handle_stored_modified_files(self, stored_modified_files, process_tree_node):
-        if stored_modified_files != None:
-            pass
-        return
-
-    def __handle_mapped_modules(self, mapped_modules, process_tree_node):
-        if mapped_modules != None:
-            pass
-        return
-    
     def __handle_gfi_sandbox_section(self, section, section_handler, process_tree_node, action_collection_name, action_id_list):
         if section:
             for name, method in inspect.getmembers(section, inspect.ismethod):
