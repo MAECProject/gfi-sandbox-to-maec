@@ -14,7 +14,7 @@
 #GFI Sandbox -> MAEC Converter Script
 #Copyright 2013, MITRE Corp
 #Ivan Kirillov//ikirillov@mitre.org
-#v0.2 - BETA
+#v0.21 - BETA
 
 
 import gfi_parser
@@ -29,8 +29,8 @@ def usage():
     
 USAGE_TEXT = """
 GFI Sandbox XML Output --> MAEC XML Converter Utility
-v0.2 BETA
-Generates valid MAEC v4.0 content
+v0.21 BETA
+Generates valid MAEC v4.0.1 output from GFI Sandbox 4.x XML input
 
 Usage: python gfisandbox_to_maec.py <special arguments> -i <input gfi sandbox xml output> -o <output maec xml file>
 

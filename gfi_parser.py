@@ -1,6 +1,6 @@
 #GFI Sandbox -> MAEC Translator
 #GFI Parser
-#v0.2
+#v0.21
 import inspect
 import traceback
 import sys
@@ -43,7 +43,7 @@ class parser:
         self.tool_id = self.generator.generate_tool_id()
         self.maec_package = Package(self.generator.generate_package_id())
         self.malware_subject = MalwareSubject(self.generator.generate_malware_subject_id())
-        self.bundle = Bundle(self.generator.generate_bundle_id(), False, 4.0, "dynamic analysis tool output")
+        self.bundle = Bundle(self.generator.generate_bundle_id(), False, "4.0.1", "dynamic analysis tool output")
         self.scanner_bundle = None
         self.process_tree = ProcessTree()
         self.__setup_components()
@@ -224,7 +224,7 @@ class parser:
     #Special method for handling AV classifications reported for the process
     def __handle_scanner_section(self, scanner_section):
         if scanner_section and scanner_section.get_scanner():
-            self.scanner_bundle = Bundle(self.generator.generate_bundle_id(), False, 4.0, "static analysis tool output")
+            self.scanner_bundle = Bundle(self.generator.generate_bundle_id(), False, "4.0.1", "static analysis tool output")
             for scanner in scanner_section.get_scanner():
                 av_classification = {}
                 av_classification['vendor'] = scanner.get_name()

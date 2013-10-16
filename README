@@ -13,10 +13,10 @@ For more information, please refer to the terms.txt file.
 
 #################################################################
 #Generates MAEC Output from a GFI Sandbox v4 XML file           #
-#Compatible with MAEC v4.0 & CybOX v2.0                         #
+#Compatible with MAEC v4.0.1 & CybOX v2.0.1                     #
 #                                                               #
-#v0.2 - BETA                                                    #
-#Updated 10/07/2013                                             #
+#v0.21 - BETA                                                   #
+#Updated 10/16/2013                                             #
 #Ivan Kirillov//ikirillov@mitre.org                             #
 #                                                               #
 #################################################################
@@ -35,8 +35,8 @@ terms.txt: the terms of use for this script.
 --------------------------------------------------------------------------------
 --Dependencies------------------------------------------------------------------
 This script is dependent on the following python-modules:
--python-cybox v2.0.1.1: https://github.com/CybOXProject/python-cybox/releases/tag/v2.0.1.1
--python-maec v4.0.1: https://github.com/MAECProject/python-maec/releases/tag/v4.0.1
+-python-cybox >= v2.0.1.x: https://pypi.python.org/pypi/cybox/2.0.1.1
+-python-maec >= v4.0.1.x: https://pypi.python.org/pypi/maec
 --------------------------------------------------------------------------------
 --Usage Notes-------------------------------------------------------------------
 
