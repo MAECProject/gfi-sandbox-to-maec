@@ -219,7 +219,7 @@ class parser:
                     for sandbox_action in getattr(section, name)():
                         maec_action = self.__handle_action(section_handler, sandbox_action)
                         self.bundle.add_action(maec_action, action_collection_name)
-                        action_id_list.append({'action_id':maec_action.id})
+                        action_id_list.append({'action_id':maec_action.id_})
     
     #Special method for handling AV classifications reported for the process
     def __handle_scanner_section(self, scanner_section):
