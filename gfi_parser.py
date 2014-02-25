@@ -1,10 +1,11 @@
-#GFI Sandbox -> MAEC Translator
-#GFI Parser
-#v0.21
-import inspect
-import traceback
-import sys
-import gfi_sandbox
+# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# For more information, please refer to the terms.txt file.
+
+#GFI Sandbox Converter Script
+#Updated 02/24/2014 for MAEC v4.1 and CybOX v2.1
+
+#GFI main parser class
+#For use in extracting data from XML GFI output
 from maec.utils import MAECNamespaceParser
 from maec.bundle.bundle import Bundle
 from maec.bundle.bundle_reference import BundleReference
@@ -34,6 +35,10 @@ import gfi.module_section
 import gfi.networkoperation_section
 import gfi.networkpacket_section
 import gfi.mapped_modules
+import gfi_sandbox
+import inspect
+import traceback
+import sys
 
 class parser:
     def __init__(self):

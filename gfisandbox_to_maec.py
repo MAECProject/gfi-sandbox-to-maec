@@ -2,7 +2,7 @@
 #                                                   #
 #      GFI Sandbox -> MAEC XML Converter Script     #
 #                                                   #
-# Copyright (c) 2013 - The MITRE Corporation        #
+# Copyright (c) 2014 - The MITRE Corporation        #
 #                                                   #
 #***************************************************#
 
@@ -11,11 +11,11 @@
 
 #For more information, please refer to the terms.txt file.
 
-#GFI Sandbox -> MAEC Converter Script
-#Copyright 2013, MITRE Corp
+#GFI Sandbox Converter Script
+#Copyright 2014, MITRE Corp
 #Ivan Kirillov//ikirillov@mitre.org
-#v0.21 - BETA
-
+#v0.22 - BETA
+#Updated 02/24/2014 for MAEC v4.1 and CybOX v2.1
 
 import gfi_parser
 import sys
@@ -29,14 +29,15 @@ def usage():
     
 USAGE_TEXT = """
 GFI Sandbox XML Output --> MAEC XML Converter Utility
-v0.21 BETA
-Generates valid MAEC v4.0.1 output from GFI Sandbox 4.x XML input
+v0.22 BETA // Supports MAEC v4.1 and CybOX v2.1
 
 Usage: python gfisandbox_to_maec.py <special arguments> -i <input gfi sandbox xml output> -o <output maec xml file>
 
 Special arguments are as follows (all are optional):
 -v : verbose error mode (prints tracebacks of any errors during execution).
+
 """    
+
 def main():
     verbose_error_mode = 0
     infilename = ''
@@ -85,4 +86,4 @@ def main():
         sys.exit(1)
         
 if __name__ == "__main__":
-    main()    
+    main()

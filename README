@@ -2,7 +2,7 @@
 
       GFI Sandbox XML -> MAEC XML Converter Script
 
- Copyright (c) 2013 - The MITRE Corporation
+ Copyright (c) 2014 - The MITRE Corporation
 
 ****************************************************
 
@@ -13,11 +13,11 @@ For more information, please refer to the terms.txt file.
 
 #################################################################
 #Generates MAEC Output from a GFI Sandbox v4 XML file           #
-#Compatible with MAEC v4.0.1 & CybOX v2.0.1                     #
+#Compatible with MAEC Schema v4.1 & CybOX v2.1                  #
 #                                                               #
-#v0.21 - BETA                                                   #
-#Updated 10/16/2013                                             #
-#Ivan Kirillov//ikirillov@mitre.org                             #
+#v0.22 - BETA                                                   #
+#Updated 02/24/2014                                             #
+#Ivan Kirillov, MITRE                                           #
 #                                                               #
 #################################################################
 # MAEC - http://maec.mitre.org                                  #
@@ -26,6 +26,7 @@ For more information, please refer to the terms.txt file.
 ################################################################################
 --------------------------------------------------------------------------------
 --Included Files----------------------------------------------------------------
+
 README: this file.
 gfisandbox_to_maec.py: the GFI Sandbox XML to MAEC XML Python converter script.
 gfi_sandbox.py: the GFI Sandbox Python bindings which the script imports.
@@ -34,9 +35,11 @@ gfi_parser.py: the GFI parser class.
 terms.txt: the terms of use for this script.
 --------------------------------------------------------------------------------
 --Dependencies------------------------------------------------------------------
-This script is dependent on the following python-modules:
--python-cybox >= v2.0.1.x: https://pypi.python.org/pypi/cybox/2.0.1.1
--python-maec >= v4.0.1.x: https://pypi.python.org/pypi/maec
+
+There are three dependencies for this script:
+1) The Python lxml library  >= v3.2.x, http://lxml.de/
+1) The python-maec library  >= v4.1.0.0, https://pypi.python.org/pypi/maec
+2) The python-cybox library >= v2.1.0.0, https://pypi.python.org/pypi/cybox
 --------------------------------------------------------------------------------
 --Usage Notes-------------------------------------------------------------------
 
