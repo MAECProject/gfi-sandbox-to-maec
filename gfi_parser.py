@@ -6,7 +6,6 @@
 
 #GFI main parser class
 #For use in extracting data from XML GFI output
-from maec.utils import MAECNamespaceParser
 from maec.bundle.bundle import Bundle
 from maec.bundle.bundle_reference import BundleReference
 from maec.bundle.action_reference_list import ActionReferenceList, ActionReference
@@ -16,7 +15,8 @@ from maec.bundle.process_tree import ProcessTree, ProcessTreeNode
 from maec.package.package import Package
 from maec.package.analysis import Analysis, DynamicAnalysisMetadata
 from maec.package.malware_subject import MalwareSubject
-from maec.id_generator import Generator
+import maec.utils
+from cybox.utils import Namespace
 from cybox.core.object import Object
 from cybox.core.associated_object import AssociatedObject
 from cybox.common import ToolInformation, StructuredText
@@ -42,13 +42,11 @@ import sys
 
 class parser:
     def __init__(self):
-        #Setup the generator
-        self.generator = Generator('gfi_sandbox_to_maec')
         #Setup the MAEC components
-        self.tool_id = self.generator.generate_tool_id()
-        self.maec_package = Package(self.generator.generate_package_id())
-        self.malware_subject = MalwareSubject(self.generator.generate_malware_subject_id())
-        self.bundle = Bundle(self.generator.generate_bundle_id(), False, "4.0.1", "dynamic analysis tool output")
+        self.tool_id = maec.utils.idgen.create_id(prefix="tool")
+        self.maec_package = Package()
+        self.malware_subject = MalwareSubject()
+        self.bundle = Bundle(False, "4.1", "dynamic analysis tool output")
         self.scanner_bundle = None
         self.process_tree = ProcessTree()
         self.__setup_components()
