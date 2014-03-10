@@ -168,7 +168,7 @@ class parser:
     #Create and add the process object to the MAEC object list
     def __create_process_tree_node_object(self, process):
         process_attributes = {}
-        process_attributes['id'] = self.generator.generate_process_tree_node_id()
+        process_attributes['id'] = maec.utils.idgen.create_id(prefix="process_tree_node")
         process_attributes['image_info'] = {}
         process_attributes['image_info']['file_name'] = process.get_filename()
         if process.get_commandline() != None: process_attributes['image_info']['command_line'] = process.get_commandline()
@@ -190,7 +190,7 @@ class parser:
         time = self.analysis.get_time()
         commandline = self.analysis.get_commandline()
         #Create the MAEC Analysis Object
-        analysis = Analysis(self.generator.generate_analysis_id(), "dynamic", "triage", BundleReference.from_dict({'bundle_idref': self.bundle.id}))
+        analysis = Analysis(maec.utils.idgen.create_id(prefix="analysis"), "dynamic", "triage", BundleReference.from_dict({'bundle_idref': self.bundle.id}))
         analysis.summary = StructuredText("GFI Sandbox dynamic analysis of the malware instance object.")
         analysis.start_datetime = self.__normalize_datetime(time)
         if commandline:
@@ -208,7 +208,7 @@ class parser:
         filename = self.analysis.get_filename()
         hashes_list = [{"type": "MD5", "simple_hash_value": md5},
                       {"type": "SHA1", "simple_hash_value": sha1}]
-        object_dict = {"id": self.generator.generate_object_id(),
+        object_dict = {"id": maec.utils.idgen.create_id(prefix="object"),
                        "properties": {"xsi:type":"FileObjectType",
                                       "file_name": filename,
                                       "hashes": hashes_list}
@@ -227,7 +227,7 @@ class parser:
     #Special method for handling AV classifications reported for the process
     def __handle_scanner_section(self, scanner_section):
         if scanner_section and scanner_section.get_scanner():
-            self.scanner_bundle = Bundle(self.generator.generate_bundle_id(), False, "4.0.1", "static analysis tool output")
+            self.scanner_bundle = Bundle(maec.utils.idgen.create_id(prefix="bundle"), False, "4.0.1", "static analysis tool output")
             for scanner in scanner_section.get_scanner():
                 av_classification = {}
                 av_classification['vendor'] = scanner.get_name()
@@ -239,7 +239,7 @@ class parser:
                     pass
                 self.scanner_bundle.add_av_classification(AVClassification.from_dict(av_classification))
             #Add the corresponding Analysis to the Subject
-            scanner_analysis = Analysis(self.generator.generate_analysis_id(), "static", "triage", BundleReference.from_dict({"bundle_idref": self.scanner_bundle.id}))
+            scanner_analysis = Analysis(maec.utils.idgen.create_id(prefix="analysis"), "static", "triage", BundleReference.from_dict({"bundle_idref": self.scanner_bundle.id}))
             scanner_analysis.summary = StructuredText("GFI Sandbox AV scanner results for the malware instance object.")
             scanner_analysis.add_tool(ToolInformation.from_dict({"idref": self.tool_id}))
             self.malware_subject.add_analysis(scanner_analysis)
@@ -248,8 +248,8 @@ class parser:
 
     #Handle a single GFI action and convert it to its MAEC representation
     def __handle_action(self, section, action):
-        object_attributes = {'id':self.generator.generate_object_id()}
-        action_attributes = {'id':self.generator.generate_malware_action_id()}
+        object_attributes = {'id':maec.utils.idgen.create_id(prefix="object")
+        action_attributes = {'id':maec.utils.idgen.create_id(prefix="action")}
         #Handle the Action Status
         try:
             status = action.get_result()
