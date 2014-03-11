@@ -1,12 +1,12 @@
 #GFI Sandbox Network Operation Section Handler
 #v0.2
 import section
+import maec.utils
 
 class networkoperation_section_handler(section.section_handler):
 
-    def __init__(self, generator):
+    def __init__(self):
         super(networkoperation_section_handler,self).__init__()
-        self.generator = generator
         self.__populate_action_mappings()
     
     #Handle the network object oriented attributes
@@ -50,7 +50,7 @@ class networkoperation_section_handler(section.section_handler):
         try:
             resulting_name = action.get_result_name()
             if resulting_name != 'NONE':
-                secondary_object_attributes = {'id':self.generator.generate_object_id(), 'properties':{}}
+                secondary_object_attributes = {'id':maec.utils.idgen.create_id(prefix='object'), 'properties':{}}
                 secondary_object_attributes['association_type'] = {}
                 secondary_object_attributes['association_type']['value'] = 'output'
                 secondary_object_attributes['association_type']['xsi:type'] = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'

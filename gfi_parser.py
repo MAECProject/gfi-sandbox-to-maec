@@ -50,6 +50,7 @@ class parser:
         self.scanner_bundle = None
         self.process_tree = ProcessTree()
         self.__setup_components()
+        self.maec_subjects = []
 
     #Open and read-in the GFI Sandbox output file
     #This assumes that we're dealing with an XML file
@@ -137,25 +138,25 @@ class parser:
                                           process_tree_node, 'Process Memory Actions', action_id_list)
         self.__handle_gfi_sandbox_section(process.get_mapped_modules(), gfi.mapped_modules.mapped_modules_handler(),
                                           process_tree_node, 'Process Memory Actions', action_id_list)
-        self.__handle_gfi_sandbox_section(process.get_filemapping_section(), gfi.filemapping_section.filemapping_section_handler(self.generator),
+        self.__handle_gfi_sandbox_section(process.get_filemapping_section(), gfi.filemapping_section.filemapping_section_handler(),
                                           process_tree_node, 'Filemapping Actions', action_id_list)
-        self.__handle_gfi_sandbox_section(process.get_thread_section(), gfi.thread_section.thread_section_handler(self.generator),
+        self.__handle_gfi_sandbox_section(process.get_thread_section(), gfi.thread_section.thread_section_handler(),
                                           process_tree_node, 'Thread Actions', action_id_list)
         self.__handle_gfi_sandbox_section(process.get_sysobject_section(), gfi.sysobject_section.sysobject_section_handler(),
                                           process_tree_node, 'Synchronization Actions', action_id_list)
         self.__handle_gfi_sandbox_section(process.get_system_section(), gfi.system_section.system_section_handler(),
                                           process_tree_node, 'System Actions', action_id_list)
-        self.__handle_gfi_sandbox_section(process.get_service_section(), gfi.service_section.service_section_handler(self.generator),
+        self.__handle_gfi_sandbox_section(process.get_service_section(), gfi.service_section.service_section_handler(),
                                           process_tree_node, 'Service Actions', action_id_list)
         self.__handle_gfi_sandbox_section(process.get_user_section(), gfi.user_section.user_section_handler(),
                                           process_tree_node, 'User Actions', action_id_list)
         self.__handle_gfi_sandbox_section(process.get_share_section(), gfi.share_section.share_section_handler(),
                                           process_tree_node, 'Network Share Actions', action_id_list)
-        self.__handle_gfi_sandbox_section(process.get_module_section(), gfi.module_section.module_section_handler(self.generator),
+        self.__handle_gfi_sandbox_section(process.get_module_section(), gfi.module_section.module_section_handler(),
                                           process_tree_node, 'Module Actions', action_id_list)
         self.__handle_gfi_sandbox_section(process.get_networkpacket_section(), gfi.networkpacket_section.networkpacket_section_handler(),
                                           process_tree_node, 'Network Actions', action_id_list)
-        self.__handle_gfi_sandbox_section(process.get_networkoperation_section(), gfi.networkoperation_section.networkoperation_section_handler(self.generator),
+        self.__handle_gfi_sandbox_section(process.get_networkoperation_section(), gfi.networkoperation_section.networkoperation_section_handler(),
                                           process_tree_node, 'Network Actions', action_id_list)
         #self.__handle_gfi_sandbox_section(process.get_checkpoint_section(), process_tree_node)
         #self.__handle_gfi_sandbox_section(process.get_com_section(), process_tree_node)
@@ -227,7 +228,7 @@ class parser:
     #Special method for handling AV classifications reported for the process
     def __handle_scanner_section(self, scanner_section):
         if scanner_section and scanner_section.get_scanner():
-            self.scanner_bundle = Bundle(maec.utils.idgen.create_id(prefix="bundle"), False, "4.0.1", "static analysis tool output")
+            self.scanner_bundle = Bundle(maec.utils.idgen.create_id(prefix="bundle"), False, "4.1", "static analysis tool output")
             for scanner in scanner_section.get_scanner():
                 av_classification = {}
                 av_classification['vendor'] = scanner.get_name()
@@ -245,10 +246,9 @@ class parser:
             self.malware_subject.add_analysis(scanner_analysis)
             self.malware_subject.add_findings_bundle(self.scanner_bundle)
 
-
     #Handle a single GFI action and convert it to its MAEC representation
     def __handle_action(self, section, action):
-        object_attributes = {'id':maec.utils.idgen.create_id(prefix="object")
+        object_attributes = {'id':maec.utils.idgen.create_id(prefix="object")}
         action_attributes = {'id':maec.utils.idgen.create_id(prefix="action")}
         #Handle the Action Status
         try:

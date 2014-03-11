@@ -1,12 +1,12 @@
 #GFI Sandbox User Section Handler
 #v0.2
 import section
+import maec.utils
 
 class module_section_handler(section.section_handler):
 
-    def __init__(self, generator):
+    def __init__(self):
         super(module_section_handler,self).__init__()
-        self.generator = generator
         self.__populate_action_mappings()
     
     #Handle the module object oriented attributes
@@ -50,7 +50,7 @@ class module_section_handler(section.section_handler):
             if action.get_ordinal():
                 exports_dict = {}
                 exports_dict['exported_functions'] = [{'ordinal':action.get_ordinal()}]
-                secondary_object_attributes['id'] = self.generator.generate_object_id()
+                secondary_object_attributes['id'] = maec.utils.idgen.create_id(prefix='object')
                 secondary_object_attributes['association_type'] = {}
                 secondary_object_attributes['association_type']['value'] = 'input'
                 secondary_object_attributes['association_type']['xsi:type'] = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'

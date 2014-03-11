@@ -1,19 +1,20 @@
 #GFI Sandbox File Mapping Section Handler
 #v0.1
 import section
+import maec.utils
+
 
 class filemapping_section_handler(section.section_handler):
 
-    def __init__(self, generator):
+    def __init__(self):
         super(filemapping_section_handler,self).__init__()
-        self.generator = generator
         self.__populate_action_mappings()
     
     #Handle the file object oriented attributes
     def handle_object_attributes(self, action, object_attributes, action_attributes, action_mappings):
         secondary_object_attributes = {}
         try:
-            secondary_object_attributes['id'] = self.generator.generate_object_id()
+            secondary_object_attributes['id'] = maec.utils.idgen.create_id(prefix='object')
             secondary_object_attributes['association_type'] = {}
             secondary_object_attributes['association_type']['value'] = 'input'
             secondary_object_attributes['association_type']['xsi:type'] = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'

@@ -1,19 +1,19 @@
 #GFI Sandbox Thread Section Handler
 #v0.2
 import section
+import maec.utils
 
 class thread_section_handler(section.section_handler):
 
-    def __init__(self, generator):
+    def __init__(self):
         super(thread_section_handler,self).__init__()
-        self.generator = generator
         self.__populate_action_mappings()
     
     #Handle the file object oriented attributes
     def handle_object_attributes(self, action, object_attributes, action_attributes, action_mappings):
         process_object_attributes = {}
         if action.get_target_pid() and str(action.get_target_pid()) is not '0':
-            process_object_attributes = {'id' : self.generator.generate_object_id()}
+            process_object_attributes = {'id' : maec.utils.idgen.create_id(prefix='object')}
             process_object_attributes['properties'] = {}
             process_object_attributes['properties']['pid'] = action.get_target_pid()
             process_object_attributes['properties']['xsi:type'] = 'WindowsProcessObjectType'

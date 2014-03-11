@@ -1,16 +1,16 @@
 #GFI Sandbox Service Section Handler
 #v0.1
 import section
+import maec.utils
 
 class service_section_handler(section.section_handler):
-    def __init__(self, generator):
+    def __init__(self):
         super(service_section_handler,self).__init__()
-        self.generator = generator
         self.__populate_action_mappings()
     
     #Handle the service object oriented attributes
     def handle_object_attributes(self, action, object_attributes, action_attributes, action_mappings):
-        secondary_object_attributes = {'id':self.generator.generate_object_id()}
+        secondary_object_attributes = {'id':maec.utils.idgen.create_id(prefix='object')}
         secondary_object_attributes['properties'] = {}
         secondary_object_attributes['properties']['xsi:type'] = action_mappings['xsi:type']
         secondary_object_attributes['association_type'] = {'value':'output', 'xsi:type':'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}
