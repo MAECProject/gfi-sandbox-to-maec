@@ -45,7 +45,7 @@ class parser:
         #Setup the MAEC components
         self.tool_id = maec.utils.idgen.create_id(prefix="tool")
         self.malware_subject = MalwareSubject()
-        self.bundle = Bundle(False, "4.1", "dynamic analysis tool output")
+        self.bundle = Bundle(False)
         self.scanner_bundle = None
         self.process_tree = ProcessTree()
         self.__setup_components()
@@ -65,14 +65,23 @@ class parser:
     
     #Parse the GFI XML document
     def parse_document(self):
+
         #Get the processes captured in the analysis
         processes = self.analysis.get_processes()
         calltree = self.analysis.get_calltree()
         running_processes = self.analysis.get_running_processes()
+
         #Handle the analysis information
         self.__handle_analysis()
+
+        # Instantiate the ID generator class (for automatic ID generation) with
+        # our example namespace.
+        NS = Namespace("https://github.com/MAECProject/gfi-sandbox-to-maec", "GFISandboxToMAEC")
+        maec.utils.set_id_namespace(NS)
+
         #Add the Malware Instance Object Attributes to the Subject
         self.__add_malware_instance_object_attributes()
+
         #Handle each process and create the corresponding MAEC entities
         for process in processes.get_process():
             try:
