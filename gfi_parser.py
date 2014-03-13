@@ -45,7 +45,7 @@ class parser:
         #Setup the MAEC components
         self.tool_id = maec.utils.idgen.create_id(prefix="tool")
         self.malware_subject = MalwareSubject()
-        self.bundle = Bundle(False)
+        self.bundle = Bundle(None, False, "4.1", "dynamic analysis tool output")
         self.scanner_bundle = None
         self.process_tree = ProcessTree()
         self.__setup_components()
