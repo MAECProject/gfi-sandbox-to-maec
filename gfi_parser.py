@@ -228,7 +228,10 @@ class parser:
             for name, method in inspect.getmembers(section, inspect.ismethod):
                 if name.find('get_') == 0 and name[4:] in section_handler.action_mappings.keys():
                     for sandbox_action in getattr(section, name)():
-                        maec_action = self.__handle_action(section_handler, sandbox_action)
+                        maec_action = self.__handle_action(section_handler,
+                            sandbox_action)
+                        if not maec_action.action_arguments:
+                            maec_action.action_arguments = None
                         self.bundle.add_action(maec_action, action_collection_name)
                         action_id_list.append({'action_id':maec_action.id_})
     
