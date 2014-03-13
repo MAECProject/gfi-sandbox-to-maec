@@ -42,6 +42,12 @@ import sys
 
 class parser:
     def __init__(self):
+
+        # Instantiate the ID generator class (for automatic ID generation) with
+        # our example namespace.
+        NS = Namespace("https://github.com/MAECProject/gfi-sandbox-to-maec", "GFISandboxToMAEC")
+        maec.utils.set_id_namespace(NS)
+
         #Setup the MAEC components
         self.tool_id = maec.utils.idgen.create_id(prefix="tool")
         self.malware_subject = MalwareSubject()
@@ -49,11 +55,6 @@ class parser:
         self.scanner_bundle = None
         self.process_tree = ProcessTree()
         self.__setup_components()
-
-        # Instantiate the ID generator class (for automatic ID generation) with
-        # our example namespace.
-        NS = Namespace("https://github.com/MAECProject/gfi-sandbox-to-maec", "GFISandboxToMAEC")
-        maec.utils.set_id_namespace(NS)
 
     #Open and read-in the GFI Sandbox output file
     #This assumes that we're dealing with an XML file
