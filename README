@@ -34,6 +34,8 @@ gfi_parser.py: the GFI parser class.
 terms.txt: the terms of use for this script.
 --------------------------------------------------------------------------------
 --Dependencies------------------------------------------------------------------
+This code has been developed and tested under Python 2.7.x and so may not
+be compatible with Python 3.x.
 
 There are three dependencies for this script:
 1) The Python lxml library  >= v3.2.x, http://lxml.de/
