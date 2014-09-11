@@ -9,7 +9,7 @@
 #BY USING THE GFI SANDBOX TO MAEC SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
 #CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE GFI TO MAEC SCRIPT.
 
-#For more information, please refer to the terms.txt file.
+#For more information, please refer to the LICENSE.txt file.
 
 #GFI Sandbox Converter Script
 #Copyright 2014, MITRE Corp

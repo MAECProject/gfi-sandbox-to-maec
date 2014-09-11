@@ -1,5 +1,5 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
-# For more information, please refer to the terms.txt file.
+# For more information, please refer to the LICENSE.txt file.
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
