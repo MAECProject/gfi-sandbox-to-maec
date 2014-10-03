@@ -22,7 +22,7 @@ def generate_package_from_parser(input_parser, options = None):
             malware_subject.dereference_bundles()
         
     # Add the Malware Subject
-    package.add_malware_subject(input_parser.malware_subject)
+    package.add_malware_subject(malware_subject)
 
     return package
     
@@ -33,10 +33,10 @@ def generate_package_from_report_filepath(input_path, options = None):
         print('\nError: Error in parsing input file. Please check to ensure that it is valid XML and conforms to the GFI Sandbox output schema.')
         return
     
-    return generate_package_from_parser(parser, options = None)
+    return generate_package_from_parser(parser, options)
 
-def generate_package_from_report_string(input_string):
+def generate_package_from_report_string(input_string, options = None):
     parser = gfiparser.parser()
     parser.use_input_string(input_string)
     
-    return generate_package_from_parser(parser, options = None)
+    return generate_package_from_parser(parser, options)
