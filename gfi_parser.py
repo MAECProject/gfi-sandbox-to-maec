@@ -68,6 +68,16 @@ class parser:
         except Exception, err:
            print('\nError: %s\n' % str(err))
            traceback.print_exc()
+
+    #Read-in the GFI Sandbox output contents
+    #This assumes that we're dealing with XML
+    def use_input_string(self, input_string):
+        try: 
+            self.analysis = gfi_sandbox.parseString(input_string)
+            return 1
+        except Exception, err:
+           print('\nError: %s\n' % str(err))
+           return 0
     
     #Parse the GFI XML document
     def parse_document(self):
