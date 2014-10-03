@@ -16,30 +16,26 @@
 #v0.23 - BETA
 #Updated 10/3/2014
 
+__version__ = 0.23
+
 from __init__ import generate_package_from_report_filepath
 import sys
 import os
 import traceback
+import argparse
 
 #Create a MAEC output file from a GFI Sandbox input file.
 def create_maec(inputfile, outpath, verbose_error_mode):
+    """Create the MAEC output from an input GFI Sandbox XML file"""  
+    try:
+        package = generate_package_from_report_filepath(inputfile)
+        #Finally, Export the results
+        package.to_xml_file(outpath, {"https://github.com/MAECProject/gfi-sandbox-to-maec":"GFISandboxToMAEC"})
 
-    if os.path.isfile(inputfile):    
-        try:
-            package = generate_package_from_report_filepath(inputfile)
-            #Finally, Export the results
-            package.to_xml_file(outpath, {"https://github.com/MAECProject/gfi-sandbox-to-maec":"GFISandboxToMAEC"})
-
-            print "Wrote to " + outpath
-
-        except Exception, err:
-           print('\nError: %s\n' % str(err))
-           if verbose_error_mode:
-                traceback.print_exc()
-    else:
-        print('\nError: Input file not found or inaccessible.')
-        return
-
+    except Exception, err:
+        print('\nError: %s\n' % str(err))
+        if verbose_error_mode:
+            traceback.print_exc()
 
 #Print the usage text    
 def usage():
@@ -59,42 +55,29 @@ Special arguments are as follows (all are optional):
 """    
 
 def main():
+    parser = argparse.ArgumentParser(description="GFI Sandbox to MAEC Translator v" + str(__version__))
+    parser.add_argument("input", help="the name of the input GFI XML file OR directory of files to translate to MAEC")
+    parser.add_argument("output", help="the name of the MAEC XML file OR directory to which the output will be written")
+    parser.add_argument("--verbose", "-v", help="enable verbose error output mode", action="store_true", default=False)
+    args = parser.parse_args()
+
     verbose_error_mode = 0
-    infilename = ''
-    outfilename = ''
-    directoryname = ''
-    
-    #Get the command-line arguments
-    args = sys.argv[1:]
-    
-    if len(args) < 2:
-        usage()
-        sys.exit(1)
-        
-    for i in range(0,len(args)):
-        if args[i] == '-v':
-            verbose_error_mode = 1
-        elif args[i] == '-i':
-            infilename = args[i+1]
-        elif args[i] == '-o':
-            outfilename = args[i+1]
-        elif args[i] == '-d':
-          directoryname = args[i+1]
 
-    if directoryname != '':
-        for filename in os.listdir(directoryname):
-            if '.xml' not in filename:
-                pass
-            else:
-                print filename
-                outfilename = filename.rstrip('.xml') + '_gfi_maec.xml'
-                create_maec(os.path.join(directoryname, filename), outfilename,
-                    verbose_error_mode)
+    # Test if the input is a directory or file
+    if os.path.isfile(args.input):
+        # If we're dealing with a single file, just call create_maec()
+        create_maec(args.input, args.output, args.verbose)
+    # If a directory was specified, perform the corresponding conversion
+    elif os.path.isdir(args.input):
+        # Iterate and try to parse/convert each file in the directory
+        for filename in os.listdir(args.input):
+            # Only handle XML files
+            if str(filename)[-3:] != "xml":
+                print str("Error: {0} does not appear to be an XML file. Skipping.\n").format(filename)
+                continue
+            outfilename = str(filename)[:-4] + "_maec.xml"
+            create_maec(os.path.join(args.input, filename), os.path.join(args.output, outfilename), args.verbose)
 
-    #Basic input file checking
-    elif infilename != '' and outfilename != '':
-        create_maec(infilename, outfilename, verbose_error_mode)
-    print 'Done'
         
 if __name__ == "__main__":
     main()
