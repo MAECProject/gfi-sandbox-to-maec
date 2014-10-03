@@ -13,11 +13,10 @@
 
 #GFI Sandbox Converter Script
 #Copyright 2014, MITRE Corp
-#v0.22 - BETA
-#Updated 03/06/2014 for MAEC v4.1 and CybOX v2.1
+#v0.23 - BETA
+#Updated 10/3/2014
 
-import gfi_parser as gparser
-from maec.package.package import Package
+from __init__ import generate_package_from_report_filepath
 import sys
 import os
 import traceback
@@ -26,26 +25,8 @@ import traceback
 def create_maec(inputfile, outpath, verbose_error_mode):
 
     if os.path.isfile(inputfile):    
-
-        #Create the main parser object
-        parser = gparser.parser()
-
         try:
-            open_file = parser.open_file(inputfile)
-            
-            if not open_file:
-                print('\nError: Error in parsing input file. Please check to ensure that it is valid XML and conforms to the GFI Sandbox output schema.')
-                return
-            
-            #Parse the file to get the actions and processes
-            parser.parse_document()
-
-            #Create the MAEC package
-            package = Package()
-
-            #Add the analysis
-            package.add_malware_subject(parser.malware_subject)
-
+            package = generate_package_from_report_filepath(inputfile)
             #Finally, Export the results
             package.to_xml_file(outpath, {"https://github.com/MAECProject/gfi-sandbox-to-maec":"GFISandboxToMAEC"})
 
@@ -67,7 +48,7 @@ def usage():
     
 USAGE_TEXT = """
 GFI Sandbox XML Output --> MAEC XML Converter Utility
-v0.22 BETA // Supports MAEC v4.1 and CybOX v2.1
+v0.23 BETA // Supports MAEC v4.1 and CybOX v2.1
 
 Usage: python gfisandbox_to_maec.py <special arguments> -i <input gfi sandbox xml output> -o <output maec xml file>
        OR -d <directory name>
