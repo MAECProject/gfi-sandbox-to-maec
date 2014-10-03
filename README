@@ -9,14 +9,14 @@
 BY USING THE GFI SANDBOX TO MAEC SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
 CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SCRIPT.
 
-For more information, please refer to the terms.txt file.
+For more information, please refer to the LICENSE.txt file.
 
 #################################################################
 #Generates MAEC Output from a GFI Sandbox v4 XML file           #
 #Compatible with MAEC Schema v4.1 & CybOX v2.1                  #
 #                                                               #
-#v0.22 - BETA                                                   #
-#Updated 02/24/2014                                             #
+#v0.23 - BETA                                                   #
+#Updated 10/03/2014                                             #
 #                                                               #
 #################################################################
 # MAEC - http://maec.mitre.org                                  #
@@ -31,7 +31,7 @@ gfisandbox_to_maec.py: the GFI Sandbox XML to MAEC XML Python converter script.
 gfi_sandbox.py: the GFI Sandbox Python bindings which the script imports.
 gfi_parser.py: the GFI parser class.
 \gfi: the GFI parser classes which the script imports.
-terms.txt: the terms of use for this script.
+LICENSE.txt: the terms of use for this script.
 --------------------------------------------------------------------------------
 --Dependencies------------------------------------------------------------------
 This code has been developed and tested under Python 2.7.x and so may not

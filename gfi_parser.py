@@ -2,7 +2,7 @@
 # For more information, please refer to the LICENSE.txt file.
 
 #GFI Sandbox Converter Script
-#Updated 02/24/2014 for MAEC v4.1 and CybOX v2.1
+#Updated 10/3/2014
 
 #GFI main parser class
 #For use in extracting data from XML GFI output
