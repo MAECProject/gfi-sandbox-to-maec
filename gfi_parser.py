@@ -199,7 +199,7 @@ class parser:
         time = self.analysis.get_time()
         commandline = self.analysis.get_commandline()
         #Create the MAEC Analysis Object
-        analysis = Analysis(maec.utils.idgen.create_id(prefix="analysis"), "dynamic", "triage", [BundleReference.from_dict({'bundle_idref': self.bundle.id})])
+        analysis = Analysis(maec.utils.idgen.create_id(prefix="analysis"), "dynamic", "triage", [BundleReference.from_dict({'bundle_idref': self.bundle.id_})])
         analysis.summary = StructuredText("GFI Sandbox dynamic analysis of the malware instance object.")
         analysis.start_datetime = self.__normalize_datetime(time)
         if commandline:
@@ -251,7 +251,7 @@ class parser:
                     pass
                 self.scanner_bundle.add_av_classification(AVClassification.from_dict(av_classification))
             #Add the corresponding Analysis to the Subject
-            scanner_analysis = Analysis(maec.utils.idgen.create_id(prefix="analysis"), "static", "triage", [BundleReference.from_dict({"bundle_idref": self.scanner_bundle.id})])
+            scanner_analysis = Analysis(maec.utils.idgen.create_id(prefix="analysis"), "static", "triage", [BundleReference.from_dict({"bundle_idref": self.scanner_bundle.id_})])
             scanner_analysis.summary = StructuredText("GFI Sandbox AV scanner results for the malware instance object.")
             scanner_analysis.add_tool(ToolInformation.from_dict({"idref": self.tool_id}))
             self.malware_subject.add_analysis(scanner_analysis)
