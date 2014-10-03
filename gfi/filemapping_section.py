@@ -86,7 +86,7 @@ class filemapping_section_handler(section.section_handler):
             view_size = action.get_view_size()
             if len(str(view_size)) > 0:
                 argument_dict = {}
-                argument_dict['argument_name'] = {'value': 'View Size'}
+                argument_dict['argument_name'] = {'value': 'View Size', 'xsi:type' : None}
                 argument_dict['argument_value'] = str(view_size)
                 action_arguments.append(argument_dict)
         except AttributeError:

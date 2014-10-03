@@ -79,7 +79,7 @@ class filesystem_section_handler(section.section_handler):
         try:
             file_information_class = action.get_file_information_class()
             argument_dict = {}
-            argument_dict['argument_name'] = {'value' : 'File Information Class'}
+            argument_dict['argument_name'] = {'value' : 'File Information Class', 'xsi:type' : None}
             argument_dict['argument_value'] = file_information_class
             action_arguments.append(argument_dict)
         except AttributeError:

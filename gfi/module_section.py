@@ -71,7 +71,7 @@ class module_section_handler(section.section_handler):
             hook_id = action.get_hook_id()
             if len(str(hook_id)) > 0:
                 argument_dict = {}
-                argument_dict['argument_name'] = 'Hook Type'
+                argument_dict['argument_name'] = {'value' : 'Hook Type', 'xsi:type' : None}
                 argument_dict['argument_value'] = hook_id
                 action_arguments.append(argument_dict)
         except AttributeError:

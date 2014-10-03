@@ -28,7 +28,7 @@ class share_section_handler(section.section_handler):
           hostname = action.get_server()
           if len(server) > 0:
               argument_dict = {}
-              argument_dict['argument_name'] = 'Hostname'
+              argument_dict['argument_name'] = {'value' : 'Hostname', 'xsi:type' : None}
               argument_dict['argument_value'] = hostname
               action_arguments.append(argument_dict)
         except AttributeError:

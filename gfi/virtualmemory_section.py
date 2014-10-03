@@ -36,7 +36,7 @@ class virtualmemory_section_handler(section.section_handler):
             allocation_type = action.get_allocation_type()
             if allocation_type:
                 argument_dict = {}
-                argument_dict['argument_name'] = {'value': 'Allocation Type'}
+                argument_dict['argument_name'] = {'value': 'Allocation Type', 'xsi:type' : None}
                 argument_dict['argument_value'] = allocation_type
                 action_arguments.append(argument_dict)
         except AttributeError:
@@ -54,7 +54,7 @@ class virtualmemory_section_handler(section.section_handler):
             wanted_address = action.get_wanted_address()
             if wanted_address:
                 argument_dict = {}
-                argument_dict['argument_name'] = {'value': 'Wanted Address'}
+                argument_dict['argument_name'] = {'value': 'Wanted Address', 'xsi:type' : None}
                 argument_dict['argument_value'] = wanted_address
                 action_arguments.append(argument_dict)
         except AttributeError:
@@ -63,7 +63,7 @@ class virtualmemory_section_handler(section.section_handler):
             wanted_size = action.get_wanted_size()
             if wanted_size:
                 argument_dict = {}
-                argument_dict['argument_name'] = {'value': 'Wanted Size'}
+                argument_dict['argument_name'] = {'value': 'Wanted Size', 'xsi:type' : None}
                 argument_dict['argument_value'] = wanted_size
                 action_arguments.append(argument_dict)
         except AttributeError:
@@ -72,7 +72,7 @@ class virtualmemory_section_handler(section.section_handler):
             wanted_target_address = action.get_wanted_address_target()
             if wanted_target_address:
                 argument_dict = {}
-                argument_dict['argument_name'] = {'value': 'Wanted Target Address'}
+                argument_dict['argument_name'] = {'value': 'Wanted Target Address', 'xsi:type' : None}
                 argument_dict['argument_value'] = wanted_target_address
                 action_arguments.append(argument_dict)
         except AttributeError:
