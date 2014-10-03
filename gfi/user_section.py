@@ -44,6 +44,7 @@ class user_section_handler(section.section_handler):
                                                                'xsi:type':'maecVocabs:UserActionNameVocab-1.0'}, 'xsi:type':'WindowsUserAccountObjectType', 'object_association':'input'}
          self.action_mappings['enumerate_users'] = {'action_name':{'value':'enumerate users',
                                                                    'xsi:type':'maecVocabs:UserActionNameVocab-1.0'}, 'xsi:type':'WindowsUserAccountObjectType', 'object_association':'input'}
-         self.action_mappings['get_username'] = {'action_name':{'value':'get username'}, 'xsi:type':'WindowsUserAccountObjectType', 'object_association':'input'}
+         self.action_mappings['get_username'] = {'action_name':{'value':'get username',
+		                                                        'xsi:type':'maecVocabs:SystemActionNameVocab-1.0'}, 'xsi:type':'WindowsUserAccountObjectType', 'object_association':'input'}
          self.action_mappings['get_user_info'] = {'action_name':{'value':'get user attributes',
                                                                  'xsi:type':'maecVocabs:UserActionNameVocab-1.0'}, 'xsi:type':'WindowsUserAccountObjectType', 'object_association':'input'}

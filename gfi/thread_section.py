@@ -72,7 +72,8 @@ class thread_section_handler(section.section_handler):
                                                                   'xsi:type':'maecVocabs:ProcessThreadActionNameVocab-1.0'}, 'xsi:type':'WindowsThreadObjectType', 'object_association':'input'}
          self.action_mappings['enumerate_threads'] = {'action_name':{'value':'enumerate threads',
                                                                      'xsi:type':'maecVocabs:ProcessThreadActionNameVocab-1.0'}, 'xsi:type':'WindowsThreadObjectType', 'object_association':'input'}
-         self.action_mappings['impersonate_thread'] = {'action_name':{'value':'impersonate thread'}, 'xsi:type':'WindowsThreadObjectType', 'object_association':'input'}
+         self.action_mappings['impersonate_thread'] = {'action_name':{'value':'impersonate thread', 
+		                                                              'xsi:type' : None}, 'xsi:type':'WindowsThreadObjectType', 'object_association':'input'}
          self.action_mappings['revert_thread_to_self'] = {'action_name':{'value':'revert thread to self',
                                                                          'xsi:type':'maecVocabs:ProcessThreadActionNameVocab-1.0'}, 'xsi:type':'WindowsThreadObjectType', 'object_association':'input'}
          self.action_mappings['hide_from_debugger'] = {'action_name':{'value':'hide thread from debugger'}, 'xsi:type':'WindowsThreadObjectType', 'object_association':'input'}

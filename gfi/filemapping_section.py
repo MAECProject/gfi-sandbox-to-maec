@@ -100,5 +100,6 @@ class filemapping_section_handler(section.section_handler):
                                                                        'xsi:type':'maecVocabs:FileActionNameVocab-1.0'}, 'xsi:type':'WindowsHandleObjectType', 'object_association':'output'}
          self.action_mappings['open_file_mapping'] = {'action_name':{'value':'open file mapping',
                                                                      'xsi:type':'maecVocabs:FileActionNameVocab-1.0'}, 'xsi:type':'WindowsHandleObjectType', 'object_association':'input'}
-         self.action_mappings['map_view_of_file'] = {'action_name':{'value':'map view of file'}, 'xsi:type':'WindowsHandleObjectType', 'object_association':'input'}
+         self.action_mappings['map_view_of_file'] = {'action_name':{'value':'map file into process',
+		                                                             'xsi:type':'maecVocabs:ProcessMemoryActionNameVocab-1.0'}, 'xsi:type':'WindowsHandleObjectType', 'object_association':'input'}
      

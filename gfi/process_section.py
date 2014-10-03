@@ -81,4 +81,5 @@ class process_section_handler(section.section_handler):
                                                                 'xsi:type':'maecVocabs:ProcessActionNameVocab-1.0'}, 'xsi:type':'WindowsProcessObjectType', 'object_association':'input'}
          self.action_mappings['enumerate_processes'] = {'action_name':{'value':'enumerate processes',
                                                                        'xsi:type':'maecVocabs:ProcessActionNameVocab-1.0'}, 'xsi:type':'WindowsProcessObjectType', 'object_association':'input'}
-         self.action_mappings['impersonate_process'] = {'action_name':{'value':'impersonate process'}, 'xsi:type':'WindowsProcessObjectType', 'object_association':'input'}
+         self.action_mappings['impersonate_process'] = {'action_name':{'value':'impersonate process',
+		                                                               'xsi:type':'maecVocabs:ProcessThreadActionNameVocab-1.0'}, 'xsi:type':'WindowsProcessObjectType', 'object_association':'input'}

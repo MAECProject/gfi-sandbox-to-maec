@@ -74,7 +74,8 @@ class system_section_handler(section.section_handler):
                                                                    'xsi:type':'maecVocabs:SystemActionNameVocab-1.0'}, 'xsi:type':'WindowsSystemObjectType', 'object_association':'input'}
          self.action_mappings['enumerate_handles'] = {'action_name':{'value':'enumerate system handles',
                                                                      'xsi:type':'maecVocabs:SystemActionNameVocab-1.0'}, 'xsi:type':'WindowsSystemObjectType', 'object_association':'input'}
-         self.action_mappings['enumerate_system_modules'] = {'action_name':{'value':'enumerate system modules'}, 'xsi:type':'WindowsSystemObjectType', 'object_association':'input'}
+         self.action_mappings['enumerate_system_modules'] = {'action_name':{'value':'enumerate system modules', 
+		                                                                    'xsi:type' : None}, 'xsi:type':'WindowsSystemObjectType', 'object_association':'input'}
          self.action_mappings['check_for_debugger'] = {'action_name':{'value':'check for remote debugger',
                                                                      'xsi:type':'maecVocabs:DebuggingActionNameVocab-1.0'}, 'xsi:type':'WindowsSystemObjectType', 'object_association':'input'} 
          self.action_mappings['check_for_kernel_debugger'] = {'action_name':{'value':'check for kernel debugger',
