@@ -18,17 +18,18 @@
 
 __version__ = 0.23
 
-from __init__ import generate_package_from_report_filepath
 import sys
 import os
 import traceback
 import argparse
+from __init__ import generate_package_from_report_filepath
+from maec.misc.options import ScriptOptions
 
 #Create a MAEC output file from a GFI Sandbox input file.
-def create_maec(inputfile, outpath, verbose_error_mode):
+def create_maec(inputfile, outpath, verbose_error_mode, options):
     """Create the MAEC output from an input GFI Sandbox XML file"""  
     try:
-        package = generate_package_from_report_filepath(inputfile)
+        package = generate_package_from_report_filepath(inputfile, options)
         #Finally, Export the results
         package.to_xml_file(outpath, {"https://github.com/MAECProject/gfi-sandbox-to-maec":"GFISandboxToMAEC"})
 
@@ -59,14 +60,22 @@ def main():
     parser.add_argument("input", help="the name of the input GFI XML file OR directory of files to translate to MAEC")
     parser.add_argument("output", help="the name of the MAEC XML file OR directory to which the output will be written")
     parser.add_argument("--verbose", "-v", help="enable verbose error output mode", action="store_true", default=False)
+    parser.add_argument("--deduplicate", "-dd", help="deduplicate the MAEC output (Objects only)", action="store_true", default=False)
+    parser.add_argument("--normalize", "-n", help="normalize the MAEC output (Objects only)", action="store_true", default=False)
+    parser.add_argument("--dereference", "-dr", help="dereference the MAEC output (Objects only)", action="store_true", default=False)
     args = parser.parse_args()
 
-    verbose_error_mode = 0
+    
+    # Build up the options instance based on the command-line input
+    options = ScriptOptions()
+    options.deduplicate_bundles = args.deduplicate
+    options.normalize_bundles = args.normalize
+    options.dereference_bundles = args.dereference
 
     # Test if the input is a directory or file
     if os.path.isfile(args.input):
         # If we're dealing with a single file, just call create_maec()
-        create_maec(args.input, args.output, args.verbose)
+        create_maec(args.input, args.output, args.verbose, options)
     # If a directory was specified, perform the corresponding conversion
     elif os.path.isdir(args.input):
         # Iterate and try to parse/convert each file in the directory
@@ -76,7 +85,7 @@ def main():
                 print str("Error: {0} does not appear to be an XML file. Skipping.\n").format(filename)
                 continue
             outfilename = str(filename)[:-4] + "_maec.xml"
-            create_maec(os.path.join(args.input, filename), os.path.join(args.output, outfilename), args.verbose)
+            create_maec(os.path.join(args.input, filename), os.path.join(args.output, outfilename), args.verbose, options)
 
         
 if __name__ == "__main__":
