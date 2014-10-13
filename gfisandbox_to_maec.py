@@ -47,8 +47,7 @@ USAGE_TEXT = """
 GFI Sandbox XML Output --> MAEC XML Converter Utility
 v0.23 BETA // Supports MAEC v4.1 and CybOX v2.1
 
-Usage: python gfisandbox_to_maec.py <special arguments> -i <input gfi sandbox xml output> -o <output maec xml file>
-       OR -d <directory name>
+Usage: python gfisandbox_to_maec.py <special arguments> -i <input gfi sandbox xml output OR directory> -o <output maec xml file OR directory>
 
 Special arguments are as follows (all are optional):
 -v : verbose error mode (prints tracebacks of any errors during execution).
@@ -74,8 +73,14 @@ def main():
 
     # Test if the input is a directory or file
     if os.path.isfile(args.input):
+        outfilename = args.output
+        # Test if the output is a directory
+        # If so, concatenate "_maec.xml" to the input filename
+        # and use this as the output filename
+        if os.path.isdir(args.output):
+            outfilename = os.path.join(args.output, str(os.path.basename(args.input))[:-4] + "_maec.xml")
         # If we're dealing with a single file, just call create_maec()
-        create_maec(args.input, args.output, args.verbose, options)
+        create_maec(args.input, outfilename, args.verbose, options)
     # If a directory was specified, perform the corresponding conversion
     elif os.path.isdir(args.input):
         # Iterate and try to parse/convert each file in the directory
