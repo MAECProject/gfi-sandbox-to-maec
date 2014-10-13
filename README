@@ -50,7 +50,7 @@ There are three main command line parameters for this script:
 
 -o: the path to the output MAEC XML file OR directory to which the file(s) will be written
 
-There is one additional, optional parameter that may be specified before the main paramters: 
+There is one additional, optional parameter that may be specified before the main parameters: 
 
 -v: print verbose error output (tracebacks)
 
