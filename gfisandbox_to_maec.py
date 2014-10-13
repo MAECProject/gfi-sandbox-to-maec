@@ -38,22 +38,6 @@ def create_maec(inputfile, outpath, verbose_error_mode, options):
         if verbose_error_mode:
             traceback.print_exc()
 
-# Print the usage text    
-def usage():
-    print USAGE_TEXT
-    sys.exit(1)
-    
-USAGE_TEXT = """
-GFI Sandbox XML Output --> MAEC XML Converter Utility
-v0.23 BETA // Supports MAEC v4.1 and CybOX v2.1
-
-Usage: python gfisandbox_to_maec.py <special arguments> -i <input gfi sandbox xml output OR directory> -o <output maec xml file OR directory>
-
-Special arguments are as follows (all are optional):
--v : verbose error mode (prints tracebacks of any errors during execution).
-
-"""    
-
 def main():
     parser = argparse.ArgumentParser(description="GFI Sandbox to MAEC Translator v" + str(__version__))
     parser.add_argument("input", help="the name of the input GFI XML file OR directory of files to translate to MAEC")
