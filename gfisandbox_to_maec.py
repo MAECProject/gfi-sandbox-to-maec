@@ -6,15 +6,15 @@
 #                                                   #
 #***************************************************#
 
-#BY USING THE GFI SANDBOX TO MAEC SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
-#CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE GFI TO MAEC SCRIPT.
+# BY USING THE GFI SANDBOX TO MAEC SCRIPT, YOU SIGNIFY YOUR ACCEPTANCE OF THE TERMS AND 
+# CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE GFI TO MAEC SCRIPT.
 
-#For more information, please refer to the LICENSE.txt file.
+# For more information, please refer to the LICENSE.txt file.
 
-#GFI Sandbox Converter Script
-#Copyright 2014, MITRE Corp
-#v0.23 - BETA
-#Updated 10/3/2014
+# GFI Sandbox Converter Script
+# Copyright 2014, MITRE Corp
+# v0.23 - BETA
+# Updated 10/13/2014
 
 __version__ = 0.23
 
@@ -25,12 +25,12 @@ import argparse
 from __init__ import generate_package_from_report_filepath
 from maec.misc.options import ScriptOptions
 
-#Create a MAEC output file from a GFI Sandbox input file.
+# Create a MAEC output file from a GFI Sandbox input file.
 def create_maec(inputfile, outpath, verbose_error_mode, options):
     """Create the MAEC output from an input GFI Sandbox XML file"""  
     try:
         package = generate_package_from_report_filepath(inputfile, options)
-        #Finally, Export the results
+        # Finally, Export the results
         package.to_xml_file(outpath, {"https://github.com/MAECProject/gfi-sandbox-to-maec":"GFISandboxToMAEC"})
 
     except Exception, err:
@@ -38,7 +38,7 @@ def create_maec(inputfile, outpath, verbose_error_mode, options):
         if verbose_error_mode:
             traceback.print_exc()
 
-#Print the usage text    
+# Print the usage text    
 def usage():
     print USAGE_TEXT
     sys.exit(1)
