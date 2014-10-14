@@ -13,10 +13,10 @@
 
 # GFI Sandbox Converter Script
 # Copyright 2014, MITRE Corp
-# v0.23 - BETA
+# v0.24 - BETA
 # Updated 10/13/2014
 
-__version__ = 0.23
+__version__ = 0.24
 
 import sys
 import os
@@ -37,6 +37,24 @@ def create_maec(inputfile, outpath, verbose_error_mode, options):
         print('\nError: %s\n' % str(err))
         if verbose_error_mode:
             traceback.print_exc()
+
+# Print the usage text    
+def usage():
+    print USAGE_TEXT
+    sys.exit(1)
+    
+USAGE_TEXT = """
+GFI Sandbox XML Output --> MAEC XML Converter Utility
+v0.24 BETA // Supports MAEC v4.1 and CybOX v2.1
+
+Usage: python gfisandbox_to_maec.py <special arguments> <input gfi sandbox xml output OR directory> <output maec xml file OR directory>
+
+Special arguments are as follows (all are optional):
+-v or --verbose : verbose error mode (prints tracebacks of any errors during execution).
+-dd or --deduplicate : deduplicate the MAEC output (Objects only).
+-n or --normalize : normalize the MAEC output (Objects only).
+-dr or --dereference : dereference the MAEC output (Objects only). 
+"""    
 
 def main():
     parser = argparse.ArgumentParser(description="GFI Sandbox to MAEC Translator v" + str(__version__))
