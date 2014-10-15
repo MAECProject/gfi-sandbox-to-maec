@@ -15,8 +15,8 @@ For more information, please refer to the LICENSE.txt file.
 #Generates MAEC Output from a GFI Sandbox v4 XML file           #
 #Compatible with MAEC Schema v4.1 & CybOX v2.1                  #
 #                                                               #
-#v0.23 - BETA                                                   #
-#Updated 10/03/2014                                             #
+#v0.24 - BETA                                                   #
+#Updated 10/13/2014                                             #
 #                                                               #
 #################################################################
 # MAEC - http://maec.mitre.org                                  #
@@ -44,19 +44,18 @@ There are three dependencies for this script:
 --------------------------------------------------------------------------------
 --Usage Notes-------------------------------------------------------------------
 
-There are three main command line parameters for this script:
+The command-line syntax for the script is:
+python gfisandbox_to_maec.py <special argument> <gfisandbox file OR directory> 
+<maec output file OR directory>
 
--i: the path to the input GFI Sandbox XML file
+Special arguments are as follows (all are optional):
+-v or --verbose : verbose error mode (prints tracebacks of any errors during execution).
+-dd or --deduplicate : deduplicate the MAEC output (Objects only).
+-n or --normalize : normalize the MAEC output (Objects only).
+-dr or --dereference : dereference the MAEC output (Objects only). 
 
--o: the path to the output MAEC XML file
+Thus, a sample command-line would look like:
 
-There is one additional, optional parameter that may be specified before the main paramters: 
-
--v: print verbose error output (tracebacks)
-
-To use the script, run the following command:
-
-python gfisandbox_to_maec.py -i <gfisandbox_file> -o <maec_file>
-
+python gfisandbox_to_maec.py -dd -n gfi_out.xml gfi_maec_out.xml
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
