@@ -1,4 +1,4 @@
-# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # For more information, please refer to the LICENSE.txt file.
 
 #GFI Sandbox Converter Script
