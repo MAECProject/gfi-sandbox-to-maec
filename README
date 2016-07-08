@@ -1,6 +1,6 @@
 ****************************************************
 
-      GFI Sandbox XML -> MAEC XML Converter Script
+GFI Sandbox XML -> MAEC XML Converter Script
 
  Copyright (c) 2015 - The MITRE Corporation
 
@@ -22,9 +22,11 @@ v0.24 - BETA
 Updated 10/13/2014                                             
                                                               
 ##########################################################################################################
+
 MAEC - https://maecproject.github.io/                        
 ThreatTrack (GFI) Sandbox - http://www.threattracksecurity.com/enterprise-security/sandbox-software.aspx    
-CybOX - https://cyboxproject.github.io/                       
+CybOX - https://cyboxproject.github.io/     
+
 ##########################################################################################################
 
 --------------------------------------------------------------------------------
