@@ -12,7 +12,9 @@ CONDITIONS OF USE.  IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SCRIPT.
 For more information, please refer to the LICENSE.txt file.
 
 #########################################################################################################
+
 Generates MAEC Output from a GFI Sandbox v4 XML file
+
 Compatible with Malware Attribute Enumeration and Characterization (MAEC™) Schema v4.1 and
 Cyber Observable eXpression (CybOX™)
                                                                
